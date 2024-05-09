@@ -21,7 +21,7 @@ jobs:
                 context: .
                 file: ./Dockerfile
                 push: true
-                tags: edvinag73/tunawiri-study
+                tags: edvinag73/tunawiri-frontend
 
           
          
