@@ -83,7 +83,7 @@ const GeneralHealthView = () => {
     }
 
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setUserId(_id)
         setUserName(localData)

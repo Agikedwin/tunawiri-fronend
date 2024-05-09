@@ -23,7 +23,7 @@ const AnxietyGad7: Page = () => {
     const [radioValue7, setRadioValue7] = useState(null);
     const [gad7totalScore, setgad7totalScore] = useState(0); // Total score
 
-    const [selectedUserId, setSelectedUserId] = useState(null)
+    const [selectedUserId, setSelectedUserId] = useState("")
 
 
 
@@ -75,7 +75,7 @@ const AnxietyGad7: Page = () => {
 
     
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setSelectedUserId(_id)
     })

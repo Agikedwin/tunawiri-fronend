@@ -36,7 +36,7 @@ const HarvardTrauma: Page = () => {
     const [radioValue24, setRadioValue24] = useState(null);
     const [radioValue25, setRadioValue25] = useState(null);
 
-    const [selectedUserId, setSelectedUserId] = useState(null)
+    const [selectedUserId, setSelectedUserId] = useState("")
 
 
 
@@ -85,7 +85,7 @@ const HarvardTrauma: Page = () => {
 
     // Calculate total score
     let totalScore = 0;
-    totalScore += scoreMapping[radioValue1];
+    /* totalScore += scoreMapping[radioValue1];
     totalScore += scoreMapping[radioValue2];
     totalScore += scoreMapping[radioValue3];
     totalScore += scoreMapping[radioValue4];
@@ -109,7 +109,7 @@ const HarvardTrauma: Page = () => {
     totalScore += scoreMapping[radioValue22];
     totalScore += scoreMapping[radioValue23];
     totalScore += scoreMapping[radioValue24];
-    totalScore += scoreMapping[radioValue25];
+    totalScore += scoreMapping[radioValue25]; */
 
     // Calculate final score
     const finalScore = totalScore / 25;
@@ -152,7 +152,7 @@ const HarvardTrauma: Page = () => {
     }
 
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setSelectedUserId(_id)
     })

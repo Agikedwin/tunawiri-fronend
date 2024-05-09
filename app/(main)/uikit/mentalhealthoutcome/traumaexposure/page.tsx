@@ -25,7 +25,7 @@ const TraumaExposure: Page = () => {
     const [radioValue9, setRadioValue9] = useState(null);
     const [radioValue10, setRadioValue10] = useState(null);
 
-    const [selectedUserId, setSelectedUserId] = useState(null)
+    const [selectedUserId, setSelectedUserId] = useState("")
 
 
 
@@ -94,7 +94,7 @@ const TraumaExposure: Page = () => {
     }
 
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setSelectedUserId(_id)
     })

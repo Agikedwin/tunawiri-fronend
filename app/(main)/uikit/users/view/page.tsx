@@ -46,7 +46,7 @@ const ViewUsers = () => {
 
     const fetchUsers = async () => {
         try {
-            await api.getEntries("user", "3").then(data => {
+            await api.getEntries("user", "3").then((data:any) => {
                 setUsers(data)
                 console.log(data)
             })

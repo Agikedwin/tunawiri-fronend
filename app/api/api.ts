@@ -114,7 +114,7 @@ export default {
         let data: any;
         this.filterUrl(urlid)
         await axios
-            .delete(url + urlpath + '/' + id, payload)
+            .delete(urlAuth + urlpath + '/' + id, payload)
             .then((res: any) => {
                 data = res;
             })
@@ -182,7 +182,7 @@ export default {
         
 
         // Object to store the count of each unique value
-        const countOccurrences = {};
+        const countOccurrences = []
 
         // Iterate over the object properties
         for (let key in data) {

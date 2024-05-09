@@ -24,7 +24,7 @@ const Antenatal: Page = () => {
     const [radioValue6, setRadioValue6] = useState(null);
     const [radioValue7, setRadioValue7] = useState(null);
 
-    const [selectedUserId, setSelectedUserId] = useState(null)
+    const [selectedUserId, setSelectedUserId] = useState("")
 
 
         const [formState, setFormState] = useState({
@@ -68,7 +68,7 @@ const Antenatal: Page = () => {
     }
 
     useEffect (() =>{
-        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setSelectedUserId(_id)
     })

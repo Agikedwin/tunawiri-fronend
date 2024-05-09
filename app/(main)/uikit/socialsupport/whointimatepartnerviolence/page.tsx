@@ -41,7 +41,7 @@ const SocialSupport: Page = () => {
     const [radioValue23, setRadioValue23] = useState(null);
     const [radioValue24, setRadioValue24] = useState(null);
 
-    const [selectedUserId, setSelectedUserId] = useState(null)
+    const [selectedUserId, setSelectedUserId] = useState("")
 
 
 
@@ -102,7 +102,7 @@ const SocialSupport: Page = () => {
     }
 
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setSelectedUserId(_id)
 

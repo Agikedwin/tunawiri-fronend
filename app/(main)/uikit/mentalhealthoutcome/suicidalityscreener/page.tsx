@@ -22,7 +22,7 @@ const SuicidalityScreener: Page = () => {
     const [radioValue6, setRadioValue6] = useState(null);
     const [radioValue7, setRadioValue7] = useState(null);
 
-    const [selectedUserId, setSelectedUserId] = useState(null)
+    const [selectedUserId, setSelectedUserId] = useState("")
 
 
 
@@ -43,7 +43,7 @@ const SuicidalityScreener: Page = () => {
             done_anything_to_end_your_life_3month: "",
             done_anything_to_end_your_life_lifetime: "",
             suicidality_screener_score: "",
-            study_id:"",
+            user_id:"",
 
         }
     });
@@ -122,7 +122,7 @@ const SuicidalityScreener: Page = () => {
     }
 
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setSelectedUserId(_id)
     })

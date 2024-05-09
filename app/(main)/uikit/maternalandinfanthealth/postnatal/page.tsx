@@ -32,7 +32,7 @@ const Postnatal: Page = () => {
     const [radioValue16, setRadioValue16] = useState(null);
     const [radioValue17, setRadioValue17] = useState(null);
 
-    const [selectedUserId, setSelectedUserId] = useState(null)
+    const [selectedUserId, setSelectedUserId] = useState("")
 
 
 
@@ -73,7 +73,7 @@ const Postnatal: Page = () => {
     }
 
 useEffect(()=>{
-    let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+    let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setSelectedUserId(_id)
 
@@ -98,13 +98,14 @@ useEffect(()=>{
                                         id="pregnancyEndDuration"
                                         name="pregnancy_end_duration"
                                         value={formState.formValues.pregnancy_end_duration}
-                                        onChange={(e) => setFormState(prevState => ({
+                                        
+                                        /* onChange={(e) => setFormState(prevState => ({
                                             ...prevState,
                                             formValues: {
                                                 ...prevState.formValues,
                                                 pregnancy_end_duration: e.target.value
                                             }
-                                        }))}
+                                        }))} */
                                         dateFormat="mm/dd/yy"
                                         required // Make the field mandatory
                                     />
@@ -194,7 +195,7 @@ useEffect(()=>{
                                     <InputText
                                         id="otherPlaceOfBirth"
                                         name="otherPlaceOfBirth"
-                                        value={formState.formValues.otherPlaceOfBirth}
+                                        value={formState.formValues.place_of_birth}
                                         onChange={(e) => setFormState(prevState => ({
                                             ...prevState,
                                             formValues: {

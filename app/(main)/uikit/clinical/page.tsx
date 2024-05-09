@@ -90,7 +90,7 @@ const ClinicalDetails: Page = () => {
     const [showCD4Input, setShowCD4Input] = useState(false)
     const [showVLInput, setShowVLInput] = useState(false)
 
-    const [selectedUserId, setSelectedUserId] = useState(null)
+    const [selectedUserId, setSelectedUserId] = useState("")
 
     const [formState, setFormState] = useState({
         isValid: false,
@@ -125,7 +125,7 @@ const ClinicalDetails: Page = () => {
     )
 
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setSelectedUserId(_id)
 

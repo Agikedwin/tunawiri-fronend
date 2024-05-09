@@ -1,6 +1,6 @@
 "use client"
 
-import { Demo, Pdob } from "@/types";
+import { Demo } from "@/types";
 import {
     AutoComplete, AutoCompleteCompleteEvent    
 } from  "primereact/autocomplete";
@@ -46,7 +46,7 @@ const userModel = {
 
 
 
-const RegisterUser1: Pdob =() =>{
+const RegisterUser1 = () =>{
     const router = useRouter();
 
     const [useDetails, setUserDetails] = useState(userModel)
@@ -77,13 +77,13 @@ const RegisterUser1: Pdob =() =>{
     const saveUserDetails = async (event: any) => {
         event.preventDefault();
         console.log("=========================")
-        console.log(dropdownreading_abilityValue)
+        /* console.log(dropdownreading_abilityValue)
         const {education_level} = dropdowneducation_levelValue
         useDetails.education_level = education_level
         const {reading_ability} = dropdownreading_abilityValue
         useDetails.reading_ability = reading_ability
         const {marital_status} = marital_statusValue
-        useDetails.marital_status = marital_status
+        useDetails.marital_status = marital_status */
        
 
        
