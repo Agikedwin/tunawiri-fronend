@@ -1,0 +1,126 @@
+"use client"
+import { InputText } from "primereact/inputtext";
+import { RadioButton } from "primereact/radiobutton";
+import { SetStateAction, useEffect, useState } from "react";
+import { Button } from "primereact/button";
+import { Checkbox } from "primereact/checkbox";
+import api from "@/app/api/api";
+
+
+
+
+
+
+import type { Demo, Page } from "@/types";
+
+
+const Antenatal: Page = () => {
+    const [checkboxValue, setCheckboxValue] = useState<string[]>([]);
+    const [radioValue1, setRadioValue1] = useState(null);
+    const [radioValue2, setRadioValue2] = useState(null);
+    const [radioValue3, setRadioValue3] = useState(null);
+    const [radioValue4, setRadioValue4] = useState(null);
+    const [radioValue5, setRadioValue5] = useState(null);
+    const [radioValue6, setRadioValue6] = useState(null);
+    const [radioValue7, setRadioValue7] = useState(null);
+
+    const [selectedUserId, setSelectedUserId] = useState(null)
+
+
+        const [formState, setFormState] = useState({
+            isValid: false,
+
+            touched: {},
+            errors: {}, 
+            formValues: {
+                gestational_age_weeks: "",
+                user_id: "",
+                months_pregnancy_antenatal_care: ""
+               
+            }
+        });
+    const handleChange = (e: { target: { name: any; value: any; }; }) => {
+        const { name, value } = e.target;
+        setFormState(prevState => ({
+            ...prevState,
+            formValues: {
+                ...prevState.formValues,
+                [name]: value
+            }
+        }));
+    }
+
+    const saveAntenatal = async (event: any) => {
+        event.preventDefault();
+        formState.formValues.user_id = selectedUserId
+        console.log(formState.formValues);
+
+        try {
+            await api.addEntry("antenatal",formState.formValues,"3").then((data:any) =>{
+                console.log(data)
+            })
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+        
+    }
+
+    useEffect (() =>{
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser'))
+        let { _id } = localData
+        setSelectedUserId(_id)
+    })
+
+    return (
+        <div>
+            <div className="card">
+                <form onSubmit={saveAntenatal}>
+                    <h5>Antenatal</h5>
+                    <p>The next few questions about your experience in antenatal care.</p>
+                    {/* Question 1 */}
+                    <div className="card">
+                        <div className="p-field">
+                            <label htmlFor="weeksPregnant">1. What's your current gestational age in weeks?</label>
+                            <br />
+                            <p></p>
+                            <InputText
+                                type="number"
+                                id="gestational_age_weeks"
+                                name="gestational_age_weeks"
+                                value={formState.formValues.gestational_age_weeks}
+                                onChange={handleChange}
+                                required
+                                min="1"
+                                max="48"
+                            />
+                        </div>
+                    </div>
+                    <br />
+
+                    
+                        <div className="p-field">
+                            <label htmlFor="monthsIntoPregnancy">6. How many months were you into the pregnancy when you first went to the clinic for antenatal care?</label>
+                            <br />
+                            <p></p>
+                            <InputText
+                                id="monthsIntoPregnancy"
+                                name="months_pregnancy_antenatal_care"
+                                value={formState.formValues.months_pregnancy_antenatal_care}
+                            onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        
+                    
+                    <Button type="submit" label="Save" />
+                    </form>
+                </div>
+            </div>
+
+
+        )
+    }
+
+export default Antenatal

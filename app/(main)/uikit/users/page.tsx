@@ -1,0 +1,234 @@
+"use client"
+
+import { Demo, Pdob } from "@/types";
+import {
+    AutoComplete, AutoCompleteCompleteEvent    
+} from  "primereact/autocomplete";
+import { Dropdown } from "primereact/dropdown";
+import { useRouter } from 'next/navigation';
+
+
+import { Button } from 'primereact/button'
+import { InputSwitch } from "primereact/inputswitch";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
+import { useEffect, useState } from "react";
+
+import api from "@/app/api/api";
+
+interface InputValue {
+    education_level: string;
+    code: string;
+}
+interface InputValueRead {
+    reading_ability: string;
+    leveCode: string;
+}
+interface marital_statusInput {
+    marital_status: String
+}
+
+const userModel = {
+    mch_number: '',
+    first_name: '',
+    other_names: '',
+    dob: '',
+    marital_status: '', 
+    education_level: '',
+    reading_ability: '',
+    religion: '',
+    home_language: '',
+    study_id: '01',
+    // username:'edu',
+    // password:'edu123',
+
+}
+
+
+
+const RegisterUser1: Pdob =() =>{
+    const router = useRouter();
+
+    const [useDetails, setUserDetails] = useState(userModel)
+    const [dropdowneducation_levelValue, setDropdowneducation_levelValue] = useState(null);
+    const [dropdownreading_abilityValue, setDropdownreading_abilityValue] = useState(null);
+    const [marital_statusValue, setmarital_status] = useState(null);
+    const [birthControlMethodsValue, setBirthControlMethodsValue] = useState(null);
+    const [pregnancyFeelingsValue, setPregnancyFeelingsValue] = useState(null);
+    const [prePregnancyStateValue, setPrePregnancyStateValue] = useState(null);
+    const [partnerFeelingsValue, setPartnerFeelingsValue] = useState(null);
+
+
+
+    
+    const onchaneUserDetails =(event:any) => {
+        const { name, value } = event.target;
+        setUserDetails((prevProps) => ({
+      ...prevProps,
+      [name]: value
+      
+    }));
+    console.log(useDetails)
+
+    }
+    const fetchAllUsers = async () => {
+      //  await api.getEntries('user',3).then(users =>console.log(users))
+    }
+    const saveUserDetails = async (event: any) => {
+        event.preventDefault();
+        console.log("=========================")
+        console.log(dropdownreading_abilityValue)
+        const {education_level} = dropdowneducation_levelValue
+        useDetails.education_level = education_level
+        const {reading_ability} = dropdownreading_abilityValue
+        useDetails.reading_ability = reading_ability
+        const {marital_status} = marital_statusValue
+        useDetails.marital_status = marital_status
+       
+
+       
+        try {
+            console.log('try ---')
+            console.log(useDetails)
+            await api.addEntry('user',useDetails,3).then(user =>{
+                router.push('/uikit/users/view')
+                console.log(user)
+            })
+            
+        } catch (error) {
+            console.log(error)
+        }
+
+        console.log('submiting')
+        
+            
+        };
+useEffect(()=>{
+    console.log('Using effect ______')
+    //fetchAllUsers();
+
+},[])
+const dropdowneducation_level: InputValue[] = [
+    { education_level: "Primary", code: "P" },
+    { education_level: "Secondary", code: "s" },
+    { education_level: "College", code: "P" },
+    { education_level: "University", code: "P" },
+
+    
+];
+const dropdownreading_ability: InputValueRead[] = [
+    
+    { reading_ability: "Easily", leveCode: "W" },
+    { reading_ability: "With difficulty", leveCode: "D" },
+    { reading_ability: "Not at all", leveCode: "N" },
+
+]
+const maritalStatisOption: marital_statusInput[] = [
+    {marital_status: "Single"},
+    {marital_status: "Married"},
+    {marital_status: "Divorced"},
+]
+const birthControlMethodsOption =[
+    {birthControlMethods: "Condom"},
+    {birthControlMethods: "Injections"},
+    {birthControlMethods: "Coil"},
+]
+const pregnancyFeelingsOption = [
+    { pregnancyFeelings: "Happy"},
+    { pregnancyFeelings: "Sad"},
+    { pregnancyFeelings: "Mixed Feelings"},
+]
+const prePregnancyStateOption = [
+    {prePregnancyState: "Normal"},
+    {prePregnancyState: "Abnormal"},
+]
+const partnerFeelingsOption = [
+    {partnerFeelings: "Withrawn"},
+    {partnerFeelings: "sad"},
+    {partnerFeelings: "No feelings"},
+]
+
+    return (
+        <div className="grid">            
+
+            <div className="col-12">
+                <div className="card">
+                    <h5>Demographic</h5>
+                    <form onSubmit={saveUserDetails}>
+                    <div className="p-fluid formgrid grid">
+                    <div className="field col-12 md:col-6">
+                            <label htmlFor="mch_number">MCH Number</label>
+                            <InputText  name="mch_number" value={useDetails.mch_number} onChange={onchaneUserDetails} type="number"  required/>
+                        </div>
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="first_name">First Name</label>
+                            <InputText  name="first_name" value={useDetails.first_name} onChange={onchaneUserDetails} type="text" required/>
+                        </div>
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="other_names">Other Names</label>
+                            <InputText  name="other_names" value={useDetails.other_names} onChange={onchaneUserDetails} type="text" required/>
+                        </div>
+                        
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="dob">How old are you?</label>
+                            <InputText name="dob" value={useDetails.dob } onChange={onchaneUserDetails} type="text" required/>
+                        </div>
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="marital_status">What is your current marital status?</label>
+                            <Dropdown
+                            value={marital_statusValue}
+                            onChange={(e) => setmarital_status(e.value)}
+                            options={maritalStatisOption}
+                            optionLabel="marital_status"
+                            placeholder="Select"
+                            
+                        />
+                        </div>
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="education_level">What is the highest level of education you have completed?</label>
+                            <Dropdown
+                            value={dropdowneducation_levelValue}
+                            onChange={(e) => setDropdowneducation_levelValue(e.value)}
+                            options={dropdowneducation_level}
+                            optionLabel="education_level"
+                            placeholder="Select"
+                        />
+                        </div>
+                        
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="reading_ability">Can you read a newspaper easily, with difficulty, or not at all?</label>
+                            <Dropdown
+                            value={dropdownreading_abilityValue}
+                            onChange={(e) => setDropdownreading_abilityValue(e.value)}
+                            options={dropdownreading_ability}
+                            optionLabel="reading_ability"
+                            placeholder="Select"
+                        />
+                        </div>
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="religion">What is your religion?</label>
+                            <InputText name="religion" value={useDetails.religion } onChange={onchaneUserDetails} type="text" required/>
+                            
+                        </div>
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="home_language">What langudob do you most commonly speak at home?</label>
+                            <InputText name="home_language" value={useDetails.home_language } onChange={onchaneUserDetails} type="text" required/>
+                            
+                        </div>
+                       
+                       
+                        <div className="field col-12 md:col-6">
+                        <Button label="Save" icon="pi pi-save"  type="submit" outlined />
+                        
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default RegisterUser1
+
+

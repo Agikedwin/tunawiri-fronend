@@ -1,0 +1,167 @@
+{
+    "data":
+    [  
+        
+        {  
+            "key": "1",
+            "data":{  
+                "name":"Clinical",
+                "size":"active",
+                "type":"form"
+            },
+            "children":[  
+                {  
+                    "key": "1-0",
+                    "data":{  
+                        "name":"Clinical Encounter Form",
+                        "size":"10kb",
+                        "type":"/uikit/clinical"
+                    }
+                }
+                
+            ]
+        },
+        {  
+            "key": "2",
+            "data":{  
+                "name":"Social Support",
+                "size":"active",
+                "type":"form"
+            },
+            "children":[  
+                {  
+                    "key": "1-0",
+                    "data":{  
+                        "name":"WHO Intimate Partner Violence",
+                        "size":"10kb",
+                        "type":"/uikit/socialsupport/whointimatepartnerviolence"
+                    }
+                }
+                
+            ]
+        },
+        {  
+            "key": "3",
+            "data": {  
+                "name":"Mental and Infant Health",
+                "size":"data",
+                "type":"/uikit/users/"
+            },
+            "children":[  
+                {  
+                    "key": "3-0",
+                    "data":{  
+                        "name":"general health",
+                        "size":"50kb",
+                        "type":"/uikit/maternalandinfanthealth/generalhealth"
+                    }
+                },
+                {  
+                    "key": "3-1",
+                    "data":{  
+                        "name":"Antenatal",
+                        "size":"100kb",
+                        "type":"/uikit/maternalandinfanthealth/antenatal"
+                    }
+                },
+                {  
+                    "key": "3-2",
+                    "data":{  
+                        "name":"Postnatal",
+                        "size":"100kb",
+                        "type":"/uikit/maternalandinfanthealth/postnatal"
+                    }
+                }
+            ]
+        },
+        {  
+            "key": "4",
+            "data": {  
+                "name":"Mental Health Outcome",
+                "size":"data",
+                "type":"data entry form"
+            },
+            "children":[  
+                {  
+                    "key": "4-0",
+                    "data":{  
+                        "name":"Depression PHQ9",
+                        "size":"active",
+                        "type":"/uikit/mentalhealthoutcome/phq9"
+                    }
+                },
+                {  
+                    "key": "4-1",
+                    "data":{  
+                        "name":"Anxiety Gad 7 Scale",
+                        "size":"active",
+                        "type":"/uikit/mentalhealthoutcome/AnxietyGad7"
+                    }
+                },
+                {  
+                    "key": "4-2",
+                    "data":{  
+                        "name":"Trauma Exposure",
+                        "size":"100kb",
+                        "type":"/uikit/mentalhealthoutcome/traumaexposure"
+                    }
+                },
+                {  
+                    "key": "4-3",
+                    "data":{  
+                        "name":"Harvard Trauma Questionnaire ",
+                        "size":"100kb",
+                        "type":"/uikit/mentalhealthoutcome/harvardtrauma"
+                    }
+                },
+                {  
+                    "key": "4-4",
+                    "data":{  
+                        "name":"Suicidality Screener ",
+                        "size":"100kb",
+                        "type":"/uikit/mentalhealthoutcome/suicidalityscreener"
+                    }
+                }
+                
+            ]
+        },
+        {  
+            "key": "4",
+            "data": {  
+                "name":"Mental Utilization",
+                "size":"data",
+                "type":"data entry form"
+            },
+            "children":[  
+                {  
+                    "key": "4-0",
+                    "data":{  
+                        "name":"Mental Health Treatment",
+                        "size":"active",
+                        "type":"/uikit/healthutilization/mentalhealthtreatment"
+                    }
+                },
+                {  
+                    "key": "4-0",
+                    "data":{  
+                        "name":"Tunawiri Intervention",
+                        "size":"active",
+                        "type":"/uikit/healthutilization/tunawiriintervention"
+                    }
+                },
+                {  
+                    "key": "4-0",
+                    "data":{  
+                        "name":"ART Adhearence",
+                        "size":"active",
+                        "type":"/uikit/healthutilization/artadhearence"
+                    }
+                }
+               
+                
+            ]
+        }
+        
+       
+    ]
+}
