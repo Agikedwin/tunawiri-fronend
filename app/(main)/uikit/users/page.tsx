@@ -5,16 +5,18 @@ import {
     AutoComplete, AutoCompleteCompleteEvent    
 } from  "primereact/autocomplete";
 import { Dropdown } from "primereact/dropdown";
-import { useRouter } from 'next/navigation';
 
 
 import { Button } from 'primereact/button'
 import { InputSwitch } from "primereact/inputswitch";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import api from "@/app/api/api";
+import { Toast } from "primereact/toast";
+import { useRouter } from 'next/navigation';
+
 
 interface InputValue {
     education_level: string;
@@ -47,17 +49,24 @@ const userModel = {
 
 
 const RegisterUser1 = () =>{
+    const toast = useRef<Toast>(null);
     const router = useRouter();
 
     const [useDetails, setUserDetails] = useState(userModel)
-    const [dropdowneducation_levelValue, setDropdowneducation_levelValue] = useState(null);
-    const [dropdownreading_abilityValue, setDropdownreading_abilityValue] = useState(null);
-    const [marital_statusValue, setmarital_status] = useState(null);
-    const [birthControlMethodsValue, setBirthControlMethodsValue] = useState(null);
-    const [pregnancyFeelingsValue, setPregnancyFeelingsValue] = useState(null);
-    const [prePregnancyStateValue, setPrePregnancyStateValue] = useState(null);
-    const [partnerFeelingsValue, setPartnerFeelingsValue] = useState(null);
+    const [dropdowneducation_levelValue, setDropdowneducation_levelValue] = useState({education_level:"",code:""});
+    const [dropdownreading_abilityValue, setDropdownreading_abilityValue] = useState({reading_ability:",",levelCode:"" });
+    const [dropdownMarital_value, setDropdown_marital] = useState({marital_status:","});
 
+    const showSuccess = () => {
+        toast.current?.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Message Detail',
+            life: 4000
+        });
+
+        
+    };
 
 
     
@@ -77,13 +86,11 @@ const RegisterUser1 = () =>{
     const saveUserDetails = async (event: any) => {
         event.preventDefault();
         console.log("=========================")
-        /* console.log(dropdownreading_abilityValue)
-        const {education_level} = dropdowneducation_levelValue
-        useDetails.education_level = education_level
-        const {reading_ability} = dropdownreading_abilityValue
-        useDetails.reading_ability = reading_ability
-        const {marital_status} = marital_statusValue
-        useDetails.marital_status = marital_status */
+
+         
+        useDetails.education_level = dropdowneducation_levelValue.education_level
+        useDetails.reading_ability = dropdownreading_abilityValue.reading_ability
+        useDetails.marital_status = dropdownMarital_value.marital_status
        
 
        
@@ -91,9 +98,19 @@ const RegisterUser1 = () =>{
             console.log('try ---')
             console.log(useDetails)
             await api.addEntry('user',useDetails,3).then(user =>{
-                router.push('/uikit/users/view')
+                showSuccess()
+                setTimeout(() => {
+
+                    console.log("saving data ---")
+                   
+                    router.push('/uikit/users/view')
+              }, 3000);
+
+                
+                
+                
                 console.log(user)
-            })
+            }) 
             
         } catch (error) {
             console.log(error)
@@ -128,28 +145,10 @@ const maritalStatisOption: marital_statusInput[] = [
     {marital_status: "Married"},
     {marital_status: "Divorced"},
 ]
-const birthControlMethodsOption =[
-    {birthControlMethods: "Condom"},
-    {birthControlMethods: "Injections"},
-    {birthControlMethods: "Coil"},
-]
-const pregnancyFeelingsOption = [
-    { pregnancyFeelings: "Happy"},
-    { pregnancyFeelings: "Sad"},
-    { pregnancyFeelings: "Mixed Feelings"},
-]
-const prePregnancyStateOption = [
-    {prePregnancyState: "Normal"},
-    {prePregnancyState: "Abnormal"},
-]
-const partnerFeelingsOption = [
-    {partnerFeelings: "Withrawn"},
-    {partnerFeelings: "sad"},
-    {partnerFeelings: "No feelings"},
-]
 
     return (
-        <div className="grid">            
+        <div className="grid">  
+        <Toast ref={toast} />          
 
             <div className="col-12">
                 <div className="card">
@@ -176,11 +175,12 @@ const partnerFeelingsOption = [
                         <div className="field col-12 md:col-6">
                             <label htmlFor="marital_status">What is your current marital status?</label>
                             <Dropdown
-                            value={marital_statusValue}
-                            onChange={(e) => setmarital_status(e.value)}
+                            value={dropdownMarital_value}
+                            onChange={(e) => setDropdown_marital(e.value)}
                             options={maritalStatisOption}
                             optionLabel="marital_status"
                             placeholder="Select"
+                            required
                             
                         />
                         </div>
@@ -192,6 +192,7 @@ const partnerFeelingsOption = [
                             options={dropdowneducation_level}
                             optionLabel="education_level"
                             placeholder="Select"
+                            required
                         />
                         </div>
                         
@@ -203,6 +204,7 @@ const partnerFeelingsOption = [
                             options={dropdownreading_ability}
                             optionLabel="reading_ability"
                             placeholder="Select"
+                            required
                         />
                         </div>
                         <div className="field col-12 md:col-6">

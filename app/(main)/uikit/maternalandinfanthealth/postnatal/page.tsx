@@ -2,10 +2,13 @@
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
 import { RadioButton } from "primereact/radiobutton";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import api from "@/app/api/api";
+
+import { Toast } from "primereact/toast";
+import { useRouter } from 'next/navigation';
 
 
 
@@ -14,6 +17,10 @@ import type { Demo, Page } from "@/types";
 
 
 const Postnatal: Page = () => {
+
+    const toast = useRef<Toast>(null);
+    const router = useRouter();
+    
     const [checkboxValue, setCheckboxValue] = useState<string[]>([]);
     const [radioValue1, setRadioValue1] = useState(null);
     const [radioValue2, setRadioValue2] = useState(null);
@@ -33,6 +40,17 @@ const Postnatal: Page = () => {
     const [radioValue17, setRadioValue17] = useState(null);
 
     const [selectedUserId, setSelectedUserId] = useState("")
+
+    const showSuccess = () => {
+        toast.current?.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Message Detail',
+            life: 4000
+        });
+
+        
+    };
 
 
 
@@ -62,7 +80,13 @@ const Postnatal: Page = () => {
 
         try {
             await api.addEntry("postnatal", formState.formValues, "3").then((data:any) => {
-                console.log(data)
+                showSuccess()
+                setTimeout(() => {
+
+                    console.log("saving data ---")
+                   
+                    router.push('/uikit/users/profile/')
+              }, 3000);
             })
 
             
@@ -84,6 +108,7 @@ useEffect(()=>{
 
         return (
             <div>
+                <Toast ref={toast} />       
                 <div className="card">
                     <form onSubmit={savePostnatal}>
                         <h5>Postnatal</h5>

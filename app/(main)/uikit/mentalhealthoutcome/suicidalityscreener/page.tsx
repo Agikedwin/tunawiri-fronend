@@ -1,18 +1,28 @@
 "use client"
 import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import api from "@/app/api/api";
+
+
+
+import { Toast } from "primereact/toast";
+import { useRouter } from 'next/navigation';
 
 
 
 
 
 import type { Demo, Page } from "@/types";
+import { ProgressBar } from "primereact/progressbar";
+
+
 
 
 const SuicidalityScreener: Page = () => {
+    const toast = useRef<Toast>(null);
+    const router = useRouter();
     const [checkboxValue, setCheckboxValue] = useState<string[]>([]);
     const [radioValue1, setRadioValue1] = useState(null);
     const [radioValue2, setRadioValue2] = useState(null);
@@ -23,6 +33,9 @@ const SuicidalityScreener: Page = () => {
     const [radioValue7, setRadioValue7] = useState(null);
 
     const [selectedUserId, setSelectedUserId] = useState("")
+    const [progressBarValue, setProgressBarValue] = useState(0)
+    const [colorCode, setColorCode] = useState("")
+    const [severity, setSeverity] = useState("")
 
 
 
@@ -44,56 +57,52 @@ const SuicidalityScreener: Page = () => {
             done_anything_to_end_your_life_lifetime: "",
             suicidality_screener_score: "",
             user_id:"",
+            suicidal_score: 0,
+            severity: ""
 
         }
     });
-    // Evaluate conditions based on form values
-    let color;
-    let severity;
 
-    const {
-        wished_dead_or_to_sleep,
-        thoughts_about_killing_yourself,
-        thinking_about_how_to_kill_Yourself,
-        thoughtsWithIntentionOfActing,
-        worked_out_details_of_killing_yourself,
-        done_anything_to_end_your_life_3month,
-        done_anything_to_end_your_life_lifetime
-    } = formState.formValues;
+    const showSuccess = () => {
+        toast.current?.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Message Detail',
+            life: 4000
+        });
 
-    if (
-        wished_dead_or_to_sleep === 'Yes' &&
-        thoughts_about_killing_yourself === 'Yes' &&
-        thinking_about_how_to_kill_Yourself === 'No' &&
-        thoughtsWithIntentionOfActing === 'No' &&
-        worked_out_details_of_killing_yourself === 'No' &&
-        done_anything_to_end_your_life_3month === 'No' &&
-        done_anything_to_end_your_life_lifetime === 'No'
-    ) {
-        color = 'yellow';
-        severity = 'Low';
-    } else if (
-        thinking_about_how_to_kill_Yourself === 'Yes' &&
-        done_anything_to_end_your_life_3month === 'No' &&
-        wished_dead_or_to_sleep === 'No' &&
-        thoughts_about_killing_yourself === 'No' &&
-        thoughtsWithIntentionOfActing === 'No' &&
-        worked_out_details_of_killing_yourself === 'No' &&
-        done_anything_to_end_your_life_lifetime === 'No'
-    ) {
-        color = 'orange';
-        severity = 'Moderate';
-    } else if (
-        thoughtsWithIntentionOfActing === 'Yes' &&
-        worked_out_details_of_killing_yourself === 'Yes' &&
-        done_anything_to_end_your_life_lifetime === 'Yes'
-    ) {
-        color = 'red';
-        severity = 'Severe';
-    } else {
-        color = 'green';
-        severity = 'Minimal';
+
+    };
+
+
+    const multiplierFactor = (100 / 7)
+
+    const scores = {
+        'Yes': 1,
+        'No': 0,
+    };
+
+    const severityRanking = async (data: any, scores: any) => {
+        await api.countOccurrences(formState.formValues, scores).then((data: any) => {
+            console.log('Severity count ', data)
+            setProgressBarValue(data * multiplierFactor)
+
+            if (data * multiplierFactor > 0 && data * multiplierFactor <= 50) {
+                setColorCode("green")
+                setSeverity("moderate")
+            } else if (data * multiplierFactor > 50 && data * multiplierFactor < 70) {
+                setColorCode("orange")
+                setSeverity("Mild")
+            } else if (data * multiplierFactor > 70) {
+                setColorCode("red")
+                setSeverity("Severe")
+            }
+            console.log("Color code  ====== ", data)
+
+        })
+
     }
+    
 
     const handleChange = () => {
 
@@ -103,11 +112,19 @@ const SuicidalityScreener: Page = () => {
         event.preventDefault();
 
         formState.formValues.user_id = selectedUserId
+        formState.formValues.suicidal_score = progressBarValue
+        formState.formValues.severity = severity
         console.log(formState.formValues);
 
         try {
             await api.addEntry("suicidal", formState.formValues, "3").then((data: any) => {
-                console.log(data)
+                showSuccess()
+                setTimeout(() => {
+
+                    console.log("saving data ---")
+
+                    router.push('/uikit/users/profile/')
+                }, 3000);
             })
 
         } catch (error) {
@@ -129,6 +146,7 @@ const SuicidalityScreener: Page = () => {
 
     return (
         <div>
+            <Toast ref={toast} />
 
             <div className="card ">
                 <form onSubmit={saveSuicidalityScreener} >
@@ -147,7 +165,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue1(e.value)
                                     formState.formValues.wished_dead_or_to_sleep = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 } />
                             <label htmlFor="ingredient1" className="ml-2">Yes</label>
@@ -157,7 +175,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue1(e.value)
                                     formState.formValues.wished_dead_or_to_sleep = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 }
                                 checked={radioValue1 === 'No'} />
@@ -180,7 +198,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue2(e.value)
                                     formState.formValues.thoughts_about_killing_yourself = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 } />
                             <label htmlFor="ingredient1" className="ml-2">Yes</label>
@@ -190,7 +208,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue2(e.value)
                                     formState.formValues.thoughts_about_killing_yourself = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 }
                                 checked={radioValue2 === 'No'} />
@@ -212,7 +230,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue3(e.value)
                                     formState.formValues.thinking_about_how_to_kill_Yourself = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 } />
                             <label htmlFor="ingredient1" className="ml-2">Yes</label>
@@ -222,7 +240,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue3(e.value)
                                     formState.formValues.thinking_about_how_to_kill_Yourself = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 }
                                 checked={radioValue3 === 'No'} />
@@ -244,7 +262,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue4(e.value)
                                     formState.formValues.thoughtsWithIntentionOfActing = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 } />
                             <label htmlFor="ingredient1" className="ml-2">Yes</label>
@@ -254,7 +272,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue4(e.value)
                                     formState.formValues.thoughtsWithIntentionOfActing = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 }
                                 checked={radioValue4 === 'No'} />
@@ -277,7 +295,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue5(e.value)
                                     formState.formValues.worked_out_details_of_killing_yourself = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 } />
                             <label htmlFor="ingredient1" className="ml-2">Yes</label>
@@ -287,7 +305,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue5(e.value)
                                     formState.formValues.worked_out_details_of_killing_yourself = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 }
                                 checked={radioValue5 === 'No'} />
@@ -310,7 +328,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue6(e.value)
                                     formState.formValues.done_anything_to_end_your_life_3month = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 } />
                             <label htmlFor="ingredient1" className="ml-2">Yes</label>
@@ -320,7 +338,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue6(e.value)
                                     formState.formValues.done_anything_to_end_your_life_3month = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 }
                                 checked={radioValue6 === 'No'} />
@@ -342,7 +360,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue7(e.value)
                                     formState.formValues.done_anything_to_end_your_life_lifetime = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 } />
                             <label htmlFor="ingredient1" className="ml-2">Yes</label>
@@ -352,7 +370,7 @@ const SuicidalityScreener: Page = () => {
                                 onChange={(e) => {
                                     setRadioValue7(e.value)
                                     formState.formValues.done_anything_to_end_your_life_lifetime = e.target.value
-                                    console.log(formState)
+                                    severityRanking(formState.formValues, scores)
                                 }
                                 }
                                 checked={radioValue7 === 'No'} />
@@ -362,11 +380,15 @@ const SuicidalityScreener: Page = () => {
                         </div>
                     </div>
                     <br></br>
-                    <div className='card' style={{ backgroundColor: color }}>
-                        <p>Severity: {severity}</p>
+                    <div >
+                        <span id="label_status">{severity}</span>
+                        <ProgressBar color={colorCode} value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
+                        <br></br>
+
+
                     </div>
                     <br></br>
-                    <Button label="Search" icon="pi pi-save" type="submit" />
+                    <Button label="Save" icon="pi pi-save" type="submit" outlined/>
                     </form>
             </div>
         </div>

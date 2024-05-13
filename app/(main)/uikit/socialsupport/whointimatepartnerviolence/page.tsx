@@ -1,9 +1,12 @@
 "use client"
 import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import api from "@/app/api/api";
+
+import { Toast } from "primereact/toast";
+import { useRouter } from 'next/navigation';
 
 
 
@@ -13,6 +16,9 @@ import type { Demo, Page } from "@/types";
 
 
 const SocialSupport: Page = () => {
+    const router = useRouter();
+
+    const toast = useRef<Toast>(null);
     const [cd4RadioValue, setCd4RadioValue] = useState(null);
     const [vlRadioValue, setVlRadioValue] = useState(null);
     const [checkboxValue, setCheckboxValue] = useState<string[]>([]);
@@ -84,14 +90,31 @@ const SocialSupport: Page = () => {
 
     }
 
+    const showSuccess = () => {
+        toast.current?.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Message Detail',
+            life: 4000
+        });       
+    };
+
     const saveSocialSupport = async (event: any) => {
         event.preventDefault();
         formState.formValues.user_id = selectedUserId
 
         try {
             await api.addEntry("socialsupport", formState.formValues, 3).then((data:any) => {
+                showSuccess()
+                setTimeout(() => {
+    
+                    console.log("saving data ---")
+                   
+                    router.push('/uikit/users/profile/')
+              }, 3000);
                 console.log(data)
             })
+            
             
         } catch (error) {
             console.log(error)
@@ -111,6 +134,7 @@ const SocialSupport: Page = () => {
 
     return (
         <div>
+            <Toast ref={toast} />  
 
             <div className="card ">
                 <form onSubmit={saveSocialSupport} >

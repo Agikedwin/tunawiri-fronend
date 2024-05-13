@@ -1,10 +1,12 @@
 "use client"
 import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import api from "@/app/api/api";
+import { Toast } from "primereact/toast";
+import { useRouter } from 'next/navigation';
 
 
 
@@ -15,6 +17,9 @@ import type { Demo, Page } from "@/types";
 
 
 const Antenatal: Page = () => {
+    const router = useRouter();
+
+    const toast = useRef<Toast>(null);
     const [checkboxValue, setCheckboxValue] = useState<string[]>([]);
     const [radioValue1, setRadioValue1] = useState(null);
     const [radioValue2, setRadioValue2] = useState(null);
@@ -23,6 +28,15 @@ const Antenatal: Page = () => {
     const [radioValue5, setRadioValue5] = useState(null);
     const [radioValue6, setRadioValue6] = useState(null);
     const [radioValue7, setRadioValue7] = useState(null);
+
+    const showSuccess = () => {
+        toast.current?.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Message Detail',
+            life: 4000
+        });       
+    };
 
     const [selectedUserId, setSelectedUserId] = useState("")
 
@@ -57,6 +71,13 @@ const Antenatal: Page = () => {
 
         try {
             await api.addEntry("antenatal",formState.formValues,"3").then((data:any) =>{
+                showSuccess()
+                setTimeout(() => {
+    
+                    console.log("saving data ---")
+                   
+                    router.push('/uikit/users/profile/')
+              }, 3000);
                 console.log(data)
             })
             
@@ -75,6 +96,7 @@ const Antenatal: Page = () => {
 
     return (
         <div>
+             <Toast ref={toast} />  
             <div className="card">
                 <form onSubmit={saveAntenatal}>
                     <h5>Antenatal</h5>

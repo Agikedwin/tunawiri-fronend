@@ -136,7 +136,7 @@ const ViewUsers = () => {
                         onSelectionChange={onSelectionChange}
                         selectionMode="single"
                         responsiveLayout="scroll"
-                        paginator rows={4}
+                        paginator rows={15}
                         //onRowSelect={onUserSelect}
                         
 

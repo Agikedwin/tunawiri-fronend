@@ -29,8 +29,12 @@ import { Rating } from "primereact/rating";
 import { SelectButton } from "primereact/selectbutton";
 import { Slider } from "primereact/slider";
 import { ToggleButton } from "primereact/togglebutton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CountryService } from "../../../../demo/service/CountryService";
+import { Toast } from "primereact/toast";
+import { useRouter } from 'next/navigation';
+
+
 
 
 interface InputValue {
@@ -67,6 +71,9 @@ const clinicalModel = {
 
 
 const ClinicalDetails: Page = () => {
+    const router = useRouter();
+
+    const toast = useRef<Toast>(null);
     const [floatValue, setFloatValue] = useState("");
     const [autoValue, setAutoValue] = useState<Demo.Country[]>([]);
     const [selectedAutoValue, setSelectedAutoValue] = useState(null);
@@ -115,6 +122,16 @@ const ClinicalDetails: Page = () => {
 
         }
     });
+
+    const showSuccess = () => {
+        toast.current?.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Message Detail',
+            life: 4000
+        });       
+    };
+
 
     const [clinicalDetailData, setClinicalDetailData] = useState({
         isValid: false,
@@ -190,6 +207,13 @@ const ClinicalDetails: Page = () => {
 
        try {
         await api.addEntry('clinical',formState.formValues, '3').then((data:any) => {
+            showSuccess()
+            setTimeout(() => {
+
+                console.log("saving data ---")
+               
+                router.push('/uikit/users/profile/')
+          }, 3000);
             console.log(data)
         })
         
@@ -211,6 +235,7 @@ const ClinicalDetails: Page = () => {
 
     return (
         <div className="grid">
+             <Toast ref={toast} />  
             <form onSubmit={saveClinicalDetails} >
 
 

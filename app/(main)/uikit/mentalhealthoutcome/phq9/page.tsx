@@ -1,7 +1,7 @@
 "use client"
 import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 
 import api from "@/app/api/api";
@@ -13,9 +13,14 @@ import api from "@/app/api/api";
 import type { Demo, Page } from "@/types";
 import { ProgressBar } from "primereact/progressbar";
 
+import { Toast } from "primereact/toast";
+import { useRouter } from 'next/navigation';
+
 
 
 const DepressionPhq9: Page = () => {
+    const toast = useRef<Toast>(null);
+    const router = useRouter();
     const [checkboxValue, setCheckboxValue] = useState<string[]>([]);
     const [radioValue1, setRadioValue1] = useState(null);
     const [radioValue2, setRadioValue2] = useState(null);
@@ -53,10 +58,21 @@ const DepressionPhq9: Page = () => {
             slow_or_restless: "",
             thoughts_of_harming_yourself: "",
             user_id: "",
-            phq9_score: 0
+            phq9_score: 0,
+            severity: ""
         }
     });
 
+    const showSuccess = () => {
+        toast.current?.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Message Detail',
+            life: 4000
+        });
+
+        
+    };
 
 
 
@@ -82,20 +98,22 @@ const DepressionPhq9: Page = () => {
 
     }
 
+    const multiplierFactor = (100/27)
+
    
 
     const severityRanking = async (data:any, scores:any) => {
         await api.countOccurrences(formState.formValues, scores).then((data:any) =>{
             console.log('Severity count ', data)
-            setProgressBarValue(data * 3.7)
+            setProgressBarValue(data * multiplierFactor)
 
-            if(data * 3.7 >  0 && data * 3.7 <= 50){
+            if(data * multiplierFactor >  0 && data * multiplierFactor <= 50){
                 setColorCode("green")
                 setSeverity("moderate")
-            } else if(data * 3.7 >  50 && data * 3.7 < 70){
+            } else if(data * multiplierFactor >  50 && data * multiplierFactor < 70){
                 setColorCode("orange")
                 setSeverity("Mild")
-            }else  if(data * 3.7 > 70 ){
+            }else  if(data * multiplierFactor > 70 ){
                 setColorCode("red")
                 setSeverity("Severe")
             }
@@ -113,11 +131,17 @@ const DepressionPhq9: Page = () => {
 
         formState.formValues.user_id = selectedUserId
         formState.formValues.phq9_score = Math.ceil((progressBarValue / 3.7))
-        console.log(formState.formValues);
+        formState.formValues.severity = severity
 
         try {
             await api.addEntry("phq9", formState.formValues, "3").then((data: any) => {
-                console.log(data)
+                showSuccess()
+                setTimeout(() => {
+
+                    console.log("saving data ---")
+                   
+                    router.push('/uikit/users/profile/')
+              }, 3000);
             })
 
         } catch (error) {
@@ -134,6 +158,7 @@ const DepressionPhq9: Page = () => {
 
     return (
         <div>
+             <Toast ref={toast} />     
 
             <div className="card ">
                 <form onSubmit={saveDepressionPhq9} >

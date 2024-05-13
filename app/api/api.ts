@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-//const urlAuth ='http://41.89.200.201:8050/'; 
-const urlAuth = 'http://0.0.0.0:8050/';
+const urlAuth ='http://41.89.200.201:8050/'; 
+//const urlAuth = 'http://0.0.0.0:8050/';
 //const urlSms = 'http://localhost:8050/';
 
 
@@ -163,25 +163,11 @@ export default {
 
 
     async countOccurrences(data: any, factor:any) {
+        console.log(" FACTOR ", factor["More than half the days"])
 
         
 
-       /* let data = {
-            feeling_bad_about_yourself: "",
-            feeling_depressed: "Several days",
-            feeling_tired: "Nearly every day",
-            interest_pleasure: "Not at all",
-            poor_appetite: "Several days",
-            slow_or_restless: "",
-            thoughts_of_harming_yourself: "",
-            trouble_concentrating: "Nearly every day",
-            trouble_sleeping: "More than half the days",
-            user_id: "6a1cbda3-aff3-4762-8f25-0ac26c43aa6f"
-        }; */
-
-        
-
-        // Object to store the count of each unique value
+       
         const countOccurrences = []
 
         // Iterate over the object properties
@@ -201,9 +187,16 @@ export default {
 
         // Output the count of each unique value and calculate the sum
         let sum = 0;
+        let multiplier =0
         for (let value in countOccurrences) {
-            console.log(`Number of occurrences of "${value}":`, countOccurrences[value]  );
-            sum += (countOccurrences[value] * factor[value]);
+            if (factor[value]){
+                multiplier = (countOccurrences[value] * factor[value])
+                console.log("Value ::: of factor", multiplier)
+
+            }
+
+
+            sum += multiplier
         }
 
         return sum

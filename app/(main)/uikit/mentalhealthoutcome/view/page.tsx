@@ -103,6 +103,7 @@ const MentalHealthOutcomeView = () => {
 
         try {
             await api.getEntry("phq9", userId, "3").then((data: any) => {
+                console.log("PHQ( data ===", data)
 
                 setPhq9view(data)
             })
