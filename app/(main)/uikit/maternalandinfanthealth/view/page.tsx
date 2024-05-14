@@ -16,25 +16,28 @@ import { Menu } from "primereact/menu"
 const GeneralHealthView = () => {
     const router = useRouter();
 
-    const [pregnancyCount, setPregnancyCount] = useState({
+    const [pregnancyCount, setPregnancyCount] = useState([{
         user_id: '',
-        pregnancy_count: ''
-    })
+        pregnancy_count: '',
+        created_at: ''
+    }])
 
-    const [antenatal, setAntenatal] = useState({
+    const [antenatal, setAntenatal] = useState([{
         user_id: "",
         gestational_age_weeks: "",
-        months_pregnancy_antenatal_care: ""
-    })
+        months_pregnancy_antenatal_care: "",
+        created_at: ''
+    }])
 
-    const [postnatal, setpostnatal] = useState({
+    const [postnatal, setpostnatal] = useState([{
         user_id: "",
         pregnancy_end_duration: "",
         pregnancy_end_method: "",
         place_of_birth: "",
         infant_alive: "",
-        infant_passing_age: ""
-    })
+        infant_passing_age: "",
+        created_at: ''
+    }])
     const [userId, setUserId] = useState(null)
     const [userName, setUserName] = useState({ first_name: "", other_names: "" })
 
@@ -43,7 +46,7 @@ const GeneralHealthView = () => {
     const fetchpregnancyCount = async (userId: any) => {
 
         try {
-            await api.getEntry("generalhealth", userId, "3").then((data: any) => {
+            await api.getEntry("maternalandinfanthealth", userId, "3").then((data: any) => {
 
                 setPregnancyCount(data)
             })
@@ -124,95 +127,128 @@ const GeneralHealthView = () => {
                 >
                     <div className="card">
 
-                        <span className="block text-600 font-medium mb-3">General Health</span>
-                        <ul className="p-0 mx-0 mt-0 mb-4 list-none">
-                            <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+                        {pregnancyCount.map((data: any, index: any) => (
+                            <div>
+                                <span className="block text-600 font-medium mb-3">General Health   <span className="text-green-500">  ({data.created_at && data.created_at.slice(0, -7)})</span></span>
 
-                                <span className="text-900 line-height-3">
-                                    How many times have you been pregnant?:
+                                <ul className="p-0 mx-0 mt-0 mb-4 list-none">
+                                    <li className="flex align-items-center py-2 border-bottom-1 surface-border">
 
-                                    <span className="text-blue-500">{ }  {pregnancyCount.pregnancy_count}</span>
-                                </span>
-                            </li>
+                                        <span className="text-900 line-height-3">
+                                            How many times have you been pregnant?:
 
-
-
-                        </ul>
-
-                        <span className="block text-600 font-medium mb-3">Antenatal</span>
-                        <ul className="p-0 m-0 list-none">
-                            <li className="flex align-items-center py-2 border-bottom-1 surface-border">
-
-                                <span className="text-900 line-height-3">
-                                    What's your current gestational age in weeks?:
-
-                                    <span className="text-blue-500">{ }  {antenatal.gestational_age_weeks}</span>
-                                </span>
-                            </li>
-
-                            <li className="flex align-items-center py-2 border-bottom-1 surface-border">
-
-                                <span className="text-900 line-height-3">
-                                    How many months were you into the pregnancy when you first went to the clinic for antenatal care
-
-                                    <span className="text-blue-500">{ }  {antenatal.months_pregnancy_antenatal_care}</span>
-                                </span>
-                            </li>
+                                            <span className="text-blue-500">{ }  {data.pregnancy_count}</span>
+                                        </span>
+                                    </li>
 
 
-                        </ul>
 
-                        <span className="block text-600 font-medium mb-3">Postnatal</span>
-                        <ul className="p-0 mx-0 mt-0 mb-4 list-none">
-                            <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+                                </ul>
+                            </div>
 
-                                <span className="text-900 line-height-3">
-                                    How long ago did your pregnancy end?
-                                    :
-
-                                    <span className="text-blue-500">{ }  {postnatal.pregnancy_end_duration}</span>
-                                </span>
-                            </li>
-                            <li className="flex align-items-center py-2 border-bottom-1 surface-border">
-
-                                <span className="text-900 line-height-3">
-                                    How did the pregnancy end ?
-                                    :
-
-                                    <span className="text-blue-500">{ }  {postnatal.pregnancy_end_method}</span>
-                                </span>
-                            </li>
-                            <li className="flex align-items-center py-2 border-bottom-1 surface-border">
-
-                                <span className="text-900 line-height-3">
-                                    Where did you give birth?:
-
-                                    <span className="text-blue-500">{ }  {postnatal.place_of_birth}</span>
-                                </span>
-                            </li>
-                            <li className="flex align-items-center py-2 border-bottom-1 surface-border">
-
-                                <span className="text-900 line-height-3">
-                                    Is your infant still alive ?:
-
-                                    <span className="text-blue-500">{ }  {postnatal.infant_alive}</span>
-                                </span>
-                            </li>
-                            <li className="flex align-items-center py-2 border-bottom-1 surface-border">
-
-                                <span className="text-900 line-height-3">
-                                    If no, how old was your infant when he/she passed ?
-                                    :
-
-                                    <span className="text-blue-500">{ }  {postnatal.infant_passing_age}</span>
-                                </span>
-                            </li>
-
-
-                        </ul>
+                        ))}
                     </div>
+
+                    <div className="card">
+
+                        {antenatal && antenatal.map((data: any, index: any) => (
+                            <div>
+                                <span className="block text-600 font-medium mb-3">Antenatal   <span className="text-green-500">  ({data.created_at && data.created_at.slice(0, -7)})</span></span>
+
+
+                                <ul className="p-0 m-0 list-none">
+                                    <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+
+                                        <span className="text-900 line-height-3">
+                                            What's your current gestational age in weeks?:
+
+                                            <span className="text-blue-500">{ }  {data.gestational_age_weeks}</span>
+                                        </span>
+                                    </li>
+
+                                    <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+
+                                        <span className="text-900 line-height-3">
+                                            How many months were you into the pregnancy when you first went to the clinic for antenatal care
+
+                                            <span className="text-blue-500">{ }  {data.months_pregnancy_antenatal_care}</span>
+                                        </span>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+
+                        ))}
+
+                    </div>
+
+                    <div className="card">
+
+                        {postnatal && postnatal.map((data: any, index: any) => (
+
+                            <div>
+                                <span className="block text-600 font-medium mb-3">Postnatal   <span className="text-green-500">  ({data.created_at && data.created_at.slice(0, -7)})</span></span>
+
+                                <ul className="p-0 mx-0 mt-0 mb-4 list-none">
+                                    <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+
+                                        <span className="text-900 line-height-3">
+                                            How long ago did your pregnancy end?
+                                            :
+
+                                            <span className="text-blue-500">{ }  {data.pregnancy_end_duration}</span>
+                                        </span>
+                                    </li>
+                                    <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+
+                                        <span className="text-900 line-height-3">
+                                            How did the pregnancy end ?
+                                            :
+
+                                            <span className="text-blue-500">{ }  {data.pregnancy_end_method}</span>
+                                        </span>
+                                    </li>
+                                    <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+
+                                        <span className="text-900 line-height-3">
+                                            Where did you give birth?:
+
+                                            <span className="text-blue-500">{ }  {data.place_of_birth}</span>
+                                        </span>
+                                    </li>
+                                    <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+
+                                        <span className="text-900 line-height-3">
+                                            Is your infant still alive ?:
+
+                                            <span className="text-blue-500">{ }  {data.infant_alive}</span>
+                                        </span>
+                                    </li>
+                                    <li className="flex align-items-center py-2 border-bottom-1 surface-border">
+
+                                        <span className="text-900 line-height-3">
+                                            If no, how old was your infant when he/she passed ?
+                                            :
+
+                                            <span className="text-blue-500">{ }  {data.infant_passing_age}</span>
+                                        </span>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+
+                        ))}
+
+
+
+
+
+                    </div>
+
                 </AccordionTab>
-               
+
             </Accordion>
 
         </>

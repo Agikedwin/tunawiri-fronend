@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const urlAuth ='http://41.89.200.201:8050/'; 
-//const urlAuth = 'http://0.0.0.0:8050/';
+//const urlAuth ='http://41.89.200.201:8050/'; 
+const urlAuth = 'http://0.0.0.0:8050/';
 //const urlSms = 'http://localhost:8050/';
 
 
@@ -202,5 +202,14 @@ export default {
         return sum
 
 
+    },
+
+    async colorScheme(scheme:any){
+        switch(scheme){   
+            case "Mild": return "warning";
+            case "Moderate": return "secondary";
+            case "Severe": return "danger";
+            default: return "secondary";      
+        }
     }
 }

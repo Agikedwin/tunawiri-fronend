@@ -51,6 +51,7 @@ const HarvardTrauma: Page = () => {
     const [progressBarValue, setProgressBarValue] = useState(0)
     const [colorCode, setColorCode] = useState("")
     const [severity, setSeverity] = useState("")
+    const [themeColor, setThemeColor] = useState("secondary")
 
 
 
@@ -88,7 +89,9 @@ const HarvardTrauma: Page = () => {
             feeling_people_or_objects_around_you_are_strange_or_not_real: "",
             user_id: "",
             havard_score: 0,
-            severity: ""
+            severity: "",
+            color: ""
+
         }
     });
 
@@ -123,12 +126,15 @@ const HarvardTrauma: Page = () => {
             if (data * multiplierFactor > 0 && data * multiplierFactor <= 50) {
                 setColorCode("green")
                 setSeverity("moderate")
+                setThemeColor("info")
             } else if (data * multiplierFactor > 50 && data * multiplierFactor < 70) {
                 setColorCode("orange")
                 setSeverity("Mild")
+                setThemeColor("warning")
             } else if (data * multiplierFactor > 70) {
                 setColorCode("red")
                 setSeverity("Severe")
+                setThemeColor("danger")
             }
             console.log("Color code  ====== ", data)
 
@@ -143,6 +149,7 @@ const HarvardTrauma: Page = () => {
         formState.formValues.user_id = selectedUserId
         formState.formValues.havard_score = Math.ceil((progressBarValue / multiplierFactor))
         formState.formValues.severity = severity
+        formState.formValues.color = themeColor
 
         try {
             await api.addEntry("harvardTrauma", formState.formValues, "3").then((data: any) => {

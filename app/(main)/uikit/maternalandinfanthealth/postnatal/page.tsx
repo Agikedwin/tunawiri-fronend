@@ -71,7 +71,26 @@ const Postnatal: Page = () => {
             
         }
     });
-    const handleChange = () => { }
+    const handleChange = (event: any) => {
+        //event.persist();
+
+        setFormState(formState => ({
+            ...formState,
+            formValues: {
+                ...formState.formValues,
+                [event.target.name]:
+                    event.target.type === 'checkbox'
+                        ? event.target.checked
+                        : event.target.value
+            },
+
+            touched: {
+                ...formState.touched,
+                [event.target.name]: true
+            }
+        }));
+        console.log('Form state ::', formState)
+    };
 
     const savePostnatal = async (event: any) => {
         event.preventDefault();
@@ -124,13 +143,7 @@ useEffect(()=>{
                                         name="pregnancy_end_duration"
                                         value={formState.formValues.pregnancy_end_duration}
                                         
-                                        /* onChange={(e) => setFormState(prevState => ({
-                                            ...prevState,
-                                            formValues: {
-                                                ...prevState.formValues,
-                                                pregnancy_end_duration: e.target.value
-                                            }
-                                        }))} */
+                                        onChange={handleChange}
                                         dateFormat="mm/dd/yy"
                                         required // Make the field mandatory
                                     />
@@ -152,11 +165,13 @@ useEffect(()=>{
                                             name="pregnancyEndMethod"
                                             value={method}
                                             onChange={(e) => setFormState(prevState => ({
+                                                
                                                 ...prevState,
                                                 formValues: {
                                                     ...prevState.formValues,
                                                     pregnancy_end_method: e.target.value
                                                 }
+                                                
                                             }))}
                                             checked={formState.formValues.pregnancy_end_method === method}
                                         />
@@ -235,33 +250,7 @@ useEffect(()=>{
                         </div>
                 
                         <div className="card">
-                            {/* Question 4 
-                        <div className="p-field">
-                            <label>4. Did you or the baby experience any problems or complications during the birth ?</label>
-                            <br />
-                            <p></p>
-                            {["Yes, mother only", "Yes, baby only", "Yes, both mother and baby", "No"].map((complication, index) => (
-                                <div key={index}>
-                                    <RadioButton
-                                        inputId={`birthComplication${index}`}
-                                        name="birthComplication"
-                                        value={complication}
-                                        onChange={(e) => setFormState(prevState => ({
-                                            ...prevState,
-                                            formValues: {
-                                                ...prevState.formValues,
-                                                birth_complications: e.target.value
-                                            }
-                                        }))}
-                                        checked={formState.formValues.birth_complications === complication}
-                                    />
-                                    <label htmlFor={`birthComplication${index}`}>{complication}</label>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="card"> */}
-                            {/* Question 5 */}
+                          
                             <div className="p-field">
                                 <label>5. Is your infant still alive ?</label>
                                 <br />
@@ -322,27 +311,8 @@ useEffect(()=>{
                         </div>
                         <br></br>
 
-                        {/*    <div className="card">
-                         Question 7 
-                        <div className="p-field">
-                            <label htmlFor="weeksOfPregnancyAtBirth">7. At how many weeks of your pregnancy was the baby born ?</label>
-                            <p></p>
-                            <InputText
-                                id="weeksOfPregnancyAtBirth"
-                                name="weeksOfPregnancyAtBirth"
-                                value={formState.formValues.weeks_of_pregnancy_at_birth}
-                                onChange={(e) => setFormState(prevState => ({
-                                    ...prevState,
-                                    formValues: {
-                                        ...prevState.formValues,
-                                        weeks_of_pregnancy_at_birth: e.target.value
-                                    }
-                                }))}
-                            />
-                        </div> 
-                    </div>*/}
-                        {/* Save Button */}
-                        <Button type="submit" label="Save" />
+                        
+                        <Button type="submit" label="Save" outlined />
                     </form>
                 </div>
             </div>

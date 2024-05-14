@@ -36,6 +36,8 @@ const SuicidalityScreener: Page = () => {
     const [progressBarValue, setProgressBarValue] = useState(0)
     const [colorCode, setColorCode] = useState("")
     const [severity, setSeverity] = useState("")
+    const [themeColor, setThemeColor] = useState("secondary")
+
 
 
 
@@ -58,7 +60,8 @@ const SuicidalityScreener: Page = () => {
             suicidality_screener_score: "",
             user_id:"",
             suicidal_score: 0,
-            severity: ""
+            severity: "",
+            color: ""
 
         }
     });
@@ -90,12 +93,15 @@ const SuicidalityScreener: Page = () => {
             if (data * multiplierFactor > 0 && data * multiplierFactor <= 50) {
                 setColorCode("green")
                 setSeverity("moderate")
+                setThemeColor("info")
             } else if (data * multiplierFactor > 50 && data * multiplierFactor < 70) {
                 setColorCode("orange")
                 setSeverity("Mild")
+                setThemeColor("warning")
             } else if (data * multiplierFactor > 70) {
                 setColorCode("red")
                 setSeverity("Severe")
+                setThemeColor("danger")
             }
             console.log("Color code  ====== ", data)
 
@@ -114,7 +120,7 @@ const SuicidalityScreener: Page = () => {
         formState.formValues.user_id = selectedUserId
         formState.formValues.suicidal_score = progressBarValue
         formState.formValues.severity = severity
-        console.log(formState.formValues);
+        formState.formValues.color = themeColor
 
         try {
             await api.addEntry("suicidal", formState.formValues, "3").then((data: any) => {

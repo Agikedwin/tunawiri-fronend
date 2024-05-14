@@ -138,7 +138,7 @@ const SocialSupport: Page = () => {
 
             <div className="card ">
                 <form onSubmit={saveSocialSupport} >
-                    <h5>Social support </h5>
+                    <h5>Social support ee </h5>
                     <p>I am now going to ask you about some situations that are true for many women. Thinking about
                         your current or most recent husband/partner, how many times in the past six months has he
                         I am now going to ask you about some situations that are true for many women. Thinking about
@@ -1502,7 +1502,7 @@ const SocialSupport: Page = () => {
 
                     <div className="field col-12 md:col-6">
                         <label htmlFor="otherNames">..</label>
-                        <Button label="Search" icon="pi pi-save" type="submit" />
+                        <Button label="Save" icon="pi pi-save" type="submit"  outlined/>
                         </div>
                     </div>
                 </form>

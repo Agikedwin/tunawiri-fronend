@@ -36,6 +36,8 @@ const AnxietyGad7: Page = () => {
     const [progressBarValue, setProgressBarValue] = useState(0)
     const [colorCode, setColorCode] = useState("")
     const [severity, setSeverity] = useState("")
+    const [themeColor, setThemeColor] = useState("secondary")
+
 
 
     const showSuccess = () => {
@@ -69,12 +71,15 @@ const AnxietyGad7: Page = () => {
             if (data * multiplierFactor > 0 && data * multiplierFactor <= 50) {
                 setColorCode("green")
                 setSeverity("moderate")
+                setThemeColor("info")
             } else if (data * multiplierFactor > 50 && data * multiplierFactor < 70) {
                 setColorCode("orange")
                 setSeverity("Mild")
+                setThemeColor("warning")
             } else if (data * multiplierFactor > 70) {
                 setColorCode("red")
                 setSeverity("Severe")
+                setThemeColor("danger")
             }
             console.log("Color code  ====== ", data)
 
@@ -102,7 +107,8 @@ const AnxietyGad7: Page = () => {
             feeling_afraid_something_awful_might_happen: "",
             user_id: "",
             gad7_score: 0,
-            severity: ""
+            severity: "",
+            color: ""
         }
     });
 
@@ -117,6 +123,7 @@ const AnxietyGad7: Page = () => {
         console.log(formState.formValues);
         formState.formValues.gad7_score = Math.ceil((progressBarValue / multiplierFactor))
         formState.formValues.severity = severity
+        formState.formValues.color = themeColor
 
         try {
             await api.addEntry("gad7Scale", formState.formValues, "3").then((data: any) => {

@@ -38,6 +38,7 @@ const DepressionPhq9: Page = () => {
     const [progressBarValue, setProgressBarValue] = useState(0)
     const [colorCode, setColorCode] = useState("")
     const [severity, setSeverity] = useState("")
+    const [themeColor, setThemeColor] = useState("secondary")
 
 
 
@@ -59,7 +60,8 @@ const DepressionPhq9: Page = () => {
             thoughts_of_harming_yourself: "",
             user_id: "",
             phq9_score: 0,
-            severity: ""
+            severity: "",
+            color: ""
         }
     });
 
@@ -110,15 +112,25 @@ const DepressionPhq9: Page = () => {
             if(data * multiplierFactor >  0 && data * multiplierFactor <= 50){
                 setColorCode("green")
                 setSeverity("moderate")
+                setThemeColor("info")
             } else if(data * multiplierFactor >  50 && data * multiplierFactor < 70){
                 setColorCode("orange")
                 setSeverity("Mild")
+                setThemeColor("warning")
             }else  if(data * multiplierFactor > 70 ){
                 setColorCode("red")
                 setSeverity("Severe")
+                setThemeColor("danger")
             }
             console.log("Color code  ====== ",data)
 
+        })
+
+    }
+
+    const colorCodeScheme = async (severity: any) => {
+        await api.colorScheme(severity).then((color:any) => {
+            return color
         })
 
     }
@@ -132,6 +144,7 @@ const DepressionPhq9: Page = () => {
         formState.formValues.user_id = selectedUserId
         formState.formValues.phq9_score = Math.ceil((progressBarValue / 3.7))
         formState.formValues.severity = severity
+        formState.formValues.color = themeColor
 
         try {
             await api.addEntry("phq9", formState.formValues, "3").then((data: any) => {

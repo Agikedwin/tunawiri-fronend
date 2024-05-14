@@ -37,6 +37,8 @@ const TraumaExposure: Page = () => {
     const [radioValue10, setRadioValue10] = useState(null);
 
     const [selectedUserId, setSelectedUserId] = useState("")
+    const [themeColor, setThemeColor] = useState("secondary")
+
 
 
 
@@ -60,7 +62,9 @@ const TraumaExposure: Page = () => {
             witnessed_someone_being_raped: "",
             user_id: "",
             trauma_score: 0,
-            severity: ""
+            severity: "",
+            color: ""
+
         }
     });
 
@@ -97,12 +101,15 @@ const TraumaExposure: Page = () => {
             if (data * multiplierFactor > 0 && data * multiplierFactor <= 50) {
                 setColorCode("green")
                 setSeverity("moderate")
+                setThemeColor("info")
             } else if (data * multiplierFactor > 50 && data * multiplierFactor < 70) {
                 setColorCode("orange")
                 setSeverity("Mild")
+                setThemeColor("warning")
             } else if (data * multiplierFactor > 70) {
                 setColorCode("red")
                 setSeverity("Severe")
+                setThemeColor("danger")
             }
             console.log("Color code  ====== ", data)
 
@@ -120,6 +127,7 @@ const TraumaExposure: Page = () => {
         formState.formValues.user_id = selectedUserId
         formState.formValues.trauma_score = Math.ceil((progressBarValue / multiplierFactor))
         formState.formValues.severity = severity
+        formState.formValues.color = themeColor
 
         try {
             await api.addEntry("traumaScale", formState.formValues, "3").then((data: any) => {
