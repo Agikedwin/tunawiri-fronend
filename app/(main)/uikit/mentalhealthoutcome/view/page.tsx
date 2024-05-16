@@ -226,7 +226,7 @@ const MentalHealthOutcomeView = () => {
                             <span className="flex align-items-center gap-2 w-full">
                                 {/* <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" /> */}
                                 <span className="font-bold white-space-nowrap">Depression PHQ9</span>
-                                <span className="text-teal-500">| {data.created_at.slice(0, -7)}</span>
+                                <span className="text-teal-500">|{data.created_at.slice(0, -16)}</span>
                                 <span>| {data.severity}</span>
                                 <Badge severity={data.color} value={data.phq9_score} className="ml-auto" />
                             </span>
@@ -345,7 +345,7 @@ const MentalHealthOutcomeView = () => {
                             <span className="flex align-items-center gap-2 w-full">
                                 {/* <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" /> */}
                                 <span className="font-bold white-space-nowrap">Anxiety Gad 7 Scale</span>
-                                <span className="text-teal-500">| {data.created_at.slice(0, -7)}</span>
+                                <span className="text-teal-500">| {data.created_at.slice(0, -16)}</span>
                                 <span>| {data.severity}</span>
                                 <Badge severity={data.color} value={data.gad7_score} className="ml-auto" />
                             </span>
@@ -438,7 +438,7 @@ const MentalHealthOutcomeView = () => {
                             <span className="flex align-items-center gap-2 w-full">
                                 {/* <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" /> */}
                                 <span className="font-bold white-space-nowrap">Trauma Exposure</span>
-                                <span className="text-teal-500">| {data.created_at.slice(0, -7)}</span>
+                                <span className="text-teal-500">| {data.created_at.slice(0, -16)}</span>
                                 <span>| {data.severity}</span>
                                 <Badge severity={data.color} value={data.trauma_score} className="ml-auto" />
                             </span>
@@ -557,7 +557,7 @@ const MentalHealthOutcomeView = () => {
                     <span className="flex align-items-center gap-2 w-full">
                         {/* <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" /> */}
                         <span className="font-bold white-space-nowrap">Harvard Trauma Questionnaire</span>
-                        <span className="text-teal-500">| {data.created_at.slice(0, -7)}</span>
+                        <span className="text-teal-500">| {data.created_at.slice(0, -16)}</span>
                                 <span>| {data.severity}</span>
                                 <Badge severity={data.color}  value={data.havard_score} className="ml-auto" />
                     </span>
@@ -836,9 +836,9 @@ const MentalHealthOutcomeView = () => {
                                         <span className="flex align-items-center gap-2 w-full">
                                             {/* <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" /> */}
                                             <span className="font-bold white-space-nowrap">Suicidality Screener</span>
-                                            <span className="text-teal-500">| {data.created_at.slice(0, -7)}</span>
+                                            <span className="text-teal-500">| {data.created_at.slice(0, -16)}</span>
                                 <span>| {data.severity}</span>
-                                <Badge severity={data.color} value={data.suicidal_score} className="ml-auto" />
+                                <Badge severity={data.color} value={Math.ceil(data.suicidal_score)} className="ml-auto" />
                                         </span>
                                     }
                                 >

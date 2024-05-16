@@ -25,7 +25,7 @@ const UserEntryForms = () => {
             updated: "2024-05-08"
         },
         {
-            name: "Mental and Infant Health ",
+            name: "Maternal and Infant Health ",
             count: 2,
             link: "/uikit/maternalandinfanthealth/view/",
             updated: "2024-05-08"
@@ -39,7 +39,7 @@ const UserEntryForms = () => {
         },
 
         {
-            name: "Mental Utilization ",
+            name: "Health Utilization ",
             count: 2,
             link: "/clinical",
             updated: "2024-05-08"

@@ -118,7 +118,7 @@ const SuicidalityScreener: Page = () => {
         event.preventDefault();
 
         formState.formValues.user_id = selectedUserId
-        formState.formValues.suicidal_score = progressBarValue
+        formState.formValues.suicidal_score = Math.ceil(progressBarValue / multiplierFactor)
         formState.formValues.severity = severity
         formState.formValues.color = themeColor
 

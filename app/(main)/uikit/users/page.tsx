@@ -157,7 +157,7 @@ const maritalStatisOption: marital_statusInput[] = [
                     <div className="p-fluid formgrid grid">
                     <div className="field col-12 md:col-6">
                             <label htmlFor="mch_number">MCH Number</label>
-                            <InputText  name="mch_number" value={useDetails.mch_number} onChange={onchaneUserDetails} type="number"  required/>
+                            <InputText  name="mch_number" value={useDetails.mch_number} onChange={onchaneUserDetails} type="text"  required/>
                         </div>
                         <div className="field col-12 md:col-6">
                             <label htmlFor="first_name">First Name</label>
@@ -213,7 +213,7 @@ const maritalStatisOption: marital_statusInput[] = [
                             
                         </div>
                         <div className="field col-12 md:col-6">
-                            <label htmlFor="home_language">What langudob do you most commonly speak at home?</label>
+                            <label htmlFor="home_language">What language do you most commonly speak at home?</label>
                             <InputText name="home_language" value={useDetails.home_language } onChange={onchaneUserDetails} type="text" required/>
                             
                         </div>

@@ -43,7 +43,7 @@
         {  
             "key": "3",
             "data": {  
-                "name":"Mental and Infant Health",
+                "name":"Maternal and Infant Health",
                 "size":"data",
                 "type":"/uikit/users/"
             },
@@ -128,7 +128,7 @@
         {  
             "key": "4",
             "data": {  
-                "name":"Mental Utilization",
+                "name":"Health Utilization",
                 "size":"data",
                 "type":"data entry form"
             },
