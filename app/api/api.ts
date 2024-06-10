@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const urlAuth ='http://41.89.200.201:8050/'; 
-//const urlAuth = 'http://0.0.0.0:8050/';
+//const urlAuth ='http://41.89.200.201:8050/'; 
+const urlAuth = 'http://0.0.0.0:8050/';
 //const urlSms = 'http://localhost:8050/';
 
 
@@ -163,37 +163,52 @@ export default {
 
 
     async countOccurrences(data: any, factor:any) {
-        console.log(" FACTOR ", factor["More than half the days"])
 
-        
-
+        console.log(data)
        
-        const countOccurrences = []
+        let countOccurrence = []
 
         // Iterate over the object properties
         for (let key in data) {
             // Get the value of the current property
             const value = data[key];
-            console.log("value ::::::", value)
+            //console.log( key, " UUP****************************UUUp", value)
+           
 
             // If the value is not in the countOccurrences object, initialize its count to 1
-            if (!countOccurrences[value] && value !=="") {
-                countOccurrences[value] = 1;
+            if (!countOccurrence[value] && value !=="") {
+                if (value !== 0){
+                    //console.log(data[key], " ++++ ::",countOccurrence[value])
+                    countOccurrence[value] = 1;
+
+                }
+                
+                
             } else  if(value!==""){
                 // If the value is already in the countOccurrences object, increment its count
-                countOccurrences[value]++;
+                countOccurrence[value]++;
             }
         }
 
         // Output the count of each unique value and calculate the sum
         let sum = 0;
         let multiplier =0
-        for (let value in countOccurrences) {
+
+       
+
+
+        
+        for (let value in countOccurrence) {
+            console.log(value , " ****************************", value)
             if (factor[value]){
-                multiplier = (countOccurrences[value] * factor[value])
+                console.log(value , " **************factor[value]**************", factor[value])
+                multiplier = (countOccurrence[value] * factor[value])
                 console.log("Value ::: of factor", multiplier)
 
+            }else {
+                multiplier =  factor[value]
             }
+            
 
 
             sum += multiplier
@@ -209,7 +224,7 @@ export default {
             case "Mild": return "warning";
             case "Moderate": return "secondary";
             case "Severe": return "danger";
-            default: return "secondary";      
+            default: return "success";      
         }
     }
 }

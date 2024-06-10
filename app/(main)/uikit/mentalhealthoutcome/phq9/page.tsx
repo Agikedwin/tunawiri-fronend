@@ -109,15 +109,19 @@ const DepressionPhq9: Page = () => {
             console.log('Severity count ', data)
             setProgressBarValue(data * multiplierFactor)
 
-            if(data * multiplierFactor >  0 && data * multiplierFactor <= 50){
+            if(data  >  0 && data   <= 4){
                 setColorCode("green")
-                setSeverity("moderate")
+                setSeverity("Low")
+                setThemeColor("success")
+            }else if(data  >  4 && data   <= 9){
+                setColorCode("yellow")
+                setSeverity("Moderate")
                 setThemeColor("info")
-            } else if(data * multiplierFactor >  50 && data * multiplierFactor < 70){
+            } else if(data >  9 && data  <= 14){
                 setColorCode("orange")
                 setSeverity("Mild")
                 setThemeColor("warning")
-            }else  if(data * multiplierFactor > 70 ){
+            }else  if(data > 14 ){
                 setColorCode("red")
                 setSeverity("Severe")
                 setThemeColor("danger")
@@ -705,7 +709,7 @@ const DepressionPhq9: Page = () => {
 
                     <div >
                     <span id="label_status">{severity}</span>
-                    <ProgressBar color={colorCode} value={Math.ceil(progressBarValue ) } style={{ height: '15px' }}></ProgressBar>
+                    <ProgressBar color={colorCode} value={Math.floor(progressBarValue) } style={{ height: '15px' }}></ProgressBar>
                     <br></br>
 
                     

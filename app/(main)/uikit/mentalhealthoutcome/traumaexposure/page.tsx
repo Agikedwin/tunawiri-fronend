@@ -98,19 +98,15 @@ const TraumaExposure: Page = () => {
             console.log('Severity count ', data)
             setProgressBarValue(data * multiplierFactor)
 
-            if (data * multiplierFactor > 0 && data * multiplierFactor <= 50) {
+            if (data <= 0 ) {
                 setColorCode("green")
-                setSeverity("moderate")
-                setThemeColor("info")
-            } else if (data * multiplierFactor > 50 && data * multiplierFactor < 70) {
-                setColorCode("orange")
-                setSeverity("Mild")
-                setThemeColor("warning")
-            } else if (data * multiplierFactor > 70) {
+                setSeverity("Low")
+                setThemeColor("success")
+            } else if(data > 0) {
                 setColorCode("red")
                 setSeverity("Severe")
                 setThemeColor("danger")
-            }
+            } 
             console.log("Color code  ====== ", data)
 
         })

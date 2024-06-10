@@ -113,25 +113,31 @@ const HarvardTrauma: Page = () => {
 
     const scores = {
         '0 days in past week': 0,
-        '1, 2, or 3 days in past week': 1,
+        '1 or 2 or 3 days in past week': 1,
         '4 or 5 days in the past week': 2,
         'Every day of past week or 6 days': 3,
     };
+
+
 
     const severityRanking = async (data: any, scores: any) => {
         await api.countOccurrences(formState.formValues, scores).then((data: any) => {
             console.log('Severity count ', data)
             setProgressBarValue(data * multiplierFactor)
 
-            if (data * multiplierFactor > 0 && data * multiplierFactor <= 50) {
+            if (data > 0 && data <= 4) {
                 setColorCode("green")
-                setSeverity("moderate")
+                setSeverity("Low")
+                setThemeColor("success")
+            } else if (data > 4 && data <= 9) {
+                setColorCode("yellow")
+                setSeverity("Moderate")
                 setThemeColor("info")
-            } else if (data * multiplierFactor > 50 && data * multiplierFactor < 70) {
+            } else if (data > 9 && data <= 14) {
                 setColorCode("orange")
                 setSeverity("Mild")
                 setThemeColor("warning")
-            } else if (data * multiplierFactor > 70) {
+            } else if (data > 14) {
                 setColorCode("red")
                 setSeverity("Severe")
                 setThemeColor("danger")
@@ -201,27 +207,30 @@ const HarvardTrauma: Page = () => {
                                 </i> </h6>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="thoughts_memories" name="thoughts_memories" value='0 days in past week'
+                                <RadioButton inputId="thoughts_memories"
+                                    name="thoughts_memories"
+                                    value='0 days in past week'
                                     checked={radioValue1 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.thoughts_memories = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="thoughts_memories" name="thoughts_memories" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="thoughts_memories" name="thoughts_memories"
+                                    value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.thoughts_memories = e.target.value
-                                        console.log(formState)
+
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue1 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue1 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="thoughts_memories" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -229,9 +238,10 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue1 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.thoughts_memories = e.target.value
-                                        console.log(formState)
+
+
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -241,9 +251,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue1 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.thoughts_memories = e.target.value
-                                        console.log(formState)
+
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -264,23 +274,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue2 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue2(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.feeling_as_though_event_happening_again = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
+
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_as_though_event_happening_again" name="feeling_as_though_event_happening_again" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_as_though_event_happening_again" name="feeling_as_though_event_happening_again" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue2(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.feeling_as_though_event_happening_again = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
+
                                     }
                                     }
-                                    checked={radioValue2 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue2 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_as_though_event_happening_again" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -288,9 +298,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue2 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue2(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.feeling_as_though_event_happening_again = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
+
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -300,9 +310,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue2 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue2(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.feeling_as_though_event_happening_again = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
+
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -323,23 +333,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue3 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue3(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.recurrent_nightmares = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
+
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="recurrent_nightmares" name="recurrent_nightmares" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="recurrent_nightmares" name="recurrent_nightmares" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue3(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.recurrent_nightmares = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
+
                                     }
                                     }
-                                    checked={radioValue3 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue3 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="recurrent_nightmares" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -347,9 +357,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue3 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue3(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.recurrent_nightmares = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -359,9 +369,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue3 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue3(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.recurrent_nightmares = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -382,23 +392,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue4 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue4(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_detached_withdrawn = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_detached_withdrawn" name="feeling_detached_withdrawn" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_detached_withdrawn" name="feeling_detached_withdrawn" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue4(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_detached_withdrawn = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue4 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue4 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_detached_withdrawn" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -406,9 +416,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue4 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue4(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_detached_withdrawn = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -418,9 +428,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue4 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue4(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_detached_withdrawn = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -441,23 +451,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue5 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue5(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.unable_to_feel_emotions = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="unable_to_feel_emotions" name="unable_to_feel_emotions" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="unable_to_feel_emotions" name="unable_to_feel_emotions" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue5(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.unable_to_feel_emotions = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue5 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue5 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="unable_to_feel_emotions" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -465,9 +475,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue5 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue5(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.unable_to_feel_emotions = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -477,9 +487,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue5 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue5(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.unable_to_feel_emotions = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -500,23 +510,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue6 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue6(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_jumpy_easily_startled = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_jumpy_easily_startled" name="feeling_jumpy_easily_startled" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_jumpy_easily_startled" name="feeling_jumpy_easily_startled" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue6(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_jumpy_easily_startled = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue6 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue6 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_jumpy_easily_startled" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -524,9 +534,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue6 === '4 or 6 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue6(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_jumpy_easily_startled = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -536,9 +546,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue6 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue6(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_jumpy_easily_startled = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -555,27 +565,28 @@ const HarvardTrauma: Page = () => {
                                 </i> </h6>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="difficulty_concentrating" name="difficulty_concentrating" value='0 days in past week'
+                                <RadioButton inputId="difficulty_concentrating" name="difficulty_concentrating"
+                                    value='0 days in past week'
                                     checked={radioValue7 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue7(e.value)
-                                        severityRanking(formState.formValues, scores)
                                         formState.formValues.difficulty_concentrating = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="difficulty_concentrating" name="difficulty_concentrating" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="difficulty_concentrating" name="difficulty_concentrating"
+                                    value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue7(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.difficulty_concentrating = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue7 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue7 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="difficulty_concentrating" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -583,9 +594,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue7 === '4 or 7 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue7(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.difficulty_concentrating = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -595,9 +606,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue7 === 'Every day of past week or 7 days'}
                                     onChange={(e) => {
                                         setRadioValue7(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.difficulty_concentrating = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -618,23 +629,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue8 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue8(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.trouble_sleeping = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="trouble_sleeping" name="trouble_sleeping" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="trouble_sleeping" name="trouble_sleeping" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue8(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.trouble_sleeping = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue8 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue8 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="trouble_sleeping" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -642,9 +653,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue8 === '4 or 8 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue8(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.trouble_sleeping = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -654,9 +665,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue8 === 'Every day of past week or 8 days'}
                                     onChange={(e) => {
                                         setRadioValue8(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.trouble_sleeping = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -677,23 +688,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue9 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue9(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_on_guard = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_on_guard" name="feeling_on_guard" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_on_guard" name="feeling_on_guard" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue9(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_on_guard = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue9 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue9 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_on_guard" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -701,9 +712,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue9 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue9(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_on_guard = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="feeling_on_guard" className="ml-2">4 or 5 days in the past week</label>
@@ -713,9 +724,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue9 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue9(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_on_guard = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="feeling_on_guard" className="ml-2">Every day of past week or 6 days</label>
@@ -736,23 +747,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue10 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue10(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_irritable_or_angry = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_irritable_or_angry" name="feeling_irritable_or_angry" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_irritable_or_angry" name="feeling_irritable_or_angry" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue10(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_irritable_or_angry = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue10 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue10 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_irritable_or_angry" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -760,9 +771,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue10 === '4 or 10 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue10(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_irritable_or_angry = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -772,9 +783,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue10 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue10(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_irritable_or_angry = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -795,23 +806,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue11 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue11(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_activities_remind_of_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue11(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_activities_remind_of_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue11 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue11 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="avoiding_activities_remind_of_event" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -819,9 +830,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue11 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue11(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_activities_remind_of_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -831,9 +842,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue11 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue11(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_activities_remind_of_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -854,23 +865,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue12 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue12(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_activities_remind_of_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue12(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_activities_remind_of_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue12 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue12 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="avoiding_activities_remind_of_event" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -878,9 +889,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue12 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue12(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_activities_remind_of_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -890,9 +901,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue12 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue12(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_activities_remind_of_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -913,23 +924,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue13 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue13(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.less_interest_in_daily_activities = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="less_interest_in_daily_activities" name="less_interest_in_daily_activities" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="less_interest_in_daily_activities" name="less_interest_in_daily_activities" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue13(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.less_interest_in_daily_activities = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue13 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue13 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="less_interest_in_daily_activities" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -937,9 +948,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue13 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue13(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.less_interest_in_daily_activities = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -949,9 +960,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue13 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue13(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.less_interest_in_daily_activities = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -972,23 +983,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue14 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue14(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_no_future = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_no_future" name="feeling_no_future" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_no_future" name="feeling_no_future" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue14(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_no_future = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue14 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue14 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_no_future" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -996,9 +1007,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue14 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue14(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_no_future = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1008,9 +1019,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue14 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue14(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_no_future = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1032,23 +1043,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue15 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue15(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.sudden_emotional_physical_reaction = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="sudden_emotional_physical_reaction" name="sudden_emotional_physical_reaction" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="sudden_emotional_physical_reaction" name="sudden_emotional_physical_reaction" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue15(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.sudden_emotional_physical_reaction = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue15 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue15 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="sudden_emotional_physical_reaction" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1056,9 +1067,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue15 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue15(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.sudden_emotional_physical_reaction = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1068,9 +1079,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue15 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue15(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.sudden_emotional_physical_reaction = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1092,23 +1103,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue16 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue16(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_thoughts_feelings_associated_with_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="avoiding_thoughts_feelings_associated_with_event" name="avoiding_thoughts_feelings_associated_with_event" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="avoiding_thoughts_feelings_associated_with_event" name="avoiding_thoughts_feelings_associated_with_event" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue16(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_thoughts_feelings_associated_with_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue16 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue16 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="avoiding_thoughts_feelings_associated_with_event" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1116,9 +1127,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue16 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue16(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_thoughts_feelings_associated_with_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1128,9 +1139,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue16 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue16(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.avoiding_thoughts_feelings_associated_with_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1152,23 +1163,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue17 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue17(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_world_is_dangerous_place = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_world_is_dangerous_place" name="feeling_world_is_dangerous_place" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_world_is_dangerous_place" name="feeling_world_is_dangerous_place" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue17(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_world_is_dangerous_place = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue17 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue17 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_world_is_dangerous_place" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1176,9 +1187,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue17 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue17(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_world_is_dangerous_place = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1188,9 +1199,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue17 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue17(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_world_is_dangerous_place = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1212,23 +1223,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue18 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue18(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_you_are_bad_person = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_you_are_bad_person" name="feeling_you_are_bad_person" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_you_are_bad_person" name="feeling_you_are_bad_person" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue18(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_you_are_bad_person = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue18 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue18 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_you_are_bad_person" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1236,9 +1247,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue18 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue18(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_you_are_bad_person = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1248,9 +1259,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue18 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue18(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_you_are_bad_person = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1271,23 +1282,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue19 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue19(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.blaming_yourself_for_traumatic_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="blaming_yourself_for_traumatic_event" name="blaming_yourself_for_traumatic_event" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="blaming_yourself_for_traumatic_event" name="blaming_yourself_for_traumatic_event" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue19(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.blaming_yourself_for_traumatic_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue19 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue19 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="blaming_yourself_for_traumatic_event" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1295,9 +1306,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue19 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue19(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.blaming_yourself_for_traumatic_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1307,9 +1318,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue19 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue19(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.blaming_yourself_for_traumatic_event = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1330,23 +1341,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue20 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue20(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.strong_feeling_of_fear_horror_anger_guilt_shame = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="strong_feeling_of_fear_horror_anger_guilt_shame" name="strong_feeling_of_fear_horror_anger_guilt_shame" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="strong_feeling_of_fear_horror_anger_guilt_shame" name="strong_feeling_of_fear_horror_anger_guilt_shame" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue20(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.strong_feeling_of_fear_horror_anger_guilt_shame = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue20 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue20 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="strong_feeling_of_fear_horror_anger_guilt_shame" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1354,9 +1365,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue20 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue20(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.strong_feeling_of_fear_horror_anger_guilt_shame = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1366,9 +1377,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue20 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue20(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.strong_feeling_of_fear_horror_anger_guilt_shame = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1389,23 +1400,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue21 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue21(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.difficulty_feeling_love_or_happiness = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="difficulty_feeling_love_or_happiness" name="difficulty_feeling_love_or_happiness" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="difficulty_feeling_love_or_happiness" name="difficulty_feeling_love_or_happiness" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue21(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.difficulty_feeling_love_or_happiness = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue21 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue21 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="difficulty_feeling_love_or_happiness" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1413,9 +1424,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue21 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue21(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.difficulty_feeling_love_or_happiness = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1425,9 +1436,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue21 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue21(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.difficulty_feeling_love_or_happiness = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1448,23 +1459,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue22 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue22(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.taking_risks_that_may_harm_yourself_or_others = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="taking_risks_that_may_harm_yourself_or_others" name="taking_risks_that_may_harm_yourself_or_others" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="taking_risks_that_may_harm_yourself_or_others" name="taking_risks_that_may_harm_yourself_or_others" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue22(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.taking_risks_that_may_harm_yourself_or_others = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue22 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue22 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="taking_risks_that_may_harm_yourself_or_others" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1472,9 +1483,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue22 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue22(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.taking_risks_that_may_harm_yourself_or_others = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1484,9 +1495,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue22 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue22(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.taking_risks_that_may_harm_yourself_or_others = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1507,23 +1518,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue23 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue23(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_damaged_by_traumatic_vent = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_damaged_by_traumatic_vent" name="feeling_damaged_by_traumatic_vent" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_damaged_by_traumatic_vent" name="feeling_damaged_by_traumatic_vent" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue23(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_damaged_by_traumatic_vent = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue23 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue23 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_damaged_by_traumatic_vent" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1531,9 +1542,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue23 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue23(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_damaged_by_traumatic_vent = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1543,9 +1554,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue23 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue23(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_damaged_by_traumatic_vent = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1566,23 +1577,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue24 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue24(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_something_reminds_you_of_trauma_like_a_dream = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_something_reminds_you_of_trauma_like_a_dream" name="feeling_something_reminds_you_of_trauma_like_a_dream" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_something_reminds_you_of_trauma_like_a_dream" name="feeling_something_reminds_you_of_trauma_like_a_dream" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue24(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_something_reminds_you_of_trauma_like_a_dream = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue24 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue24 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_something_reminds_you_of_trauma_like_a_dream" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1590,9 +1601,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue24 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue24(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_something_reminds_you_of_trauma_like_a_dream = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1602,9 +1613,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue24 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue24(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_something_reminds_you_of_trauma_like_a_dream = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
@@ -1625,23 +1636,23 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue25 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue25(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_people_or_objects_around_you_are_strange_or_not_real = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">0 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_people_or_objects_around_you_are_strange_or_not_real" name="feeling_people_or_objects_around_you_are_strange_or_not_real" value="1, 2, or 3 days in past week"
+                                <RadioButton inputId="feeling_people_or_objects_around_you_are_strange_or_not_real" name="feeling_people_or_objects_around_you_are_strange_or_not_real" value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue25(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_people_or_objects_around_you_are_strange_or_not_real = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     }
-                                    checked={radioValue25 === '1, 2, or 3 days in past week'} />
+                                    checked={radioValue25 === "1 or 2 or 3 days in past week"} />
                                 <label htmlFor="feeling_people_or_objects_around_you_are_strange_or_not_real" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
@@ -1649,9 +1660,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue25 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue25(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_people_or_objects_around_you_are_strange_or_not_real = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
@@ -1661,9 +1672,9 @@ const HarvardTrauma: Page = () => {
                                     checked={radioValue25 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue25(e.value)
-                                        severityRanking(formState.formValues, scores)
+
                                         formState.formValues.feeling_people_or_objects_around_you_are_strange_or_not_real = e.target.value
-                                        console.log(formState)
+                                        severityRanking(formState.formValues, scores)
                                     }
                                     } />
                                 <label htmlFor="ingredient1" className="ml-2">Every day of past week or 6 days</label>
