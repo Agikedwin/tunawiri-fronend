@@ -101,12 +101,12 @@ const TraumaExposure: Page = () => {
             if (data <= 0 ) {
                 setColorCode("green")
                 setSeverity("Low")
-                setThemeColor("success")
+                setThemeColor("lightgreen")
             } else if(data > 0) {
                 setColorCode("red")
                 setSeverity("Severe")
-                setThemeColor("danger")
-            } 
+                setThemeColor("red")
+            }
             console.log("Color code  ====== ", data)
 
         })

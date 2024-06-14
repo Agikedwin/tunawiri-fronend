@@ -93,22 +93,24 @@ const SuicidalityScreener: Page = () => {
             if (data * multiplierFactor > 0 && data * multiplierFactor <= 50) {
                 setColorCode("green")
                 setSeverity("moderate")
-                setThemeColor("info")
+                setThemeColor("lightgreen")
             } else if (data * multiplierFactor > 50 && data * multiplierFactor < 70) {
                 setColorCode("orange")
                 setSeverity("Mild")
-                setThemeColor("warning")
+                setThemeColor("orange")
             } else if (data * multiplierFactor > 70) {
                 setColorCode("red")
                 setSeverity("Severe")
-                setThemeColor("danger")
+                setThemeColor("red")
             }
             console.log("Color code  ====== ", data)
 
         })
 
     }
-    
+
+
+
 
     const handleChange = () => {
 

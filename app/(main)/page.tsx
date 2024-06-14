@@ -144,7 +144,7 @@ const Dashboard = () => {
         }
     }, [layoutConfig.colorScheme]);
 
-    
+
 
     const fetchDashboard = async() =>{
         await api.getEntries("dashboard",3).then((data:any) => {
@@ -154,59 +154,86 @@ const Dashboard = () => {
             setHarvardDash(data[0][2].harvard[0])
             setSuicidalDash(data[0][3].suicidal[0])
             setTraumaDash(data[0][4].trauma[0])
-            
-            
+
+
         })
 
     }
     return (
         <div className="grid">
-            <div className="col-12 lg:col-6 xl:col-4">
+            <div className="col-12 lg:col-6 xl:col-3">
                 <div className="card mb-0" style={{ backgroundColor: 'lightgreen' }}>
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Moderate Count</span>
                             <div className="text-900 font-medium text-xl">
-                                {phq9Dash.moderate + gad7Dash.moderate + harvardDash.moderate + traumaDash.moderate + suicidalDash.moderate} 
+                                {phq9Dash.moderate + gad7Dash.moderate + harvardDash.moderate + traumaDash.moderate + suicidalDash.moderate}
                             </div>
                         </div>
-                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <span role="img" aria-label="woman" style={{ fontSize: '24px' }}>&#128105;&#127996;&#8205;&#9792;&#65039;</span>
+                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                             style={{ width: '2.5rem', height: '2.5rem' }}>
+                            <span role="img" aria-label="woman"
+                                  style={{ fontSize: '24px' }}>&#128105;&#127996;&#8205;&#9792;&#65039;</span>
                         </div>
                     </div>
                     {/* <span className="text-green-500 font-medium">24 new </span>
                     <span className="text-500">since last visit</span> */}
                 </div>
             </div>
-            
-            <div className="col-12 lg:col-6 xl:col-4">
+
+
+            <div className="col-12 lg:col-6 xl:col-3">
                 <div className="card mb-0" style={{ backgroundColor: 'orange' }}>
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Mild Count</span>
                             <div className="text-900 font-medium text-xl">
-                            {phq9Dash.Mild + gad7Dash.Mild + harvardDash.Mild + traumaDash.Mild + suicidalDash.Mild}
+                                {phq9Dash.Mild + gad7Dash.Mild + harvardDash.Mild + traumaDash.Mild + suicidalDash.Mild}
                             </div>
                         </div>
-                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <span role="img" aria-label="woman" style={{ fontSize: '24px' }}>&#128105;&#127996;&#8205;&#9792;&#65039;</span>
+                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                             style={{ width: '2.5rem', height: '2.5rem' }}>
+                            <span role="img" aria-label="woman"
+                                  style={{ fontSize: '24px' }}>&#128105;&#127996;&#8205;&#9792;&#65039;</span>
                         </div>
                     </div>
                     {/* <span className="text-green-500 font-medium">20 </span>
                     <span className="text-500">since last week</span> */}
                 </div>
             </div>
-            <div className="col-12 lg:col-6 xl:col-4">
+
+            <div className="col-12 lg:col-6 xl:col-3">
+                <div className="card mb-0" style={{ backgroundColor: 'yellow' }}>
+                    <div className="flex justify-content-between mb-3">
+                        <div>
+                            <span className="block text-500 font-medium mb-3">Mild Count</span>
+                            <div className="text-900 font-medium text-xl">
+                                {phq9Dash.Mild + gad7Dash.Mild + harvardDash.Mild + traumaDash.Mild + suicidalDash.Mild}
+                            </div>
+                        </div>
+                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                             style={{ width: '2.5rem', height: '2.5rem' }}>
+                            <span role="img" aria-label="woman"
+                                  style={{ fontSize: '24px' }}>&#128105;&#127996;&#8205;&#9792;&#65039;</span>
+                        </div>
+                    </div>
+                    {/* <span className="text-green-500 font-medium">20 </span>
+                    <span className="text-500">since last week</span> */}
+                </div>
+            </div>
+            <div className="col-12 lg:col-6 xl:col-3">
                 <div className="card mb-0" style={{ backgroundColor: 'red' }}>
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Severe Count</span>
                             <div className="text-900 font-medium text-xl">
-                            {phq9Dash.Severe + gad7Dash.Severe + harvardDash.Severe + traumaDash.Severe + suicidalDash.Severe}
+                                {phq9Dash.Severe + gad7Dash.Severe + harvardDash.Severe + traumaDash.Severe + suicidalDash.Severe}
                             </div>
                         </div>
-                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <span role="img" aria-label="woman" style={{ fontSize: '24px' }}>&#128105;&#127996;&#8205;&#9792;&#65039;</span>
+                        <div className="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                             style={{ width: '2.5rem', height: '2.5rem' }}>
+                            <span role="img" aria-label="woman"
+                                  style={{ fontSize: '24px' }}>&#128105;&#127996;&#8205;&#9792;&#65039;</span>
                         </div>
                     </div>
                     {/* <span className="text-green-500 font-medium">5 </span>
@@ -215,12 +242,13 @@ const Dashboard = () => {
             </div>
 
             <div className="col-12 xl:col-12">
-               
+
                 <div className="card">
                     <div className="flex justify-content-between align-items-center mb-5">
                         <h5>Mental Health Outcome</h5>
                         <div>
-                            <Button type="button" icon="pi pi-ellipsis-v" rounded text className="p-button-plain" onClick={(event) => menu1.current?.toggle(event)} />
+                            <Button type="button" icon="pi pi-ellipsis-v" rounded text className="p-button-plain"
+                                    onClick={(event) => menu1.current?.toggle(event)} />
                             <Menu
                                 ref={menu1}
                                 popup
@@ -238,7 +266,8 @@ const Dashboard = () => {
                             </div>
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Count</span>
-                                <span className="mt-1 text-600">{phq9Dash.moderate + phq9Dash.Mild + phq9Dash.Severe}</span>
+                                <span
+                                    className="mt-1 text-600">{phq9Dash.moderate + phq9Dash.Mild + phq9Dash.Severe}</span>
                             </div>
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
@@ -253,16 +282,17 @@ const Dashboard = () => {
                                 <span className="mt-1 text-600">{phq9Dash.Severe}</span>
                             </div>
 
-                          
+
                             <div className="mt-2 md:mt-0 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                                     style={{ height: '8px' }}>
                                     <div className="bg-red-500 h-full" style={{ width: '50%' }} />
                                 </div>
                                 <span className="text-red-500 ml-3 font-medium">%50</span>
                             </div>
                         </li>
 
-                        
+
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-1">
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0" style={{ width: '20%' }}>Anxiety Gad 7 Scale</span>
@@ -270,29 +300,31 @@ const Dashboard = () => {
 
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Count</span>
-                                <span className="mt-1 text-600">{gad7Dash.moderate + gad7Dash.Mild + gad7Dash.Severe}</span>
+                                <span
+                                    className="mt-1 text-600">{gad7Dash.moderate + gad7Dash.Mild + gad7Dash.Severe}</span>
                             </div>
 
-                            
+
                             <div>
-                            <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
                                 <span className="mt-1 text-600">{gad7Dash.moderate}</span>
-                                
+
                             </div>
                             <div>
-                                
+
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Mild</span>
                                 <span className="mt-1 text-600">{gad7Dash.Mild}</span>
                             </div>
                             <div>
-                                
+
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Severe</span>
                                 <span className="mt-1 text-600">{gad7Dash.Severe}</span>
                             </div>
 
-                            
+
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                                     style={{ height: '8px' }}>
                                     <div className="bg-orange-500 h-full" style={{ width: '16%' }} />
                                 </div>
                                 <span className="text-orange-500 ml-3 font-medium">%16</span>
@@ -304,7 +336,8 @@ const Dashboard = () => {
                             </div>
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Count</span>
-                                <span className="mt-1 text-600">{traumaDash.moderate + traumaDash.Mild + traumaDash.Severe}</span>
+                                <span
+                                    className="mt-1 text-600">{traumaDash.moderate + traumaDash.Mild + traumaDash.Severe}</span>
                             </div>
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
@@ -319,7 +352,8 @@ const Dashboard = () => {
                                 <span className="mt-1 text-600">{traumaDash.Severe}</span>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                                     style={{ height: '8px' }}>
                                     <div className="bg-yellow-500 h-full" style={{ width: '35%' }} />
                                 </div>
                                 <span className="text-yellow-500 ml-3 font-medium">%67</span>
@@ -332,7 +366,8 @@ const Dashboard = () => {
 
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Count</span>
-                                <span className="mt-1 text-600">{traumaDash.moderate + traumaDash.Mild + traumaDash.Severe}</span>
+                                <span
+                                    className="mt-1 text-600">{traumaDash.moderate + traumaDash.Mild + traumaDash.Severe}</span>
                             </div>
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
@@ -347,7 +382,8 @@ const Dashboard = () => {
                                 <span className="mt-1 text-600">{traumaDash.Severe}</span>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                                     style={{ height: '8px' }}>
                                     <div className="bg-green-500 h-full" style={{ width: '35%' }} />
                                 </div>
                                 <span className="text-green-500 ml-3 font-medium">%35</span>
@@ -360,7 +396,8 @@ const Dashboard = () => {
                             </div>
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Count</span>
-                                <span className="mt-1 text-600">{suicidalDash.moderate + suicidalDash.Mild + suicidalDash.Severe}</span>
+                                <span
+                                    className="mt-1 text-600">{suicidalDash.moderate + suicidalDash.Mild + suicidalDash.Severe}</span>
                             </div>
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
@@ -375,19 +412,20 @@ const Dashboard = () => {
                                 <span className="mt-1 text-600">{suicidalDash.Severe}</span>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: '8px' }}>
+                                <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                                     style={{ height: '8px' }}>
                                     <div className="bg-green-500 h-full" style={{ width: '35%' }} />
                                 </div>
                                 <span className="text-green-500 ml-3 font-medium">%35</span>
                             </div>
                         </li>
-                       
-                       
+
+
                     </ul>
                 </div>
             </div>
 
-            
+
         </div>
     );
 };

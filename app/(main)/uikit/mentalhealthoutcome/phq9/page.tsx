@@ -73,7 +73,7 @@ const DepressionPhq9: Page = () => {
             life: 4000
         });
 
-        
+
     };
 
 
@@ -87,7 +87,7 @@ const DepressionPhq9: Page = () => {
         'Nearly every day': 3
     };
 
-     
+
 
 
     useEffect(() => {
@@ -102,7 +102,7 @@ const DepressionPhq9: Page = () => {
 
     const multiplierFactor = (100/27)
 
-   
+
 
     const severityRanking = async (data:any, scores:any) => {
         await api.countOccurrences(formState.formValues, scores).then((data:any) =>{
@@ -112,19 +112,19 @@ const DepressionPhq9: Page = () => {
             if(data  >  0 && data   <= 4){
                 setColorCode("green")
                 setSeverity("Low")
-                setThemeColor("success")
+                setThemeColor("lightgreen")
             }else if(data  >  4 && data   <= 9){
                 setColorCode("yellow")
                 setSeverity("Moderate")
-                setThemeColor("info")
+                setThemeColor("yellow")
             } else if(data >  9 && data  <= 14){
                 setColorCode("orange")
                 setSeverity("Mild")
-                setThemeColor("warning")
+                setThemeColor("orange")
             }else  if(data > 14 ){
                 setColorCode("red")
                 setSeverity("Severe")
-                setThemeColor("danger")
+                setThemeColor("red")
             }
             console.log("Color code  ====== ",data)
 
@@ -143,7 +143,7 @@ const DepressionPhq9: Page = () => {
         event.preventDefault();
 
         event.preventDefault();
-        
+
 
         formState.formValues.user_id = selectedUserId
         formState.formValues.phq9_score = Math.ceil((progressBarValue / 3.7))
@@ -156,7 +156,7 @@ const DepressionPhq9: Page = () => {
                 setTimeout(() => {
 
                     console.log("saving data ---")
-                   
+
                     router.push('/uikit/users/profile/')
               }, 3000);
             })
@@ -175,15 +175,15 @@ const DepressionPhq9: Page = () => {
 
     return (
         <div>
-             <Toast ref={toast} />     
+             <Toast ref={toast} />
 
             <div className="card ">
                 <form onSubmit={saveDepressionPhq9} >
                     <h5>Depression PHQ-9 questionnaire </h5>
                     <p>Now I am asking you some of the problems that may have experienced in the past TWO weeks. Please tell me how often you have been bothered by the following problems.</p>
-                   
+
                     <div className="card">
-                   
+
 
                         <div className="flex flex-wrap gap-3">
                             <div className="flex align-items-center">
@@ -192,7 +192,7 @@ const DepressionPhq9: Page = () => {
                                 </i> </h6>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="interest_pleasure" name="interest_pleasure" value='Not at all' 
+                                <RadioButton inputId="interest_pleasure" name="interest_pleasure" value='Not at all'
                                     checked={radioValue1 === 'Not at all'}
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
@@ -204,7 +204,7 @@ const DepressionPhq9: Page = () => {
                                 <label htmlFor="ingredient1" className="ml-2">Not at all</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="interest_pleasure" name="interest_pleasure" value="Several days" 
+                                <RadioButton inputId="interest_pleasure" name="interest_pleasure" value="Several days"
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
                                         formState.formValues.interest_pleasure = e.target.value
@@ -216,7 +216,7 @@ const DepressionPhq9: Page = () => {
                                 <label htmlFor="interest_pleasure" className="ml-2">Several days</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="interest_pleasure" name="interest_pleasure" value="More than half the days" 
+                                <RadioButton inputId="interest_pleasure" name="interest_pleasure" value="More than half the days"
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
                                         formState.formValues.interest_pleasure = e.target.value
@@ -228,7 +228,7 @@ const DepressionPhq9: Page = () => {
                                 <label htmlFor="interest_pleasure" className="ml-2">More than half the days</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="interest_pleasure" name="interest_pleasure" value="Nearly every day" 
+                                <RadioButton inputId="interest_pleasure" name="interest_pleasure" value="Nearly every day"
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
                                         formState.formValues.interest_pleasure = e.target.value
@@ -250,7 +250,7 @@ const DepressionPhq9: Page = () => {
                                 <h6><i>2. Feeling down, depressed, or hopeless?</i></h6>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_depressed" name="feeling_depressed" value='Not at all' 
+                                <RadioButton inputId="feeling_depressed" name="feeling_depressed" value='Not at all'
                                     checked={radioValue2 === 'Not at all'}
                                     onChange={(e) => {
                                         setRadioValue2(e.value);
@@ -262,7 +262,7 @@ const DepressionPhq9: Page = () => {
                                 <label htmlFor="feeling_depressed" className="ml-2">Not at all</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_depressed" name="feeling_depressed" value="Several days" 
+                                <RadioButton inputId="feeling_depressed" name="feeling_depressed" value="Several days"
                                     onChange={(e) => {
                                         setRadioValue2(e.value);
                                         formState.formValues.feeling_depressed = e.target.value;
@@ -274,7 +274,7 @@ const DepressionPhq9: Page = () => {
                                 <label htmlFor="feeling_depressed" className="ml-2">Several days</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_depressed" name="feeling_depressed" value="More than half the days" 
+                                <RadioButton inputId="feeling_depressed" name="feeling_depressed" value="More than half the days"
                                     onChange={(e) => {
                                         setRadioValue2(e.value);
                                         formState.formValues.feeling_depressed = e.target.value;
@@ -286,7 +286,7 @@ const DepressionPhq9: Page = () => {
                                 <label htmlFor="feeling_depressed" className="ml-2">More than half the days</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_depressed" name="feeling_depressed" value="Nearly every day" 
+                                <RadioButton inputId="feeling_depressed" name="feeling_depressed" value="Nearly every day"
                                     onChange={(e) => {
                                         setRadioValue2(e.value);
                                         formState.formValues.feeling_depressed = e.target.value;
@@ -712,10 +712,10 @@ const DepressionPhq9: Page = () => {
                     <ProgressBar color={colorCode} value={Math.floor(progressBarValue) } style={{ height: '15px' }}></ProgressBar>
                     <br></br>
 
-                    
+
                     </div>
 
-                   
+
                     <div className="grid">
                     <Button label="Save" icon="pi pi-save" type="submit"  outlined/>
                     </div>

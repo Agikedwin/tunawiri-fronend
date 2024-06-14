@@ -39,9 +39,9 @@ const UserEntryForms = () => {
         },
 
         {
-            name: "Health Utilization ",
-            count: 2,
-            link: "/clinical",
+            name: "Health Utilization",
+            count: 4,
+            link: "/uikit/healthutilization/view/",
             updated: "2024-05-08"
         },
 
@@ -61,15 +61,14 @@ const UserEntryForms = () => {
                 <Column field="count" header="Number of entries"></Column>
                 <Column field="link" header="Redirect link"></Column>
                 <Column field="updated" header="Last Updated"></Column>
-
                 <Column
                             header="Entry"
                             style={{ width: '5%' }}
                             body={(rowData) => (
-                                
+
                                     <Button icon="pi pi-eye" text onClick={() => {onSelectedIntervention(rowData)}} outlined/>
-                            )}                            
-                            
+                            )}
+
                         />
             </DataTable>
         </>

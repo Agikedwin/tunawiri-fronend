@@ -128,19 +128,19 @@ const HarvardTrauma: Page = () => {
             if (data > 0 && data <= 4) {
                 setColorCode("green")
                 setSeverity("Low")
-                setThemeColor("success")
+                setThemeColor("lightgreen")
             } else if (data > 4 && data <= 9) {
                 setColorCode("yellow")
                 setSeverity("Moderate")
-                setThemeColor("info")
+                setThemeColor("yellow")
             } else if (data > 9 && data <= 14) {
                 setColorCode("orange")
                 setSeverity("Mild")
-                setThemeColor("warning")
+                setThemeColor("orange")
             } else if (data > 14) {
                 setColorCode("red")
                 setSeverity("Severe")
-                setThemeColor("danger")
+                setThemeColor("red")
             }
             console.log("Color code  ====== ", data)
 

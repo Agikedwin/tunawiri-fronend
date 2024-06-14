@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const urlAuth ='http://41.89.200.201:8050/'; 
+const urlAuth ='http://41.89.200.201:8050/';
 //const urlAuth = 'http://0.0.0.0:8050/';
 //const urlSms = 'http://localhost:8050/';
 
@@ -165,7 +165,7 @@ export default {
     async countOccurrences(data: any, factor:any) {
 
         console.log(data)
-       
+
         let countOccurrence = []
 
         // Iterate over the object properties
@@ -173,7 +173,7 @@ export default {
             // Get the value of the current property
             const value = data[key];
             //console.log( key, " UUP****************************UUUp", value)
-           
+
 
             // If the value is not in the countOccurrences object, initialize its count to 1
             if (!countOccurrence[value] && value !=="") {
@@ -182,8 +182,8 @@ export default {
                     countOccurrence[value] = 1;
 
                 }
-                
-                
+
+
             } else  if(value!==""){
                 // If the value is already in the countOccurrences object, increment its count
                 countOccurrence[value]++;
@@ -194,10 +194,10 @@ export default {
         let sum = 0;
         let multiplier =0
 
-       
 
 
-        
+
+
         for (let value in countOccurrence) {
             console.log(value , " ****************************", value)
             if (factor[value]){
@@ -208,7 +208,7 @@ export default {
             }else {
                 multiplier =  factor[value]
             }
-            
+
 
 
             sum += multiplier
@@ -220,11 +220,11 @@ export default {
     },
 
     async colorScheme(scheme:any){
-        switch(scheme){   
+        switch(scheme){
             case "Mild": return "warning";
             case "Moderate": return "secondary";
             case "Severe": return "danger";
-            default: return "success";      
+            default: return "success";
         }
     }
 }

@@ -1,16 +1,19 @@
 "use client"
 import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from 'react';
 import { Button } from "primereact/button";
 
-
-
+import api from "@/app/api/api";
+import { useRouter } from 'next/navigation';
+import { Toast } from 'primereact/toast';
 
 import type { Demo, Page } from "@/types";
 
 
 const Tunawiriintervention: Page = () => {
+    const toast = useRef<Toast>(null);
+    const router = useRouter();
     const [checkboxValue, setCheckboxValue] = useState<string[]>([]);
     const [radioValue1, setRadioValue1] = useState(null);
     const [radioValue2, setRadioValue2] = useState(null);
@@ -30,12 +33,22 @@ const Tunawiriintervention: Page = () => {
     const [radioValue16, setRadioValue16] = useState(null);
     const [radioValue17, setRadioValue17] = useState(null);
 
+    const  [selectedUserId, setSelectedUserId] = useState("")
+
+    const showSuccess = () => {
+        toast.current?.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Message Detail',
+            life: 4000
+        });
+    };
+
 
 
 
     const [formState, setFormState] = useState({
         isValid: false,
-
         touched: {},
         errors: {},
         formValues: {
@@ -46,11 +59,11 @@ const Tunawiriintervention: Page = () => {
             average_meeting_length: "", // Will be a number
             still_involved: "", // Will be set to either "Yes" or "No"
             program_helpfulness: "", // Will be set to one of the options
-            study_id:"",
+            user_id:"",
         }
     });
 
-   
+
     const handleChange = (e: { target: { name: any; value: any; }; }) => {
         const { name, value } = e.target;
         setFormState(prevState => ({
@@ -64,14 +77,39 @@ const Tunawiriintervention: Page = () => {
     function session_leader(arg0: string): void {
         throw new Error("Function not implemented.");
     }
-    const saveTunawiriintervention = (event: { preventDefault: () => void; }) => {
+    const saveTunawiriintervention = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
+        formState.formValues.user_id = selectedUserId
         console.log(formState.formValues);
-    }
 
+        try {
+            await  api.addEntry('interventions',formState.formValues,3).then((data:any) =>{
+                console.log("data save")
+                showSuccess();
+                setTimeout(() => {
+
+                    console.log("saving data ---")
+
+                    router.push('/uikit/users/profile/')
+                }, 3000);
+            })
+
+        }catch (e){
+            console.log(e)
+        }
+
+
+    }
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+        let { _id } = localData
+        setSelectedUserId(_id)
+
+    }, []);
     return (
         <div>
             <div className="card ">
+                <Toast ref={toast} />
                 <form onSubmit={saveTunawiriintervention} >
                     <h5>Tunawiri Intervention</h5>
                     <p>PM+ sessions</p>
@@ -105,8 +143,8 @@ const Tunawiriintervention: Page = () => {
                                 checked={radioValue1 === 'Several days'} />
                             <label htmlFor="involved_in_tunawiri" className="ml-2">Several days</label>
                         </div>
-                        
-                        
+
+
                     </div>
                     </div>
                     <br></br>
@@ -253,7 +291,7 @@ const Tunawiriintervention: Page = () => {
                                 />
                                 <label htmlFor="No">No</label>
                                 <br />
-                                
+
                             </div>
                         </div>
                     </div>
