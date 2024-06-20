@@ -30,16 +30,14 @@ const LoginPage = () => {
         }
        
         await api.addEntry('login',login,3).then((data:any) => {
-            console.log('login data ')
-            console.log(data.data.token)
+            console.log(login)
 
-            if (data.data.token !== 'null' && data.data.message === 'success'){
-                localStorage.setItem('tunawiriTokenKey', data.data.token); 
-                console.log('login succeeded ')               
-                router.push('/uikit/dashboard');
+            if (data.data.status === 'ok'){
+                //localStorage.setItem('cqiTokenKey', data.data.token);                
+               //router.push('/uikit/dashboard');
             }
             else {
-                console.log('login failed ')
+                console.log(data.data)
 
             }
 
@@ -61,7 +59,7 @@ const LoginPage = () => {
                     <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
                         <div className="text-center mb-5">
                             <img src="/demo/images/login/avatar.png" alt="Image" height="50" className="mb-3" />
-                            <div className="text-900 text-3xl font-medium mb-3">Welcome Tunawiri App</div>
+                            <div className="text-900 text-3xl font-medium mb-3">Welcome to Coptic CQI App</div>
                             <span className="text-600 font-medium">Sign in to continue</span>
                         </div>
                         <form >

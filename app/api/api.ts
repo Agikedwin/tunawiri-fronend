@@ -22,7 +22,6 @@ let headers = {
 export default {
 
     async filterUrl(urlid: any) {
-        console.log("================", urlid)
 
         switch (urlid) {
             case 3:
