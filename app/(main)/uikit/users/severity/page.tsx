@@ -25,7 +25,7 @@ interface userValues {
 }
 
 
-const UserSeverity = (props) => {
+const UserSeverity = (props: any) => {
 
     const toast = useRef<Toast>(null);
     const router = useRouter();
