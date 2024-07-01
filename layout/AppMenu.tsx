@@ -18,7 +18,7 @@ const AppMenu = () => {
         {
             label: 'Tunawiri Study',
             items: [
-                { label: 'Users', icon: 'pi pi-fw pi-user', to: '/uikit/users/view' },
+                { label: 'Participants', icon: 'pi pi-fw pi-user', to: '/uikit/users/view' },
 
                /*  { label: 'Add New User', icon: 'pi pi-fw pi-check-square', to: '/uikit/users' },
                 { label: 'Profile', icon: 'pi pi-fw pi-check-square', to: '/uikit/users/profile' },

@@ -8,6 +8,8 @@ import { NodeService } from '../../../../../demo/service/NodeService';
 import { TreeNode } from 'primereact/treenode';
 import { useRouter } from 'next/navigation';
 
+import GloabalUserProfile from '../globalprofile/page';
+
 const userProfile = () =>{
     const router = useRouter();
 
@@ -15,6 +17,7 @@ const userProfile = () =>{
     const [files2, setFiles2] = useState<TreeNode[]>([]);
     const [selectedFileKeys, setSelectedFileKeys] = useState<string | TreeMultipleSelectionKeys | TreeCheckboxSelectionKeys | null>(null);
     const [selectedFileKeys2, setSelectedFileKeys2] = useState<TreeTableSelectionKeysType | null>(null);
+    const [selectedUser, setSelectedUser] = useState({mch_number:"", first_name: "", other_names: ""})
 
     useEffect(() => {
         NodeService.getFiles().then((files) => setFiles(files));
@@ -26,12 +29,19 @@ const userProfile = () =>{
         router.push(e.data.type)
     }
 
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+        setSelectedUser(localData)
+        console.log(" The selected user :: ", localData.mch_number)
+
+    }, []);
+
     return (
         <div className="grid">
            
             <div className="col-12">
-                <div className="card">
-                    <h5>Data Entry Forms</h5>
+                <span><GloabalUserProfile  user={selectedUser}/></span>
+                <div className="card">                    
                     <TreeTable value={files2} selectionMode="checkbox" selectionKeys={selectedFileKeys2} 
                     onSelect={(e) => onSelectionTree(e.node)} >
                         <Column field="name" header="Form Name" expander />

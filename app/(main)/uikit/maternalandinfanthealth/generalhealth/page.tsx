@@ -8,6 +8,7 @@ import api from "@/app/api/api";
 
 import { Toast } from "primereact/toast";
 import { useRouter } from 'next/navigation';
+import GloabalUserProfile from "../../users/globalprofile/page";
 
 
 
@@ -31,6 +32,7 @@ const Generalhealth: Page = () => {
     const [radioValue7, setRadioValue7] = useState(null);
 
     const [selectedUserId, setSelectedUserId] = useState("")
+    const [selectedUser, setSelectedUser] =useState({first_name:"", other_names: "", mch_number: ""})
 
     const showSuccess = () => {
         toast.current?.show({
@@ -100,8 +102,17 @@ const Generalhealth: Page = () => {
         console.log(formState.formValues)
 
     }
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+        setSelectedUser(localData)
+        console.log(" The selected user :: ", localData.mch_number)
+
+    }, []);
 
     return (
+        <>
+        <hr></hr>
+        <GloabalUserProfile user={selectedUser} />
         <div>
              <Toast ref={toast} />  
             <div className="card">
@@ -144,6 +155,7 @@ const Generalhealth: Page = () => {
                 </form>
             </div>
         </div>
+        </>
 
 
     )

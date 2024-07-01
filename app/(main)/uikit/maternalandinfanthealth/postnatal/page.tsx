@@ -9,6 +9,7 @@ import api from "@/app/api/api";
 
 import { Toast } from "primereact/toast";
 import { useRouter } from 'next/navigation';
+import GloabalUserProfile from "../../users/globalprofile/page";
 
 
 
@@ -40,6 +41,7 @@ const Postnatal: Page = () => {
     const [radioValue17, setRadioValue17] = useState(null);
 
     const [selectedUserId, setSelectedUserId] = useState("")
+    const [selectedUser, setSelectedUser] =useState({first_name:"", other_names: "", mch_number: ""})
 
     const showSuccess = () => {
         toast.current?.show({
@@ -121,11 +123,20 @@ useEffect(()=>{
         setSelectedUserId(_id)
 
 })
+useEffect(() => {
+    let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+    setSelectedUser(localData)
+    console.log(" The selected user :: ", localData.mch_number)
+
+}, []);
     function handlePlaceOfBirthChange(arg0: string): void {
         throw new Error("Function not implemented.");
     }
 
         return (
+            <>
+            <hr></hr>
+        <GloabalUserProfile user={selectedUser} />
             <div>
                 <Toast ref={toast} />       
                 <div className="card">
@@ -316,6 +327,7 @@ useEffect(()=>{
                     </form>
                 </div>
             </div>
+            </>
 
         )
     }

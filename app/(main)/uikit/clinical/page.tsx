@@ -33,6 +33,7 @@ import { useEffect, useRef, useState } from "react";
 import { CountryService } from "../../../../demo/service/CountryService";
 import { Toast } from "primereact/toast";
 import { useRouter } from 'next/navigation';
+import GloabalUserProfile from "../users/globalprofile/page";
 
 
 
@@ -98,6 +99,7 @@ const ClinicalDetails: Page = () => {
     const [showVLInput, setShowVLInput] = useState(false)
 
     const [selectedUserId, setSelectedUserId] = useState("")
+    const [selectedUser, setSelectedUser] =useState({first_name:"", other_names: "", mch_number: ""})
 
     const [formState, setFormState] = useState({
         isValid: false,
@@ -231,11 +233,22 @@ const ClinicalDetails: Page = () => {
         console.log(vlRadioValue)
 
     }
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+        setSelectedUser(localData)
+        console.log(" The selected user :: ", localData.mch_number)
+
+    }, []);
     
 
     return (
+        <> 
+        <hr></hr>
+        <GloabalUserProfile user={selectedUser}/>
         <div className="grid">
              <Toast ref={toast} />  
+            
+
             <form onSubmit={saveClinicalDetails} >
 
 
@@ -567,6 +580,7 @@ const ClinicalDetails: Page = () => {
 
 
         </div>
+        </>
     )
 
 }

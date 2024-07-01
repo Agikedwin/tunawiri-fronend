@@ -12,6 +12,8 @@ import { Avatar } from "primereact/avatar"
 import { Badge } from "primereact/badge"
 import { Menu } from "primereact/menu"
 
+import GloabalUserProfile from "../../users/globalprofile/page"
+
 
 const UserEntryForms = () => {
     const router = useRouter();
@@ -33,7 +35,8 @@ const UserEntryForms = () => {
         created_at : ''
     }])
     const [userId, setUserId] = useState(null)
-    const [userName, setUserName] = useState({ first_name: "", other_names: "" })
+    const [userName, setUserName] = useState({ first_name: "", other_names: "", mch_number: "" })
+    const [selectedUser, setSelectedUser] = useState()
 
 
 
@@ -76,18 +79,27 @@ const UserEntryForms = () => {
         router.push('/uikit/clinical/view/')
     }
 
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+        setSelectedUser(localData)
+        console.log(" The selected user :: ", localData.mch_number)
+
+    }, []);
+
 
 
     return (
         <>
+        
 
             <Accordion activeIndex={0}>
+                
                 <AccordionTab
                     header={
-                        <span className="flex align-items-center gap-2 w-full">
+                        <span className="flex align-items-center gap-4 w-full">
                             <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" />
-                            <span className="font-bold white-space-nowrap">{userName && userName.first_name} {userName && userName.other_names}</span>
-                            <Badge value="active" severity="success" className="ml-auto" />
+                            <span className="font-bold white-space-nowrap">{userName && userName.first_name} {userName && userName.other_names} | {userName && userName.mch_number}</span>
+                            {/* <Badge value="active" severity="success" className="ml-auto" /> */}
                         </span>
                     }
                 >

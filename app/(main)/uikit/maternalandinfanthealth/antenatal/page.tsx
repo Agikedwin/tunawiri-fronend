@@ -7,6 +7,7 @@ import { Checkbox } from "primereact/checkbox";
 import api from "@/app/api/api";
 import { Toast } from "primereact/toast";
 import { useRouter } from 'next/navigation';
+import GloabalUserProfile from "../../users/globalprofile/page";
 
 
 
@@ -39,6 +40,7 @@ const Antenatal: Page = () => {
     };
 
     const [selectedUserId, setSelectedUserId] = useState("")
+    const [selectedUser, setSelectedUser] =useState({first_name:"", other_names: "", mch_number: ""})
 
 
         const [formState, setFormState] = useState({
@@ -94,9 +96,20 @@ const Antenatal: Page = () => {
         setSelectedUserId(_id)
     })
 
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+        setSelectedUser(localData)
+        console.log(" The selected user :: ", localData.mch_number)
+
+    }, []);
+
     return (
+        <>
+        <hr></hr>
+        <GloabalUserProfile user={selectedUser} />
         <div>
              <Toast ref={toast} />  
+            
             <div className="card">
                 <form onSubmit={saveAntenatal}>
                     <h5>Antenatal</h5>
@@ -140,6 +153,8 @@ const Antenatal: Page = () => {
                     </form>
                 </div>
             </div>
+
+            </>
 
 
         )

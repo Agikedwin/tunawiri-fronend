@@ -4,11 +4,18 @@ import { Button } from "primereact/button"
 import { Column } from "primereact/column"
 import { DataTable } from "primereact/datatable"
 import { useRouter } from 'next/navigation';
+import { Card } from "primereact/card";
+import { Panel } from "primereact/panel";
+import { useEffect, useState } from "react";
+
+import GloabalUserProfile from '../globalprofile/page'
 
 
 
 const UserEntryForms = () => {
     const router = useRouter();
+
+    const [selectedUser, setSelectedUser] = useState({mch_number:"", first_name: "", other_names: ""})
 
 
     const studyInterventions = [
@@ -51,11 +58,34 @@ const UserEntryForms = () => {
         router.push(data.link)
 
     }
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+        setSelectedUser(localData)
+        console.log(" The selected user :: ", localData.mch_number)
+
+    }, []);
+
+    const cardHeader = (
+        <div className="flex align-items-center justify-content-between mb-0 p-3 pb-0">
+            <span className="text-teal-500 align-items-center" >{selectedUser.first_name +"   "+  selectedUser.other_names +" | "+ selectedUser.mch_number}</span>
+            <Button icon="pi pi-arrow-left" text onClick={() => {
+                console.log('clicked')
+                router.push('/uikit/users/view/')
+            }
+            } />
+
+        </div>
+    );
+
+   
 
 
 
     return (
         <>
+       {/*  <Card header={cardHeader}></Card> */}
+       <GloabalUserProfile  user={selectedUser}/>
+       
             <DataTable value={studyInterventions} tableStyle={{ minWidth: '50rem' }}>
                 <Column field="name" header="Intervention Name"></Column>
                 <Column field="count" header="Number of entries"></Column>

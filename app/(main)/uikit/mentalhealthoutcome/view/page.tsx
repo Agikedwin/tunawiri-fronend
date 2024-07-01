@@ -11,10 +11,13 @@ import { Accordion, AccordionTab } from "primereact/accordion"
 import { Avatar } from "primereact/avatar"
 import { Badge } from "primereact/badge"
 import { Menu } from "primereact/menu"
+import GloabalUserProfile from "../../users/globalprofile/page"
 
 
 const MentalHealthOutcomeView = () => {
     const router = useRouter();
+
+    const [selectedUser, setSelectedUser] =useState({first_name:"", other_names: "", mch_number: ""})
 
     const [phq9view, setPhq9view] = useState([{
         interest_pleasure: "",
@@ -109,7 +112,7 @@ const MentalHealthOutcomeView = () => {
 
     }])
     const [userId, setUserId] = useState(null)
-    const [userName, setUserName] = useState({ first_name: "", other_names: "" })
+    const [userName, setUserName] = useState({ first_name: "", other_names: "" , mch_number: ""})
 
 
 
@@ -212,12 +215,22 @@ const MentalHealthOutcomeView = () => {
         router.push('/uikit/phq9view/view/')
     }
 
+    useEffect(() => {
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+        setSelectedUser(localData)
+        console.log(" The selected user :: ", localData.mch_number)
+
+    }, []);
 
 
 
 
-    return (
+
+    return ( 
         <>
+        <GloabalUserProfile  user= {selectedUser}/>
+        
+        
             <Accordion activeIndex={0}>
 
                 {phq9view && phq9view.map((data: any) => (

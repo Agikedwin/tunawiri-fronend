@@ -48,7 +48,7 @@ const GeneralHealthView = () => {
         created_at: ''
     }])
     const [userId, setUserId] = useState(null)
-    const [userName, setUserName] = useState({ first_name: "", other_names: "" })
+    const [userName, setUserName] = useState({ first_name: "", other_names: "", mch_number:"" })
 
 
 
@@ -96,13 +96,11 @@ const GeneralHealthView = () => {
         }
 
     }
-
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
         setUserId(_id)
         setUserName(localData)
-
 
     }, [])
 
@@ -131,7 +129,7 @@ const GeneralHealthView = () => {
                     header={
                         <span className="flex align-items-center gap-2 w-full">
                             <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" />
-                            <span className="font-bold white-space-nowrap">{userName && userName.first_name} {userName && userName.other_names}</span>
+                            <span className="font-bold white-space-nowrap">{userName && userName.first_name} {userName && userName.other_names} || {userName && userName.mch_number}</span>
                             <Badge value="3" className="ml-auto" />
                         </span>
                     }

@@ -85,7 +85,6 @@ const ViewUsers = () => {
 
 
         localStorage.setItem('selectedTunawiriUser', JSON.stringify(data));
-        console.log("Selecting here ===== ")
         router.push('/uikit/users/profile/')
 
         toast.current?.show({
@@ -100,7 +99,6 @@ const ViewUsers = () => {
 
     const selectedUserColumn = (data:any) =>{
         localStorage.setItem('selectedTunawiriUser', JSON.stringify(data));
-        console.log("Selecting here ===== ")
         router.push('/uikit/users/viewentry/')
         console.log(data)
     }
