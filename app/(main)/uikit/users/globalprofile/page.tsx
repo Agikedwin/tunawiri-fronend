@@ -7,10 +7,7 @@ import { Props } from "next/script";
 const GloabalUserProfile = ({ ...user }) => {
     const router = useRouter();
 
-    useEffect(()=>{
-        console.log("The props --- :: ", user.user.mch_number)
-    })
-
+ 
 
 
     return (
