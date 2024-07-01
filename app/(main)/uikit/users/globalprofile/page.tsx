@@ -7,10 +7,7 @@ const GloabalUserProfile = ({ user }) => {
     const router = useRouter();
 
 
-    useEffect(() => {
-        console.log('Global :: called ', user)
-
-    }, [])
+   
 
     return (
         <>
