@@ -40,7 +40,7 @@ const userProfile = () =>{
         <div className="grid">
            
             <div className="col-12">
-                <span><GloabalUserProfile  user={selectedUser}/></span>
+                <span><GloabalUserProfile  /></span>
                 <div className="card">                    
                     <TreeTable value={files2} selectionMode="checkbox" selectionKeys={selectedFileKeys2} 
                     onSelect={(e) => onSelectionTree(e.node)} >

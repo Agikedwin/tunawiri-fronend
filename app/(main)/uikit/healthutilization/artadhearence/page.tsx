@@ -57,7 +57,7 @@ const ARTadhearence: Page = () => {
 
     const handleChange = (e: { target: { name: any; value: any; }; }) => {
         const { name, value } = e.target;
-        setFormState(prevState => ({
+        setFormState((prevState : any) => ({
             ...prevState,
             formValues: {
                 ...prevState.formValues,

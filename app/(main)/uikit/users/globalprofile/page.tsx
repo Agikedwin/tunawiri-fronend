@@ -1,11 +1,21 @@
+"use client"
 import { Button } from "primereact/button"
 import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation';
-import { Props } from "next/script";
 
+interface PageProps {
+    user: object
+  }
+const GloabalUserProfile = () => {
+    const router = useRouter()
+    const [user, setUser] = useState({first_name: "", other_names:"", mch_number:""})
 
-const GloabalUserProfile = ({ ...user }) => {
-    const router = useRouter();
+    useEffect(() =>{
+        let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
+        setUser(localData)
+        console.log(" The selected user :: ", localData.mch_number)
+
+    },[])
 
  
 
@@ -18,7 +28,7 @@ const GloabalUserProfile = ({ ...user }) => {
                         <div className="text-center p-5 border-round-sm font-bold"></div>
                     </div>
                     <div className="col">
-                        <div className="text-teal-500 text-center p-5 border-round-sm  font-bold ">{user.user.first_name + " " + user.user.other_names + " | " + user.user.mch_number}</div>
+                        <div className="text-teal-500 text-center p-5 border-round-sm  font-bold ">{user.first_name + " " + user.other_names + " | " + user.mch_number}</div>
                     </div>
                     <div className="col">
                         <div className="text-teal-500 text-left p-2  ">
@@ -35,5 +45,4 @@ const GloabalUserProfile = ({ ...user }) => {
     )
 
 }
-
 export default GloabalUserProfile

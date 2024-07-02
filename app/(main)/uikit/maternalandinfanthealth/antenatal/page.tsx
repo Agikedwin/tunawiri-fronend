@@ -106,7 +106,7 @@ const Antenatal: Page = () => {
     return (
         <>
         <hr></hr>
-        <GloabalUserProfile user={selectedUser} />
+        <GloabalUserProfile  />
         <div>
              <Toast ref={toast} />  
             

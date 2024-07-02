@@ -228,7 +228,7 @@ const MentalHealthOutcomeView = () => {
 
     return ( 
         <>
-        <GloabalUserProfile  user= {selectedUser}/>
+        <GloabalUserProfile  />
         
         
             <Accordion activeIndex={0}>

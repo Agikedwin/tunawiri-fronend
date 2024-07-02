@@ -136,7 +136,7 @@ useEffect(() => {
         return (
             <>
             <hr></hr>
-        <GloabalUserProfile user={selectedUser} />
+        <GloabalUserProfile />
             <div>
                 <Toast ref={toast} />       
                 <div className="card">

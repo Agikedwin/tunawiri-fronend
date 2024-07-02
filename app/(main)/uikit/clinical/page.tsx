@@ -244,7 +244,7 @@ const ClinicalDetails: Page = () => {
     return (
         <> 
         <hr></hr>
-        <GloabalUserProfile user={selectedUser}/>
+        <GloabalUserProfile />
         <div className="grid">
              <Toast ref={toast} />  
             

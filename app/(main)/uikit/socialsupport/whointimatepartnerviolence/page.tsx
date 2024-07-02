@@ -144,7 +144,7 @@ const SocialSupport: Page = () => {
     return (
         <>
         <hr></hr>
-        <GloabalUserProfile user={selectedUser} />
+        <GloabalUserProfile  />
         <div>
             <Toast ref={toast} />  
 

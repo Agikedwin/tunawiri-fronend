@@ -84,7 +84,7 @@ const UserEntryForms = () => {
     return (
         <>
        {/*  <Card header={cardHeader}></Card> */}
-       <GloabalUserProfile  user={selectedUser}/>
+       <GloabalUserProfile  />
        
             <DataTable value={studyInterventions} tableStyle={{ minWidth: '50rem' }}>
                 <Column field="name" header="Intervention Name"></Column>
