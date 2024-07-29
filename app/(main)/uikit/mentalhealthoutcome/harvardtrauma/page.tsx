@@ -1,5 +1,6 @@
 "use client"
 import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
 import { RadioButton } from "primereact/radiobutton";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
@@ -15,7 +16,10 @@ import { useRouter } from 'next/navigation';
 import type { Demo, Page } from "@/types";
 import { ProgressBar } from "primereact/progressbar";
 
-
+interface InputValueReg {
+    timepoint: string,
+    regcode: string
+}
 
 const HarvardTrauma: Page = () => {
     const toast = useRef<Toast>(null);
@@ -52,7 +56,7 @@ const HarvardTrauma: Page = () => {
     const [colorCode, setColorCode] = useState("")
     const [severity, setSeverity] = useState("")
     const [themeColor, setThemeColor] = useState("secondary")
-
+    const [comment, setComment] = useState("")
 
 
 
@@ -87,6 +91,8 @@ const HarvardTrauma: Page = () => {
             feeling_damaged_by_traumatic_vent: "",
             feeling_something_reminds_you_of_trauma_like_a_dream: "",
             feeling_people_or_objects_around_you_are_strange_or_not_real: "",
+            comment:"",
+            timepoint:"",
             user_id: "",
             havard_score: 0,
             severity: "",
@@ -118,7 +124,14 @@ const HarvardTrauma: Page = () => {
         'Every day of past week or 6 days': 3,
     };
 
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({timepoint:"",code:""});
 
+            const dropdowntimepoint: InputValueReg[] = [
+                        { timepoint: "Baseline", regcode: "B" },
+                        { timepoint: "6 Months Follow Up", regcode: "6" },
+                        { timepoint: "12 Months Follow Up", regcode: "12" },
+
+            ];
 
     const severityRanking = async (data: any, scores: any) => {
         await api.countOccurrences(formState.formValues, scores).then((data: any) => {
@@ -131,11 +144,11 @@ const HarvardTrauma: Page = () => {
                 setThemeColor("lightgreen")
             } else if (data > 4 && data <= 9) {
                 setColorCode("yellow")
-                setSeverity("Moderate")
+                setSeverity("Mild")
                 setThemeColor("yellow")
             } else if (data > 9 && data <= 14) {
                 setColorCode("orange")
-                setSeverity("Mild")
+                setSeverity("Moderate")
                 setThemeColor("orange")
             } else if (data > 14) {
                 setColorCode("red")
@@ -156,6 +169,8 @@ const HarvardTrauma: Page = () => {
         formState.formValues.havard_score = Math.ceil((progressBarValue / multiplierFactor))
         formState.formValues.severity = severity
         formState.formValues.color = themeColor
+        formState.formValues.timepoint = dropdowntimepointValue.timepoint
+        formState.formValues.comment = comment
 
         try {
             await api.addEntry("harvardTrauma", formState.formValues, "3").then((data: any) => {
@@ -187,6 +202,13 @@ const HarvardTrauma: Page = () => {
         let { _id } = localData
         setSelectedUserId(_id)
     })
+    const onchangeComment = (event:any) =>{
+        const commentValue = event.target.value;
+
+       setComment(commentValue)
+    
+    }
+    
 
     return (
         <div>
@@ -194,11 +216,27 @@ const HarvardTrauma: Page = () => {
 
             <div className="card ">
                 <form onSubmit={saveHarvardTrauma} >
+                    
                     <h5>Harvard Trauma questionnaires </h5>
 
                     <p>
                         I am going to read a set of statements, please decide how much the symptoms bothered you in the PAST WEEK
                     </p>
+                    <div className="card">
+                        <div className="flex flex-wrap gap-6">
+                            <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
+                            <Dropdown
+                                value={dropdowntimepointValue}
+                                onChange={(e) => setDropdowntimepointValue(e.value)}
+                                options={dropdowntimepoint}
+                                optionLabel="timepoint"
+                                placeholder="Select"
+                                required
+                            />
+                        </div>
+
+
+                    </div>
                     <div className="card">
                         <div className="flex flex-wrap gap-3">
                             <div className="flex align-items-center">
@@ -542,7 +580,8 @@ const HarvardTrauma: Page = () => {
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_jumpy_easily_startled" name="feeling_jumpy_easily_startled" value='Every day of past week or 6 days'
+                                <RadioButton inputId="feeling_jumpy_easily_startled" name="feeling_jumpy_easily_startled" 
+                                value='Every day of past week or 6 days'
                                     checked={radioValue6 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue6(e.value)
@@ -565,7 +604,8 @@ const HarvardTrauma: Page = () => {
                                 </i> </h6>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="difficulty_concentrating" name="difficulty_concentrating"
+                                <RadioButton inputId="difficulty_concentrating"
+                                 name="difficulty_concentrating"
                                     value='0 days in past week'
                                     checked={radioValue7 === '0 days in past week'}
                                     onChange={(e) => {
@@ -581,7 +621,6 @@ const HarvardTrauma: Page = () => {
                                     value="1 or 2 or 3 days in past week"
                                     onChange={(e) => {
                                         setRadioValue7(e.value)
-
                                         formState.formValues.difficulty_concentrating = e.target.value
                                         severityRanking(formState.formValues, scores)
                                     }
@@ -590,19 +629,23 @@ const HarvardTrauma: Page = () => {
                                 <label htmlFor="difficulty_concentrating" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="difficulty_concentrating" name="difficulty_concentrating" value='4 or 7 days in the past week'
-                                    checked={radioValue7 === '4 or 7 days in the past week'}
+                                <RadioButton inputId="difficulty_concentrating" 
+                                name="difficulty_concentrating"
+                                 value="4 or 5 days in the past week"                                   
                                     onChange={(e) => {
                                         setRadioValue7(e.value)
-
                                         formState.formValues.difficulty_concentrating = e.target.value
                                         severityRanking(formState.formValues, scores)
                                     }
-                                    } />
+                                    
+                                    } 
+                                    checked={radioValue7 === "4 or 5 days in the past week"}
+                                    />
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="difficulty_concentrating" name="difficulty_concentrating" value='Every day of past week or 7 days'
+                                <RadioButton inputId="difficulty_concentrating" name="difficulty_concentrating" 
+                                value='Every day of past week or 6 days'
                                     checked={radioValue7 === 'Every day of past week or 7 days'}
                                     onChange={(e) => {
                                         setRadioValue7(e.value)
@@ -649,8 +692,8 @@ const HarvardTrauma: Page = () => {
                                 <label htmlFor="trouble_sleeping" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="trouble_sleeping" name="trouble_sleeping" value='4 or 8 days in the past week'
-                                    checked={radioValue8 === '4 or 8 days in the past week'}
+                                <RadioButton inputId="trouble_sleeping" name="trouble_sleeping" value='4 or 5 days in the past week'
+                                    checked={radioValue8 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue8(e.value)
 
@@ -708,7 +751,7 @@ const HarvardTrauma: Page = () => {
                                 <label htmlFor="feeling_on_guard" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_on_guard" name="feeling_on_guard" value='4 or 9 days in the past week'
+                                <RadioButton inputId="feeling_on_guard" name="feeling_on_guard" value='4 or 5 days in the past week'
                                     checked={radioValue9 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue9(e.value)
@@ -767,8 +810,8 @@ const HarvardTrauma: Page = () => {
                                 <label htmlFor="feeling_irritable_or_angry" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="feeling_irritable_or_angry" name="feeling_irritable_or_angry" value='4 or 10 days in the past week'
-                                    checked={radioValue10 === '4 or 10 days in the past week'}
+                                <RadioButton inputId="feeling_irritable_or_angry" name="feeling_irritable_or_angry" value='4 or 5 days in the past week'
+                                    checked={radioValue10 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue10(e.value)
 
@@ -802,7 +845,8 @@ const HarvardTrauma: Page = () => {
                                 </i> </h6>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" value='0 days in past week'
+                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" 
+                                value='0 days in past week'
                                     checked={radioValue11 === '0 days in past week'}
                                     onChange={(e) => {
                                         setRadioValue11(e.value)
@@ -826,7 +870,8 @@ const HarvardTrauma: Page = () => {
                                 <label htmlFor="avoiding_activities_remind_of_event" className="ml-2">1, 2, or 3 days in past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" value='4 or 5 days in the past week'
+                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" 
+                                value='4 or 5 days in the past week'
                                     checked={radioValue11 === '4 or 5 days in the past week'}
                                     onChange={(e) => {
                                         setRadioValue11(e.value)
@@ -838,7 +883,8 @@ const HarvardTrauma: Page = () => {
                                 <label htmlFor="ingredient1" className="ml-2">4 or 5 days in the past week</label>
                             </div>
                             <div className="flex align-items-center">
-                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" value='Every day of past week or 6 days'
+                                <RadioButton inputId="avoiding_activities_remind_of_event" name="avoiding_activities_remind_of_event" 
+                                value='Every day of past week or 6 days'
                                     checked={radioValue11 === 'Every day of past week or 6 days'}
                                     onChange={(e) => {
                                         setRadioValue11(e.value)
@@ -1682,6 +1728,18 @@ const HarvardTrauma: Page = () => {
 
                         </div>
                     </div>
+
+                    <div className="field col-12 md:col-12">
+                                    <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                                    <InputText
+                                        name="comment"                                
+                                        value={comment}
+                                        onChange= {onchangeComment}
+                                        type="text"
+                                        style={{ width: '100%', height: '3.5em' }}
+                                    />
+                                </div>
+
                     <br></br>
                     <div >
                         <span id="label_status">{severity}</span>

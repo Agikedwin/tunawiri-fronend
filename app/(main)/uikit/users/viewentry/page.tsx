@@ -61,7 +61,7 @@ const UserEntryForms = () => {
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         setSelectedUser(localData)
-        console.log(" The selected user :: ", localData.mch_number)
+        console.log(" The selected user :: ", localData.ccc_number)
 
     }, []);
 
@@ -77,7 +77,7 @@ const UserEntryForms = () => {
         </div>
     );
 
-   
+
 
 
 
@@ -85,7 +85,7 @@ const UserEntryForms = () => {
         <>
        {/*  <Card header={cardHeader}></Card> */}
        <GloabalUserProfile  />
-       
+
             <DataTable value={studyInterventions} tableStyle={{ minWidth: '50rem' }}>
                 <Column field="name" header="Intervention Name"></Column>
                 <Column field="count" header="Number of entries"></Column>

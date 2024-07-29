@@ -67,7 +67,7 @@ const ViewUsers = () => {
 
     const cardHeader = (
         <div className="flex align-items-center justify-content-between mb-0 p-3 pb-0">
-            <h5 className="m-0">Tunawiri Users</h5>
+            <h5 className="m-0">Tunawiri Users/Participants</h5>
             <Button icon="pi pi-plus" text onClick={() => {
                 console.log('clicked')
                 router.push('/uikit/users/')
@@ -136,7 +136,7 @@ const ViewUsers = () => {
                         responsiveLayout="scroll"
                         paginator rows={15}
                         //onRowSelect={onUserSelect}
-                        
+
 
                         tableStyle={{ maxWidth: '110rem' }} >
                         <Column header="MCH Number" filterField="mch_number" style={{ minWidth: '12rem' }}
@@ -144,7 +144,6 @@ const ViewUsers = () => {
                             filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
 
 
-                        <Column field="first_name" header="First Name" sortable />
                         <Column field="first_name" header="First Name" sortable />
                         <Column field="other_names" header="Other Names" />
                         <Column field="dob" header="Age" />
@@ -156,10 +155,10 @@ const ViewUsers = () => {
                             header="Entry"
                             style={{ width: '5%' }}
                             body={(rowData) => (
-                                
+
                                     <Button icon="pi pi-pencil" text onClick={() => { onUserSelect(rowData)}} outlined/>
-                            )}                            
-                            
+                            )}
+
                         />
 
                         <Column

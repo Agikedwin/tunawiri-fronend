@@ -1,6 +1,7 @@
 "use client"
 import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
+import { Dropdown } from "primereact/dropdown";
 import { useEffect, useRef, useState } from 'react';
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
@@ -12,7 +13,10 @@ import { useRouter } from 'next/navigation';
 
 
 import type { Demo, Page } from "@/types";
-
+interface InputValueReg {
+    timepoint: string,
+    regcode: string
+}
 
 const ARTadhearence: Page = () => {
     const toast = useRef<Toast>(null);
@@ -27,6 +31,7 @@ const ARTadhearence: Page = () => {
     const [radioValue7, setRadioValue7] = useState(null);
 
     const  [selectedUserId, setSelectedUserId] = useState("")
+    const [comment, setComment] = useState("")
 
     const showSuccess = () => {
         toast.current?.show({
@@ -50,11 +55,20 @@ const ARTadhearence: Page = () => {
             missed_doses: "",
             medicines_taking_quality: "",
             medicine_frequency: "",
+            timepoint:"",
             user_id:"",
+            comment:""
 
         }
     });
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({timepoint:"",code:""});
 
+            const dropdowntimepoint: InputValueReg[] = [
+                        { timepoint: "Baseline", regcode: "B" },
+                        { timepoint: "6 Months Follow Up", regcode: "6" },
+                        { timepoint: "12 Months Follow Up", regcode: "12" },
+
+            ];
     const handleChange = (e: { target: { name: any; value: any; }; }) => {
         const { name, value } = e.target;
         setFormState((prevState : any) => ({
@@ -69,6 +83,8 @@ const ARTadhearence: Page = () => {
     const saveARTadhearence = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         formState.formValues.user_id = selectedUserId
+        formState.formValues.timepoint = dropdowntimepointValue.timepoint
+        formState.formValues.comment = comment
         console.log(formState.formValues);
 
         await  api.addEntry('artAdherence',formState.formValues,3).then((data:any) =>{
@@ -90,6 +106,13 @@ const ARTadhearence: Page = () => {
 
     }, []);
 
+    const onchangeComment = (event:any) =>{
+        const commentValue = event.target.value;
+
+       setComment(commentValue)
+    
+    }
+
 return (
 
     <div>
@@ -98,6 +121,22 @@ return (
              <h5>ART Adhearence </h5>
                  <form onSubmit={saveARTadhearence}>
 
+                 <div className="card">
+                        <div className="flex flex-wrap gap-6">
+                            <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
+                            <Dropdown
+                                value={dropdowntimepointValue}
+                                onChange={(e) => setDropdowntimepointValue(e.value)}
+                                options={dropdowntimepoint}
+                                optionLabel="timepoint"
+                                placeholder="Select"
+                                required
+                            />
+                        </div>
+
+
+                    </div>
+                  
                      <div className="card">
 
                          <div className="flex flex-wrap gap-3">
@@ -284,9 +323,21 @@ return (
                                               checked={radioValue3 === 'Excellent'} />
                                  <label htmlFor="medicine_frequency_3_good" className="ml-2">Excellent</label>
                              </div>
+
+                             <div className="field col-12 md:col-12">
+                                    <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                                    <InputText
+                                        name="comment"                                
+                                        value={comment}
+                                        onChange= {onchangeComment}
+                                        type="text"
+                                        style={{ width: '100%', height: '3.5em' }}
+                                    />
+                                </div>
+    
                          </div>
                      </div>
-                     <Button type="submit" label="Submit" />
+                     <Button type="submit" label="Submit" outlined />
                  </form>
          </div>
     </div>

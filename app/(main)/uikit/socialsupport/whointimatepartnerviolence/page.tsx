@@ -1,5 +1,6 @@
 "use client"
 import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
 import { RadioButton } from "primereact/radiobutton";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
@@ -14,7 +15,10 @@ import GloabalUserProfile from "../../users/globalprofile/page";
 
 
 import type { Demo, Page } from "@/types";
-
+interface InputValueReg {
+    timepoint: string,
+    regcode: string
+}
 
 const SocialSupport: Page = () => {
     const router = useRouter();
@@ -49,7 +53,9 @@ const SocialSupport: Page = () => {
     const [radioValue24, setRadioValue24] = useState(null);
 
     const [selectedUserId, setSelectedUserId] = useState("")
-    const [selectedUser, setSelectedUser] =useState({first_name:"", other_names: "", mch_number: ""})
+    const [selectedUser, setSelectedUser] =useState({first_name:"", other_names: "", ccc_number: ""})
+    const [comment, setComment] = useState("")
+
 
 
 
@@ -84,9 +90,13 @@ const SocialSupport: Page = () => {
             took_earnings_savings: "",
             refused_money_for_household: "",
             tried_convince_crazy: "",
-            blamed_for_violent_behavior: ""
+            timepoint:"",
+            blamed_for_violent_behavior: "",
+            comment:""
         }
     });
+
+
 
     const handleChange = () => {
 
@@ -98,34 +108,43 @@ const SocialSupport: Page = () => {
             summary: 'Success Message',
             detail: 'Message Detail',
             life: 4000
-        });       
+        });
     };
 
     const saveSocialSupport = async (event: any) => {
         event.preventDefault();
         formState.formValues.user_id = selectedUserId
+        formState.formValues.timepoint = dropdowntimepointValue.timepoint
+        formState.formValues.comment = comment
 
         try {
             await api.addEntry("socialsupport", formState.formValues, 3).then((data:any) => {
                 showSuccess()
                 setTimeout(() => {
-    
+
                     console.log("saving data ---")
-                   
+
                     router.push('/uikit/users/profile/')
               }, 3000);
                 console.log(data)
             })
-            
-            
+
+
         } catch (error) {
             console.log(error)
-            
+
         }
         console.log(formState.formValues)
 
     }
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({timepoint:"",code:""});
 
+    const dropdowntimepoint: InputValueReg[] = [
+            { timepoint: "Baseline", regcode: "B" },
+            { timepoint: "6 Months Follow Up", regcode: "6" },
+            { timepoint: "12 Months Follow Up", regcode: "12" },
+
+        ];
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         let { _id } = localData
@@ -139,24 +158,47 @@ const SocialSupport: Page = () => {
         console.log(" The selected user :: ", localData.mch_number)
 
     }, []);
+    const onchangeComment = (event:any) =>{
+        const commentValue = event.target.value;
 
+       setComment(commentValue)
+    
+    }
+    
 
     return (
         <>
         <hr></hr>
         <GloabalUserProfile  />
         <div>
-            <Toast ref={toast} />  
+            <Toast ref={toast} />
 
             <div className="card ">
                 <form onSubmit={saveSocialSupport} >
-                    <h5>Social support ee </h5>
+                        
+                        <h5>Social Support </h5>
+                
                     <p>I am now going to ask you about some situations that are true for many women. Thinking about
                         your current or most recent husband/partner, how many times in the past six months has he
                         I am now going to ask you about some situations that are true for many women. Thinking about
                         your current or most recent husband/partner, how many times in the past six months has he
 </p>
                     <h5>Intimate Partner Violence WHO Instrument</h5>
+                    <div className="card">
+                        <div className="flex flex-wrap gap-6">
+                            <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
+                            <Dropdown
+                                value={dropdowntimepointValue}
+                                onChange={(e) => setDropdowntimepointValue(e.value)}
+                                options={dropdowntimepoint}
+                                optionLabel="timepoint"
+                                placeholder="Select"
+                                required
+                            />
+                        </div>
+
+
+                    </div>
                     <div className="card">
                         <div className="flex flex-wrap gap-3">
                             <div className="flex align-items-center">
@@ -263,6 +305,7 @@ const SocialSupport: Page = () => {
                                     checked={radioValue2 === '4 or more times'} />
                                 <label htmlFor="belittled_humiliated" className="ml-2">4 or more times</label>
                             </div>
+
                         </div>
                         <br></br>
                     </div>
@@ -1290,7 +1333,7 @@ const SocialSupport: Page = () => {
                         </div>
                         </div>
                     </div>
-            
+
 
                     <div className="card">
                     <div className="flex flex-wrap gap-3">
@@ -1512,11 +1555,25 @@ const SocialSupport: Page = () => {
                         </div>
                     </div>
 
-                    <div className="field col-12 md:col-6">
-                        <label htmlFor="otherNames">..</label>
-                        <Button label="Save" icon="pi pi-save" type="submit"  outlined/>
-                        </div>
+
                     </div>
+                    <div className="card">
+                    <div className="field col-12 md:col-12">
+                                    <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                                    <InputText
+                                        name="comment"                                
+                                        value={comment}
+                                        onChange= {onchangeComment}
+                                        type="text"
+                                        style={{ width: '100%', height: '3.5em' }}
+                                    />
+                                </div>
+
+                    </div>
+                    <div className="field col-24 md:col-12">
+                                            <label htmlFor="otherNames">..</label>
+                                            <Button label="Save" icon="pi pi-save" type="submit"  outlined/>
+                                            </div>
                 </form>
             </div>
         </div>

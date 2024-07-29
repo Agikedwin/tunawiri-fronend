@@ -17,7 +17,7 @@ const userProfile = () =>{
     const [files2, setFiles2] = useState<TreeNode[]>([]);
     const [selectedFileKeys, setSelectedFileKeys] = useState<string | TreeMultipleSelectionKeys | TreeCheckboxSelectionKeys | null>(null);
     const [selectedFileKeys2, setSelectedFileKeys2] = useState<TreeTableSelectionKeysType | null>(null);
-    const [selectedUser, setSelectedUser] = useState({mch_number:"", first_name: "", other_names: ""})
+    const [selectedUser, setSelectedUser] = useState({ccc_number:"", first_name: "", other_names: ""})
 
     useEffect(() => {
         NodeService.getFiles().then((files) => setFiles(files));
@@ -32,19 +32,19 @@ const userProfile = () =>{
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         setSelectedUser(localData)
-        console.log(" The selected user :: ", localData.mch_number)
+        console.log(" The selected user :: ", localData.ccc_number)
 
     }, []);
 
     return (
         <div className="grid">
-           
+
             <div className="col-12">
                 <span><GloabalUserProfile  /></span>
-                <div className="card">                    
-                    <TreeTable value={files2} selectionMode="checkbox" selectionKeys={selectedFileKeys2} 
+                <div className="card">
+                    <TreeTable value={files2} selectionMode="checkbox" selectionKeys={selectedFileKeys2}
                     onSelect={(e) => onSelectionTree(e.node)} >
-                        <Column field="name" header="Form Name" expander />
+                        <Column field="name" header="Module" expander />
                         <Column field="size" header="State" />
                         <Column field="type" header="url" />
                     </TreeTable>

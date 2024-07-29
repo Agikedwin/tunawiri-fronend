@@ -1,6 +1,7 @@
 'use client';
 import { InputText } from 'primereact/inputtext';
 import { RadioButton } from 'primereact/radiobutton';
+import { Dropdown } from "primereact/dropdown";
 import { SetStateAction, useEffect, useRef, useState } from 'react';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
@@ -12,7 +13,10 @@ import api from "@/app/api/api";
 import { useRouter } from 'next/navigation';
 import { Toast } from 'primereact/toast';
 
-
+interface InputValueReg {
+    timepoint: string,
+    regcode: string
+}
 
 const Mentalhealthtreatment: Page = () => {
     const toast = useRef<Toast>(null);
@@ -27,6 +31,7 @@ const Mentalhealthtreatment: Page = () => {
     const [otherTreatments, setOtherTreatments] = useState<String[]>([]);
     const [medicine, setMedicine] = useState<String[]>([]);
     const  [selectedUserId, setSelectedUserId] = useState("")
+    const [comment, setComment] = useState("")
 
 
     const showSuccess = () => {
@@ -53,6 +58,8 @@ const Mentalhealthtreatment: Page = () => {
             other_treatments: '',
             medicine: '',
             taking_as_prescribed: '',
+            timepoint:"",
+            comment:'',
             user_id: ''
         }
     });
@@ -101,7 +108,14 @@ const Mentalhealthtreatment: Page = () => {
         formState.formValues.medicine = _medicine.join(', ');
 
     };
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({timepoint:"",code:""});
 
+            const dropdowntimepoint: InputValueReg[] = [
+                        { timepoint: "Baseline", regcode: "B" },
+                        { timepoint: "6 Months Follow Up", regcode: "6" },
+                        { timepoint: "12 Months Follow Up", regcode: "12" },
+
+            ];
     const handleChange = () => {
 
     };
@@ -109,6 +123,8 @@ const Mentalhealthtreatment: Page = () => {
     const saveMentalHealthTreatment = async (event: any) => {
         event.preventDefault();
         formState.formValues.user_id = selectedUserId
+        formState.formValues.timepoint = dropdowntimepointValue.timepoint
+        formState.formValues.comment = comment
 
         try {
             await  api.addEntry('mental', formState.formValues,3).then((data: any) => {
@@ -150,6 +166,12 @@ const Mentalhealthtreatment: Page = () => {
     function setPsychosocialSessions(value: string): void {
         throw new Error('Function not implemented.');
     }
+    const onchangeComment = (event:any) =>{
+        const commentValue = event.target.value;
+
+       setComment(commentValue)
+    
+    }
 
     // @ts-ignore
     return (
@@ -158,9 +180,26 @@ const Mentalhealthtreatment: Page = () => {
                 <Toast ref={toast} />
                 <Toast ref={toast} />
                 <form onSubmit={saveMentalHealthTreatment}>
+                
                     <h5>Mental Health Treatment</h5>
                     <p>In this section, Im going to ask you a few more questions about the care you have received over
                         the past THREE months</p>
+
+                        <div className="card">
+                        <div className="flex flex-wrap gap-6">
+                            <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
+                            <Dropdown
+                                value={dropdowntimepointValue}
+                                onChange={(e) => setDropdowntimepointValue(e.value)}
+                                options={dropdowntimepoint}
+                                optionLabel="timepoint"
+                                placeholder="Select"
+                                required
+                            />
+                        </div>
+
+
+                    </div>
                     <div className="card">
                         <div className="flex flex-wrap gap-3">
                             <div className="flex align-items-center">
@@ -537,7 +576,16 @@ const Mentalhealthtreatment: Page = () => {
                         </div>
                     </div>
                     <br></br>
-
+                    <div className="field col-12 md:col-12">
+                                    <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                                    <InputText
+                                        name="comment"                                
+                                        value={comment}
+                                        onChange= {onchangeComment}
+                                        type="text"
+                                        style={{ width: '100%', height: '3.5em' }}
+                                    />
+                                </div>
                     <div className="field col-12 md:col-6">
                         <Button label="Save" icon="pi pi-save" type="submit" outlined />
 

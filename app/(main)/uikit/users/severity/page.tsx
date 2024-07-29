@@ -12,7 +12,9 @@ import { useEffect, useRef, useState } from "react";
 
 interface userValues {
     id: object
+    ccc_number: String
     mch_number: String
+    ptid_number: String
     first_name: String
     other_names: String
     dob: String
@@ -45,13 +47,13 @@ const UserSeverity = (props: any) => {
 
 
 
-    
-    useEffect(() => {        
+
+    useEffect(() => {
         setUsers(props.userSeverity)
 
     },[props.userSeverity])
 
-    
+
     const addNewUser = () => {
         console.log("selected new user here ")
     }
@@ -59,7 +61,7 @@ const UserSeverity = (props: any) => {
     const cardHeader = (
         <div className="flex align-items-center justify-content-between mb-0 p-3 pb-0">
             <h5 className="m-0"> Users With Severity</h5>
-           
+
 
         </div>
     );
@@ -109,7 +111,7 @@ const UserSeverity = (props: any) => {
     };
     return (
         <>
-       
+
             <Card header={cardHeader}>
 
 
@@ -126,15 +128,14 @@ const UserSeverity = (props: any) => {
                         responsiveLayout="scroll"
                         paginator rows={15}
                         //onRowSelect={onUserSelect}
-                        
+
 
                         tableStyle={{ maxWidth: '110rem' }} >
-                        <Column header="MCH Number" filterField="mch_number" style={{ minWidth: '12rem' }}
+                        <Column header="ccc Number" filterField="ccc_number" style={{ minWidth: '12rem' }}
                             body={mchBodyTemplate} filter filterPlaceholder="Search by MCH No"
                             filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
 
 
-                        <Column field="first_name" header="First Name" sortable />
                         <Column field="first_name" header="First Name" sortable />
                         <Column field="other_names" header="Other Names" />
                         <Column field="dob" header="Age" />

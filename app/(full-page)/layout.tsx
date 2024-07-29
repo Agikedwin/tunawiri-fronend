@@ -7,7 +7,7 @@ interface SimpleLayoutProps {
 }
 
 export const metadata: Metadata = {
-    title: 'Tunawiri Atudy',
+    title: 'Tunawiri Study',
     description: 'Tunawiri Study Application.'
 };
 

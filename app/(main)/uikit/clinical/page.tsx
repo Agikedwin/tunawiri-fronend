@@ -68,12 +68,13 @@ const clinicalModel = {
     missed_visits_no: true,
     missed_visits_yes: true,
     missed_visits_count: '',
+    comment: '',
 }
 
 
 const ClinicalDetails: Page = () => {
     const router = useRouter();
-
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({ timepoint: "", code: "" });
     const toast = useRef<Toast>(null);
     const [floatValue, setFloatValue] = useState("");
     const [autoValue, setAutoValue] = useState<Demo.Country[]>([]);
@@ -99,7 +100,8 @@ const ClinicalDetails: Page = () => {
     const [showVLInput, setShowVLInput] = useState(false)
 
     const [selectedUserId, setSelectedUserId] = useState("")
-    const [selectedUser, setSelectedUser] =useState({first_name:"", other_names: "", mch_number: ""})
+    const [selectedUser, setSelectedUser] = useState({ first_name: "", other_names: "", mch_number: "" })
+    const [comment, setComment] = useState("")
 
     const [formState, setFormState] = useState({
         isValid: false,
@@ -120,6 +122,8 @@ const ClinicalDetails: Page = () => {
             last_hiv_visit_date: '',
             ever_missed_visit: '',
             missed_visits_count: '',
+            timepoint: '',
+            comment: '',
             other_regimen_name: ''
 
         }
@@ -131,7 +135,7 @@ const ClinicalDetails: Page = () => {
             summary: 'Success Message',
             detail: 'Message Detail',
             life: 4000
-        });       
+        });
     };
 
 
@@ -177,7 +181,12 @@ const ClinicalDetails: Page = () => {
         console.log(clinicalDetailData)
 
     }
+    const dropdowntimepoint: InputValueReg[] = [
+        { timepoint: "Baseline", regcode: "B" },
+        { timepoint: "6 Months Follow Up", regcode: "6" },
+        { timepoint: "12 Months Follow Up", regcode: "12" },
 
+    ];
 
     const handleChange = (event: any) => {
         //event.persist();
@@ -206,26 +215,27 @@ const ClinicalDetails: Page = () => {
         event.preventDefault();
 
         formState.formValues.user_id = selectedUserId
+        formState.formValues.comment = comment
 
-       try {
-        await api.addEntry('clinical',formState.formValues, '3').then((data:any) => {
-            showSuccess()
-            setTimeout(() => {
+        try {
+            await api.addEntry('clinical', formState.formValues, '3').then((data: any) => {
+                showSuccess()
+                setTimeout(() => {
 
-                console.log("saving data ---")
-               
-                router.push('/uikit/users/profile/')
-          }, 3000);
-            console.log(data)
-        })
-        
-       } catch (error) {
-        console.log(error)
-       }
+                    console.log("saving data ---")
+
+                    router.push('/uikit/users/profile/')
+                }, 3000);
+                console.log(data)
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
 
 
 
-        
+
 
 
 
@@ -239,347 +249,375 @@ const ClinicalDetails: Page = () => {
         console.log(" The selected user :: ", localData.mch_number)
 
     }, []);
+
+    const onchangeComment = (event:any) =>{
+        const commentValue = event.target.value;
+
+       setComment(commentValue)
     
+    }
+
 
     return (
-        <> 
-        <hr></hr>
-        <GloabalUserProfile />
-        <div className="grid">
-             <Toast ref={toast} />  
-            
-
-            <form onSubmit={saveClinicalDetails} >
+        <>
+            <hr></hr>
+            <GloabalUserProfile />
+            <div className="grid">
+                <Toast ref={toast} />
 
 
-                <div className="grid">
+                <form onSubmit={saveClinicalDetails} >
 
-                    <div className="col-12 md:col-6">
-                        <div className="card">
-                            <h5>Most recent CD4 count</h5>
-                            <div className="grid">
-                                <div className="col-12 md:col-4">
-                                    <div className="field-radiobutton">
-                                        <RadioButton
-                                            inputId="cd4_known"
-                                            name="cd4_known"
-                                            value="Yes"
-                                            checked={cd4RadioValue === "Yes"}
-                                            onChange={(event) => {
-                                                setCd4RadioValue(event.value)
-                                                formState.formValues.cd4_known = event.target.value
-                                                setShowCD4Input(true)
 
-                                            }}
+                    <div className="grid">
 
-                                        />
-                                        <label htmlFor="cd4">Known</label>
+                        <div className="col-12 md:col-6">
+                            <div className="card">
+                                <h5>Most recent CD4 count</h5>
+                                <div className="grid">
+                                    <div className="col-12 md:col-4">
+                                        <div className="field-radiobutton">
+                                            <RadioButton
+                                                inputId="cd4_known"
+                                                name="cd4_known"
+                                                value="Yes"
+                                                checked={cd4RadioValue === "Yes"}
+                                                onChange={(event) => {
+                                                    setCd4RadioValue(event.value)
+                                                    formState.formValues.cd4_known = event.target.value
+                                                    setShowCD4Input(true)
+
+                                                }}
+
+                                            />
+                                            <label htmlFor="cd4">Known</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-12 md:col-4">
-                                    <div className="field-radiobutton">
-                                        <RadioButton
-                                            inputId="option"
-                                            name="cd4_known"
-                                            value="No"
-                                            checked={cd4RadioValue === "No"}
-                                            onChange={(event) => {
-                                                setCd4RadioValue(event.value)
-                                                formState.formValues.cd4_known = event.target.value
-                                                formState.formValues.known_cd4_count = ''
-                                                setShowCD4Input(false)
+                                    <div className="col-12 md:col-4">
+                                        <div className="field-radiobutton">
+                                            <RadioButton
+                                                inputId="option"
+                                                name="cd4_known"
+                                                value="No"
+                                                checked={cd4RadioValue === "No"}
+                                                onChange={(event) => {
+                                                    setCd4RadioValue(event.value)
+                                                    formState.formValues.cd4_known = event.target.value
+                                                    formState.formValues.known_cd4_count = ''
+                                                    setShowCD4Input(false)
 
-                                            }}
-                                        />
-                                        <label htmlFor="cd4_count_unknown">Unknown</label>
+                                                }}
+                                            />
+                                            <label htmlFor="cd4_count_unknown">Unknown</label>
+                                        </div>
                                     </div>
+
                                 </div>
 
-                            </div>
+                                <div className="col-12">
+                                    {showCD4Input &&
+                                        <div className="p-fluid formgrid grid">
+                                            <div className="field col-12 md:col-12">
+                                                <label htmlFor="known_cd4_count">If known, CD4 count (cells/µL)</label>
+                                                <InputText name="known_cd4_count" value={formState.formValues.known_cd4_count || ''} onChange={handleChange} type="text" />
+                                            </div>
 
-                            <div className="col-12">
-                                {showCD4Input &&
+                                        </div>
+                                    }
+
+
                                     <div className="p-fluid formgrid grid">
-                                        <div className="field col-12 md:col-12">
-                                            <label htmlFor="known_cd4_count">If known, CD4 count (cells/µL)</label>
-                                            <InputText name="known_cd4_count" value={formState.formValues.known_cd4_count || ''} onChange={handleChange} type="text" />
+                                        <div className="field col-12 md:col-12 date-picker" >
+                                            <label htmlFor="name2">Date of Collection (CD4 count)</label>
+                                            <InputText name="cd4_count_date" value={formState.formValues.cd4_count_date || ''} onChange={handleChange} type="date" />
                                         </div>
 
                                     </div>
-                                }
-
-
-                                <div className="p-fluid formgrid grid">
-                                    <div className="field col-12 md:col-12 date-picker" >
-                                        <label htmlFor="name2">Date of Collection (CD4 count)</label>
-                                        <InputText name="cd4_count_date" value={formState.formValues.cd4_count_date || ''} onChange={handleChange} type="date" />
-                                    </div>
 
                                 </div>
 
+
                             </div>
-
-
                         </div>
-                    </div>
 
 
 
-                    <div className="col-12 md:col-6">
-                        <div className="card">
-                            <h5>Most recent Viral load</h5>
-                            <div className="grid">
-                                <div className="col-12 md:col-4">
-                                    <div className="field-radiobutton">
-                                        <RadioButton
-                                            inputId="viral_load_known"
-                                            name="viral_load_known"
-                                            value="Yes"
-                                            checked={vlRadioValue === "Yes"}
-                                            onChange={(event) => {
-                                                setVlRadioValue(event.value)
-                                                formState.formValues.viral_load_known = event.target.value
-                                                setShowVLInput(true)
+                        <div className="col-12 md:col-6">
+                            <div className="card">
+                                <h5>Most recent Viral load</h5>
+                                <div className="grid">
+                                    <div className="col-12 md:col-4">
+                                        <div className="field-radiobutton">
+                                            <RadioButton
+                                                inputId="viral_load_known"
+                                                name="viral_load_known"
+                                                value="Yes"
+                                                checked={vlRadioValue === "Yes"}
+                                                onChange={(event) => {
+                                                    setVlRadioValue(event.value)
+                                                    formState.formValues.viral_load_known = event.target.value
+                                                    setShowVLInput(true)
 
-                                            }}
-                                        />
-                                        <label htmlFor="option1">Known</label>
+                                                }}
+                                            />
+                                            <label htmlFor="option1">Known</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-12 md:col-4">
-                                    <div className="field-radiobutton">
-                                        <RadioButton
-                                            inputId="viral_load_unknown"
-                                            name="viral_load_known"
+                                    <div className="col-12 md:col-4">
+                                        <div className="field-radiobutton">
+                                            <RadioButton
+                                                inputId="viral_load_unknown"
+                                                name="viral_load_known"
 
-                                            value="No"
-                                            checked={vlRadioValue === "No"}
-                                            onChange={(event) => {
-                                                setVlRadioValue(event.value)
-                                                formState.formValues.viral_load_known = event.target.value
-                                                setShowVLInput(false)
-                                                formState.formValues.known_viral_load = ''
+                                                value="No"
+                                                checked={vlRadioValue === "No"}
+                                                onChange={(event) => {
+                                                    setVlRadioValue(event.value)
+                                                    formState.formValues.viral_load_known = event.target.value
+                                                    setShowVLInput(false)
+                                                    formState.formValues.known_viral_load = ''
 
-                                            }}
-                                        />
-                                        <label htmlFor="viral_load_unknown">Unknown</label>
+                                                }}
+                                            />
+                                            <label htmlFor="viral_load_unknown">Unknown</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-12 md:col-4">
-                                    <div className="field-radiobutton">
-                                        <RadioButton
-                                            inputId="viralLoadPending"
-                                            name="viral_load_known"
+                                    <div className="col-12 md:col-4">
+                                        <div className="field-radiobutton">
+                                            <RadioButton
+                                                inputId="viralLoadPending"
+                                                name="viral_load_known"
 
-                                            value="pending"
-                                            checked={vlRadioValue === "pending"}
-                                            onChange={(event) => {
-                                                setVlRadioValue(event.value)
-                                                formState.formValues.viral_load_known = event.target.value
-                                                formState.formValues.known_viral_load = ''
+                                                value="pending"
+                                                checked={vlRadioValue === "pending"}
+                                                onChange={(event) => {
+                                                    setVlRadioValue(event.value)
+                                                    formState.formValues.viral_load_known = event.target.value
+                                                    formState.formValues.known_viral_load = ''
 
-                                            }}
-                                        />
-                                        <label htmlFor="viral_load_unknown">Pending</label>
+                                                }}
+                                            />
+                                            <label htmlFor="viral_load_unknown">Pending</label>
+                                        </div>
                                     </div>
+
                                 </div>
 
-                            </div>
+                                <div className="col-12">
+                                    {showVLInput &&
+                                        <div className="p-fluid formgrid grid">
+                                            <div className="field col-12 md:col-12">
+                                                <label htmlFor="name3"> If known, viral load (copies/ml)</label>
+                                                <InputText name="known_viral_load" value={formState.formValues.known_viral_load || ''} onChange={handleChange} type="text" />
 
-                            <div className="col-12">
-                                {showVLInput &&
+                                            </div>
+
+                                        </div>
+                                    }
+
+
                                     <div className="p-fluid formgrid grid">
                                         <div className="field col-12 md:col-12">
-                                            <label htmlFor="name3"> If known, viral load (copies/ml)</label>
-                                            <InputText name="known_viral_load" value={formState.formValues.known_viral_load || ''} onChange={handleChange} type="text" />
-
+                                            <label htmlFor="viral_load_date">Date of Collection (viral load)</label>
+                                            <InputText name="viral_load_date" value={formState.formValues.viral_load_date || ''} onChange={handleChange} type="date" />
                                         </div>
 
                                     </div>
-                                }
-
-
-                                <div className="p-fluid formgrid grid">
-                                    <div className="field col-12 md:col-12">
-                                        <label htmlFor="viral_load_date">Date of Collection (viral load)</label>
-                                        <InputText name="viral_load_date" value={formState.formValues.viral_load_date || ''} onChange={handleChange} type="date" />
-                                    </div>
 
                                 </div>
 
+
                             </div>
-
-
                         </div>
+
+
                     </div>
 
+                    <div className="col-12">
+                        <div className="card">
+                            <div className="p-fluid formgrid grid">
+                                <div className="field col-12 md:col-6">
+                                    <label htmlFor="art_start_date">ART Start date</label>
+                                    <InputText name="art_start_date" value={formState.formValues.art_start_date || ''} onChange={handleChange} type="date" />
+                                </div>
 
-                </div>
+                                <div className="field col-12 md:col-12">
+                                    <label htmlFor="current_art_regimen">Current ART regimen</label>
+                                    <div className="field-radiobutton field col-12 md:col-12">
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="current_art_regimen"
+                                                value="TDF+3TC +DTG"
+                                                checked={formState.formValues.current_art_regimen === "TDF+3TC +DTG"}
+                                                onChange={handleChange}
+                                            />
+                                            TDF+3TC +DTG
+                                        </label>
+                                        <br />
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="current_art_regimen"
+                                                value="TDF +3TC +EFV"
+                                                checked={formState.formValues.current_art_regimen === "TDF +3TC +EFV"}
+                                                onChange={handleChange}
+                                            />
+                                            TDF +3TC +EFV
+                                        </label>
+                                        <br />
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="current_art_regimen"
+                                                value="TDF +3TC +ATV/r"
+                                                checked={formState.formValues.current_art_regimen === "TDF +3TC +ATV/r"}
+                                                onChange={handleChange}
+                                            />
+                                            TDF +3TC +ATV/r
+                                        </label>
+                                        <br />
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="current_art_regimen"
+                                                value="TDF +3TC +LPV/r"
+                                                checked={formState.formValues.current_art_regimen === "TDF +3TC +LPV/r"}
+                                                onChange={handleChange}
+                                            />
+                                            TDF +3TC +LPV/r
+                                        </label>
+                                        <br />
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="current_art_regimen"
+                                                value="AZT+3TC +ATV/r"
+                                                checked={formState.formValues.current_art_regimen === "AZT+3TC +ATV/r"}
+                                                onChange={handleChange}
+                                            />
+                                            AZT+3TC +ATV/r
+                                        </label>
+                                        <br />
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="current_art_regimen"
+                                                value="AZT+3TC + LPV/r"
+                                                checked={formState.formValues.current_art_regimen === "AZT+3TC + LPV/r"}
+                                                onChange={handleChange}
+                                            />
+                                            AZT+3TC + LPV/r
+                                        </label>
+                                        <br />
 
-                <div className="col-12">
-                    <div className="card">
-                        <div className="p-fluid formgrid grid">
-                            <div className="field col-12 md:col-6">
-                                <label htmlFor="art_start_date">ART Start date</label>
-                                <InputText name="art_start_date" value={formState.formValues.art_start_date || ''} onChange={handleChange} type="date" />
-                            </div>
+                                        {/* Add other regimen options similarly */}
 
-                            <div className="field col-12 md:col-12">
-                                <label htmlFor="current_art_regimen">Current ART regimen</label>
-                                <div className="field-radiobutton field col-12 md:col-12">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="current_art_regimen"
-                                            value="TDF+3TC +DTG"
-                                            checked={formState.formValues.current_art_regimen === "TDF+3TC +DTG"}
-                                            onChange={handleChange}
-                                        />
-                                        TDF+3TC +DTG
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="current_art_regimen"
-                                            value="TDF +3TC +EFV"
-                                            checked={formState.formValues.current_art_regimen === "TDF +3TC +EFV"}
-                                            onChange={handleChange}
-                                        />
-                                        TDF +3TC +EFV
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="current_art_regimen"
-                                            value="TDF +3TC +ATV/r"
-                                            checked={formState.formValues.current_art_regimen === "TDF +3TC +ATV/r"}
-                                            onChange={handleChange}
-                                        />
-                                        TDF +3TC +ATV/r
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="current_art_regimen"
-                                            value="TDF +3TC +LPV/r"
-                                            checked={formState.formValues.current_art_regimen === "TDF +3TC +LPV/r"}
-                                            onChange={handleChange}
-                                        />
-                                        TDF +3TC +LPV/r
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="current_art_regimen"
-                                            value="AZT+3TC +ATV/r"
-                                            checked={formState.formValues.current_art_regimen === "AZT+3TC +ATV/r"}
-                                            onChange={handleChange}
-                                        />
-                                        AZT+3TC +ATV/r
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="current_art_regimen"
-                                            value="AZT+3TC + LPV/r"
-                                            checked={formState.formValues.current_art_regimen === "AZT+3TC + LPV/r"}
-                                            onChange={handleChange}
-                                        />
-                                        AZT+3TC + LPV/r
-                                    </label>
-                                    <br />
-
-                                    {/* Add other regimen options similarly */}
-
-                                    {/* Other option with input field */}
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="current_art_regimen"
-                                            value="Other"
-                                            checked={formState.formValues.current_art_regimen === "Other"}
-                                            onChange={handleChange}
-                                        />
-                                        Other:
-                                        <input
-                                            type="text"
-                                            name="other_regimen_name"
-                                            value={formState.formValues.other_regimen_name || ""}
-                                            onChange={handleChange}
-                                            disabled={formState.formValues.current_art_regimen !== "Other"} 
+                                        {/* Other option with input field */}
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="current_art_regimen"
+                                                value="Other"
+                                                checked={formState.formValues.current_art_regimen === "Other"}
+                                                onChange={handleChange}
+                                            />
+                                            Other:
+                                            <input
+                                                type="text"
+                                                name="other_regimen_name"
+                                                value={formState.formValues.other_regimen_name || ""}
+                                                onChange={handleChange}
+                                                disabled={formState.formValues.current_art_regimen !== "Other"}
                                             // Disable input field if other option is not selected
-                                            
-                                        />
-                                    </label>
+
+                                            />
+                                        </label>
+                                    </div>
                                 </div>
+
+                                <div className="field col-12 md:col-6">
+                                    <label htmlFor="last_hiv_visit_date">Date of most recent HIV visit</label>
+                                    <InputText name="last_hiv_visit_date" value={formState.formValues.last_hiv_visit_date || ''} onChange={handleChange} type="date" />
+                                </div>
+                                <div className="field col-12 md:col-6">
+
+                                    <label htmlFor="otherNames">Has the woman missed any clinic visit in the past 14 days</label>
+                                    <br></br>
+                                    <RadioButton
+                                        inputId="missed_visits_yes"
+                                        name="ever_missed_visit"
+                                        value="Yes"
+                                        checked={radioValue === "Yes"}
+                                        onChange={(event) => {
+                                            setRadioValue(event.value)
+                                            formState.formValues.ever_missed_visit = event.target.value
+
+                                        }}
+                                    />
+                                    <label htmlFor="option1">Yes</label>
+                                    <RadioButton
+                                        inputId="missed_visits_yes"
+                                        name="ever_missed_visit"
+                                        value="No"
+                                        checked={radioValue === "No"}
+                                        onChange={(event) => {
+                                            setRadioValue(event.value)
+                                            formState.formValues.ever_missed_visit = event.target.value
+
+                                        }}
+                                    />
+                                    <label htmlFor="missed_visits_no">No</label>
+                                </div>
+
+
+                                <div className="field col-12 md:col-6">
+                                    <label htmlFor="missed_visits_count">If yes, approximately how many missed visits in the past 14 days</label>
+                                    <InputText name="missed_visits_count" value={formState.formValues.missed_visits_count || ''} onChange={handleChange} type="text" />
+                                </div>
+                                <div className="field col-12 md:col-6">
+                                    <label htmlFor="registration_type">Participant Timepoint ?</label>
+                                    <Dropdown
+                                        value={dropdowntimepointValue}
+                                        onChange={(e) => setDropdowntimepointValue(e.value)}
+                                        options={dropdowntimepoint}
+                                        optionLabel="timepoint"
+                                        placeholder="Select"
+                                        required
+                                    />
+                                </div>
+                                <div className="field col-12 md:col-12">
+                                    <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                                    <InputText
+                                        name="comment"                                
+                                        value={comment}
+                                        onChange= {onchangeComment}
+                                        type="text"
+                                        style={{ width: '100%', height: '3.5em' }}
+                                    />
+                                </div>
+
+                                <div className="field col-12 md:col-6">
+                                    <label htmlFor="otherNames"></label>
+                                    <Button label="Save" icon="pi pi-save" type="submit" outlined />
+                                </div>
+
+
+
+
+
+
+
                             </div>
-
-                            <div className="field col-12 md:col-6">
-                                <label htmlFor="last_hiv_visit_date">Date of most recent HIV visit</label>
-                                <InputText name="last_hiv_visit_date" value={formState.formValues.last_hiv_visit_date || ''} onChange={handleChange} type="date" />
-                            </div>
-                            <div className="field col-12 md:col-6">
-
-                                <label htmlFor="otherNames">Has the woman missed any clinic visit in the past 14 days</label>
-                                <br></br>
-                                <RadioButton
-                                    inputId="missed_visits_yes"
-                                    name="ever_missed_visit"
-                                    value="Yes"
-                                    checked={radioValue === "Yes"}
-                                    onChange={(event) => {
-                                        setRadioValue(event.value)
-                                        formState.formValues.ever_missed_visit = event.target.value
-
-                                    }}
-                                />
-                                <label htmlFor="option1">Yes</label>
-                                <RadioButton
-                                    inputId="missed_visits_yes"
-                                    name="ever_missed_visit"
-                                    value="No"
-                                    checked={radioValue === "No"}
-                                    onChange={(event) => {
-                                        setRadioValue(event.value)
-                                        formState.formValues.ever_missed_visit = event.target.value
-
-                                    }}
-                                />
-                                <label htmlFor="missed_visits_no">No</label>
-                            </div>
-
-
-                            <div className="field col-12 md:col-6">
-                                <label htmlFor="missed_visits_count">If yes, approximately how many missed visits in the past 14 days</label>
-                                <InputText name="missed_visits_count" value={formState.formValues.missed_visits_count || ''} onChange={handleChange} type="text" />
-                            </div>
-
-                            <div className="field col-12 md:col-6">
-                                <label htmlFor="otherNames">..</label>
-                                <Button label="Save" icon="pi pi-save" type="submit" outlined />
-                            </div>
-
-
-
-
-
-
 
                         </div>
-
                     </div>
-                </div>
-            </form>
+                </form>
 
 
 
 
-        </div>
+            </div>
         </>
     )
 

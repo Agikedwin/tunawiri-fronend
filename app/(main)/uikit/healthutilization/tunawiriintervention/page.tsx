@@ -1,6 +1,7 @@
 "use client"
 import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
+import { Dropdown } from "primereact/dropdown";
 import { SetStateAction, useEffect, useRef, useState } from 'react';
 import { Button } from "primereact/button";
 
@@ -9,6 +10,10 @@ import { useRouter } from 'next/navigation';
 import { Toast } from 'primereact/toast';
 
 import type { Demo, Page } from "@/types";
+interface InputValueReg {
+    timepoint: string,
+    regcode: string
+}
 
 
 const Tunawiriintervention: Page = () => {
@@ -34,6 +39,7 @@ const Tunawiriintervention: Page = () => {
     const [radioValue17, setRadioValue17] = useState(null);
 
     const  [selectedUserId, setSelectedUserId] = useState("")
+    const [comment, setComment] = useState("")
 
     const showSuccess = () => {
         toast.current?.show({
@@ -59,6 +65,8 @@ const Tunawiriintervention: Page = () => {
             average_meeting_length: "", // Will be a number
             still_involved: "", // Will be set to either "Yes" or "No"
             program_helpfulness: "", // Will be set to one of the options
+            timepoint:"",
+            comment:"",
             user_id:"",
         }
     });
@@ -77,9 +85,19 @@ const Tunawiriintervention: Page = () => {
     function session_leader(arg0: string): void {
         throw new Error("Function not implemented.");
     }
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({timepoint:"",code:""});
+
+            const dropdowntimepoint: InputValueReg[] = [
+                        { timepoint: "Baseline", regcode: "B" },
+                        { timepoint: "6 Months Follow Up", regcode: "6" },
+                        { timepoint: "12 Months Follow Up", regcode: "12" },
+
+            ];
     const saveTunawiriintervention = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         formState.formValues.user_id = selectedUserId
+        formState.formValues.timepoint = dropdowntimepointValue.timepoint
+        formState.formValues.comment = comment
         console.log(formState.formValues);
 
         try {
@@ -106,14 +124,38 @@ const Tunawiriintervention: Page = () => {
         setSelectedUserId(_id)
 
     }, []);
+
+    const onchangeComment = (event:any) =>{
+        const commentValue = event.target.value;
+
+       setComment(commentValue)
+    
+    }
+    
     return (
         <div>
             <div className="card ">
                 <Toast ref={toast} />
                 <form onSubmit={saveTunawiriintervention} >
+
                     <h5>Tunawiri Intervention</h5>
                     <p>PM+ sessions</p>
                     <p>I would like to ask you a few questions about any sessions you have participated in related to your emotional/mental health challenges</p>
+                    <div className="card">
+                        <div className="flex flex-wrap gap-6">
+                            <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
+                            <Dropdown
+                                value={dropdowntimepointValue}
+                                onChange={(e) => setDropdowntimepointValue(e.value)}
+                                options={dropdowntimepoint}
+                                optionLabel="timepoint"
+                                placeholder="Select"
+                                required
+                            />
+                        </div>
+
+
+                    </div>
                     <div className="card">
                     <div className="flex flex-wrap gap-3">
                         <div className="flex align-items-center">
@@ -375,8 +417,18 @@ const Tunawiriintervention: Page = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="field col-12 md:col-12">
+                                    <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                                    <InputText
+                                        name="comment"                                
+                                        value={comment}
+                                        onChange= {onchangeComment}
+                                        type="text"
+                                        style={{ width: '100%', height: '3.5em' }}
+                                    />
+                                </div>
                     <br />
-                    <Button type="submit" label="Save" />
+                    <Button type="submit" label="Save"  outlined/>
 
 
                 </form>

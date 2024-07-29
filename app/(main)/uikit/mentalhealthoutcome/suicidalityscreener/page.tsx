@@ -1,6 +1,7 @@
 "use client"
 import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
+import { Dropdown } from "primereact/dropdown";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import api from "@/app/api/api";
@@ -17,7 +18,10 @@ import { useRouter } from 'next/navigation';
 import type { Demo, Page } from "@/types";
 import { ProgressBar } from "primereact/progressbar";
 
-
+interface InputValueReg {
+    timepoint: string,
+    regcode: string
+}
 
 
 const SuicidalityScreener: Page = () => {
@@ -37,6 +41,7 @@ const SuicidalityScreener: Page = () => {
     const [colorCode, setColorCode] = useState("")
     const [severity, setSeverity] = useState("")
     const [themeColor, setThemeColor] = useState("secondary")
+    const [comment, setComment] = useState("")
 
 
 
@@ -58,6 +63,8 @@ const SuicidalityScreener: Page = () => {
             done_anything_to_end_your_life_3month: "",
             done_anything_to_end_your_life_lifetime: "",
             suicidality_screener_score: "",
+            timepoint:"",
+            comment:"",
             user_id:"",
             suicidal_score: 0,
             severity: "",
@@ -77,7 +84,14 @@ const SuicidalityScreener: Page = () => {
 
     };
 
+        const [dropdowntimepointValue, setDropdowntimepointValue] = useState({timepoint:"",code:""});
 
+            const dropdowntimepoint: InputValueReg[] = [
+                        { timepoint: "Baseline", regcode: "B" },
+                        { timepoint: "6 Months Follow Up", regcode: "6" },
+                        { timepoint: "12 Months Follow Up", regcode: "12" },
+
+            ];
     const multiplierFactor = (100 / 7)
 
     const scores = {
@@ -92,7 +106,7 @@ const SuicidalityScreener: Page = () => {
 
             if (data * multiplierFactor > 0 && data * multiplierFactor <= 50) {
                 setColorCode("green")
-                setSeverity("moderate")
+                setSeverity("Low")
                 setThemeColor("lightgreen")
             } else if (data * multiplierFactor > 50 && data * multiplierFactor < 70) {
                 setColorCode("orange")
@@ -123,6 +137,8 @@ const SuicidalityScreener: Page = () => {
         formState.formValues.suicidal_score = Math.ceil(progressBarValue / multiplierFactor)
         formState.formValues.severity = severity
         formState.formValues.color = themeColor
+        formState.formValues.timepoint = dropdowntimepointValue.timepoint
+        formState.formValues.comment = comment
 
         try {
             await api.addEntry("suicidal", formState.formValues, "3").then((data: any) => {
@@ -152,14 +168,38 @@ const SuicidalityScreener: Page = () => {
         setSelectedUserId(_id)
     })
 
+    const onchangeComment = (event:any) =>{
+        const commentValue = event.target.value;
+
+       setComment(commentValue)
+    
+    }
+    
+
     return (
         <div>
             <Toast ref={toast} />
 
             <div className="card ">
                 <form onSubmit={saveSuicidalityScreener} >
+                                    
                     <h5>Suicidality Screener (C-SSRS) </h5>
                     <p>Always ask question 1 and 2</p>
+                    <div className="card">
+                        <div className="flex flex-wrap gap-6">
+                            <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
+                            <Dropdown
+                                value={dropdowntimepointValue}
+                                onChange={(e) => setDropdowntimepointValue(e.value)}
+                                options={dropdowntimepoint}
+                                optionLabel="timepoint"
+                                placeholder="Select"
+                                required
+                            />
+                        </div>
+
+
+                    </div>
                     <div className="card">
                     <div className="flex flex-wrap gap-3">
                         <div className="flex align-items-center">
@@ -388,6 +428,16 @@ const SuicidalityScreener: Page = () => {
                         </div>
                     </div>
                     <br></br>
+                    <div className="field col-12 md:col-12">
+                                    <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                                    <InputText
+                                        name="comment"                                
+                                        value={comment}
+                                        onChange= {onchangeComment}
+                                        type="text"
+                                        style={{ width: '100%', height: '3.5em' }}
+                                    />
+                                </div>
                     <div >
                         <span id="label_status">{severity}</span>
                         <ProgressBar color={colorCode} value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
@@ -395,6 +445,7 @@ const SuicidalityScreener: Page = () => {
 
 
                     </div>
+                   
                     <br></br>
                     <Button label="Save" icon="pi pi-save" type="submit" outlined/>
                     </form>

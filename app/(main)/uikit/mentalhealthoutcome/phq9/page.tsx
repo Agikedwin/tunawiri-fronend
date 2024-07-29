@@ -1,5 +1,6 @@
 "use client"
 import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
 import { RadioButton } from "primereact/radiobutton";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
@@ -16,6 +17,10 @@ import { ProgressBar } from "primereact/progressbar";
 import { Toast } from "primereact/toast";
 import { useRouter } from 'next/navigation';
 
+interface InputValueReg {
+    timepoint: string,
+    regcode: string
+}
 
 
 const DepressionPhq9: Page = () => {
@@ -39,6 +44,7 @@ const DepressionPhq9: Page = () => {
     const [colorCode, setColorCode] = useState("")
     const [severity, setSeverity] = useState("")
     const [themeColor, setThemeColor] = useState("secondary")
+    const [comment, setComment] = useState("")
 
 
 
@@ -58,6 +64,8 @@ const DepressionPhq9: Page = () => {
             trouble_concentrating: "",
             slow_or_restless: "",
             thoughts_of_harming_yourself: "",
+            timepoint: "",
+            comment: "",
             user_id: "",
             phq9_score: 0,
             severity: "",
@@ -76,7 +84,14 @@ const DepressionPhq9: Page = () => {
 
     };
 
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({ timepoint: "", code: "" });
 
+    const dropdowntimepoint: InputValueReg[] = [
+        { timepoint: "Baseline", regcode: "B" },
+        { timepoint: "6 Months Follow Up", regcode: "6" },
+        { timepoint: "12 Months Follow Up", regcode: "12" },
+
+    ];
 
 
     // Define the scores for each option
@@ -96,44 +111,37 @@ const DepressionPhq9: Page = () => {
         setSelectedUserId(_id)
     })
 
-    const handleChange = () => {
+    const multiplierFactor = (100 / 27)
 
-    }
-
-    const multiplierFactor = (100/27)
-
-
-
-    const severityRanking = async (data:any, scores:any) => {
-        await api.countOccurrences(formState.formValues, scores).then((data:any) =>{
+    const severityRanking = async (data: any, scores: any) => {
+        await api.countOccurrences(formState.formValues, scores).then((data: any) => {
             console.log('Severity count ', data)
             setProgressBarValue(data * multiplierFactor)
 
-            if(data  >  0 && data   <= 4){
+            if (data > 0 && data <= 4) {
                 setColorCode("green")
                 setSeverity("Low")
                 setThemeColor("lightgreen")
-            }else if(data  >  4 && data   <= 9){
+            } else if (data > 4 && data <= 9) {
                 setColorCode("yellow")
-                setSeverity("Moderate")
-                setThemeColor("yellow")
-            } else if(data >  9 && data  <= 14){
-                setColorCode("orange")
                 setSeverity("Mild")
+                setThemeColor("yellow")
+            } else if (data > 9 && data <= 14) {
+                setColorCode("orange")
+                setSeverity("Moderate")
                 setThemeColor("orange")
-            }else  if(data > 14 ){
+            } else if (data > 14) {
                 setColorCode("red")
                 setSeverity("Severe")
                 setThemeColor("red")
             }
-            console.log("Color code  ====== ",data)
 
         })
 
     }
 
     const colorCodeScheme = async (severity: any) => {
-        await api.colorScheme(severity).then((color:any) => {
+        await api.colorScheme(severity).then((color: any) => {
             return color
         })
 
@@ -149,6 +157,8 @@ const DepressionPhq9: Page = () => {
         formState.formValues.phq9_score = Math.ceil((progressBarValue / 3.7))
         formState.formValues.severity = severity
         formState.formValues.color = themeColor
+        formState.formValues.timepoint = dropdowntimepointValue.timepoint
+        formState.formValues.comment = comment
 
         try {
             await api.addEntry("phq9", formState.formValues, "3").then((data: any) => {
@@ -158,7 +168,7 @@ const DepressionPhq9: Page = () => {
                     console.log("saving data ---")
 
                     router.push('/uikit/users/profile/')
-              }, 3000);
+                }, 3000);
             })
 
         } catch (error) {
@@ -172,17 +182,44 @@ const DepressionPhq9: Page = () => {
 
     }
 
+    const onchangeComment = (event: any) => {
+        const commentValue = event.target.value;
+
+        setComment(commentValue)
+
+    }
+
 
     return (
         <div>
-             <Toast ref={toast} />
+            <Toast ref={toast} />
 
             <div className="card ">
                 <form onSubmit={saveDepressionPhq9} >
+
                     <h5>Depression PHQ-9 questionnaire </h5>
                     <p>Now I am asking you some of the problems that may have experienced in the past TWO weeks. Please tell me how often you have been bothered by the following problems.</p>
 
+
                     <div className="card">
+                        <div className="flex flex-wrap gap-3">
+                            <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
+                            <Dropdown
+                                value={dropdowntimepointValue}
+                                onChange={(e) => setDropdowntimepointValue(e.value)}
+                                options={dropdowntimepoint}
+                                optionLabel="timepoint"
+                                placeholder="Select"
+                                required
+                            />
+                        </div>
+
+
+                    </div>
+
+                    <div className="card">
+
+
 
 
                         <div className="flex flex-wrap gap-3">
@@ -197,7 +234,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
                                         formState.formValues.interest_pleasure = e.target.value
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState)
                                     }
                                     } />
@@ -208,7 +245,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
                                         formState.formValues.interest_pleasure = e.target.value
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState)
                                     }
                                     }
@@ -220,7 +257,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
                                         formState.formValues.interest_pleasure = e.target.value
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState)
                                     }
                                     }
@@ -232,7 +269,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue1(e.value)
                                         formState.formValues.interest_pleasure = e.target.value
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState)
                                     }
                                     }
@@ -255,7 +292,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue2(e.value);
                                         formState.formValues.feeling_depressed = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                 />
@@ -267,7 +304,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue2(e.value);
                                         formState.formValues.feeling_depressed = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue2 === 'Several days'}
                                 />
@@ -279,7 +316,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue2(e.value);
                                         formState.formValues.feeling_depressed = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue2 === 'More than half the days'}
                                 />
@@ -291,7 +328,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue2(e.value);
                                         formState.formValues.feeling_depressed = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue2 === 'Nearly every day'}
                                 />
@@ -316,7 +353,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue3(e.value);
                                         formState.formValues.trouble_sleeping = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                 />
@@ -327,7 +364,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue3(e.value);
                                         formState.formValues.trouble_sleeping = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue3 === 'Several days'}
@@ -339,7 +376,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue3(e.value);
                                         formState.formValues.trouble_sleeping = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue3 === 'More than half the days'}
@@ -351,7 +388,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue3(e.value);
                                         formState.formValues.trouble_sleeping = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue3 === 'Nearly every day'}
@@ -375,7 +412,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue4(e.value);
                                         formState.formValues.feeling_tired = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                 />
                                 <label htmlFor="feeling_tired" className="ml-2">Not at all</label>
@@ -386,7 +423,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue4(e.value);
                                         formState.formValues.feeling_tired = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue4 === 'Several days'}
                                 />
@@ -398,7 +435,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue4(e.value);
                                         formState.formValues.feeling_tired = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue4 === 'More than half the days'}
                                 />
@@ -410,7 +447,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue4(e.value);
                                         formState.formValues.feeling_tired = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue4 === 'Nearly every day'}
                                 />
@@ -433,7 +470,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue5(e.value);
                                         formState.formValues.poor_appetite = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                 />
                                 <label htmlFor="poor_appetite" className="ml-2">Not at all</label>
@@ -444,7 +481,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue5(e.value);
                                         formState.formValues.poor_appetite = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue5 === 'Several days'}
                                 />
@@ -456,7 +493,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue5(e.value);
                                         formState.formValues.poor_appetite = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue5 === 'More than half the days'}
                                 />
@@ -468,7 +505,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue5(e.value);
                                         formState.formValues.poor_appetite = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue5 === 'Nearly every day'}
                                 />
@@ -490,7 +527,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue6(e.value);
                                         formState.formValues.feeling_bad_about_yourself = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                 />
                                 <label htmlFor="feeling_bad_about_yourself" className="ml-2">Not at all</label>
@@ -501,7 +538,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue6(e.value);
                                         formState.formValues.feeling_bad_about_yourself = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue6 === 'Several days'}
                                 />
@@ -513,7 +550,7 @@ const DepressionPhq9: Page = () => {
                                         setRadioValue6(e.value);
                                         formState.formValues.feeling_bad_about_yourself = e.target.value;
                                         console.log(formState);
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                     }}
                                     checked={radioValue6 === 'More than half the days'}
                                 />
@@ -524,7 +561,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue6(e.value);
                                         formState.formValues.feeling_bad_about_yourself = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue6 === 'Nearly every day'}
@@ -546,7 +583,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue7(e.value);
                                         formState.formValues.trouble_concentrating = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                 />
@@ -557,7 +594,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue7(e.value);
                                         formState.formValues.trouble_concentrating = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue7 === 'Several days'}
@@ -569,7 +606,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue7(e.value);
                                         formState.formValues.trouble_concentrating = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue7 === 'More than half the days'}
@@ -581,7 +618,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue7(e.value);
                                         formState.formValues.trouble_concentrating = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue7 === 'Nearly every day'}
@@ -603,7 +640,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue8(e.value);
                                         formState.formValues.slow_or_restless = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                 />
@@ -614,7 +651,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue8(e.value);
                                         formState.formValues.slow_or_restless = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue8 === 'Several days'}
@@ -626,7 +663,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue8(e.value);
                                         formState.formValues.slow_or_restless = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue8 === 'More than half the days'}
@@ -638,7 +675,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue8(e.value);
                                         formState.formValues.slow_or_restless = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue8 === 'Nearly every day'}
@@ -660,7 +697,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue9(e.value);
                                         formState.formValues.thoughts_of_harming_yourself = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                 />
@@ -671,7 +708,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue9(e.value);
                                         formState.formValues.thoughts_of_harming_yourself = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue9 === 'Several days'}
@@ -683,7 +720,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue9(e.value);
                                         formState.formValues.thoughts_of_harming_yourself = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue9 === 'More than half the days'}
@@ -695,7 +732,7 @@ const DepressionPhq9: Page = () => {
                                     onChange={(e) => {
                                         setRadioValue9(e.value);
                                         formState.formValues.thoughts_of_harming_yourself = e.target.value;
-                                        severityRanking(formState.formValues,scores)
+                                        severityRanking(formState.formValues, scores)
                                         console.log(formState);
                                     }}
                                     checked={radioValue9 === 'Nearly every day'}
@@ -707,17 +744,28 @@ const DepressionPhq9: Page = () => {
 
                     </div>
 
+                    <div className="field col-12 md:col-12">
+                                    <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                                    <InputText
+                                        name="comment"                                
+                                        value={comment}
+                                        onChange= {onchangeComment}
+                                        type="text"
+                                        style={{ width: '100%', height: '3.5em' }}
+                                    />
+                                </div>
+
+
                     <div >
-                    <span id="label_status">{severity}</span>
-                    <ProgressBar color={colorCode} value={Math.floor(progressBarValue) } style={{ height: '15px' }}></ProgressBar>
-                    <br></br>
+                        <span id="label_status">{severity}</span>
+                        <ProgressBar color={colorCode} value={Math.floor(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
+                        <br></br>
 
 
                     </div>
-
-
+                   
                     <div className="grid">
-                    <Button label="Save" icon="pi pi-save" type="submit"  outlined/>
+                        <Button label="Save" icon="pi pi-save" type="submit" outlined />
                     </div>
                 </form>
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const urlAuth ='http://41.89.200.201:8050/';
-//const urlAuth = 'http://0.0.0.0:8050/';
+//const urlAuth ='http://41.89.200.201:8050/';
+const urlAuth = 'http://0.0.0.0:8050/';
 //const urlSms = 'http://localhost:8050/';
 
 
@@ -163,7 +163,7 @@ export default {
 
     async countOccurrences(data: any, factor:any) {
 
-        console.log(data)
+        console.log("===========API LPW ",data)
 
         let countOccurrence = []
 
@@ -198,7 +198,7 @@ export default {
 
 
         for (let value in countOccurrence) {
-            console.log(value , " ****************************", value)
+            console.log(value , " *************AGIK***************", value)
             if (factor[value]){
                 console.log(value , " **************factor[value]**************", factor[value])
                 multiplier = (countOccurrence[value] * factor[value])
@@ -211,7 +211,13 @@ export default {
 
 
             sum += multiplier
+            console.log("Value ::SUM: of factor", sum)
+            console.log("Value ::MUL: of factor", multiplier)
         }
+
+       
+
+        
 
         return sum
 

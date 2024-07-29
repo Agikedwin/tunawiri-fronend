@@ -1,6 +1,7 @@
 "use client"
 import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
+import { Dropdown } from "primereact/dropdown";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import api from "@/app/api/api";
@@ -16,7 +17,10 @@ import { useRouter } from 'next/navigation';
 import type { Demo, Page } from "@/types";
 import { ProgressBar } from "primereact/progressbar";
 
-
+interface InputValueReg {
+    timepoint: string,
+    regcode: string
+}
 const AnxietyGad7: Page = () => {
 
     const toast = useRef<Toast>(null);
@@ -37,6 +41,7 @@ const AnxietyGad7: Page = () => {
     const [colorCode, setColorCode] = useState("")
     const [severity, setSeverity] = useState("")
     const [themeColor, setThemeColor] = useState("secondary")
+    const [comment, setComment] = useState("")
 
 
 
@@ -68,19 +73,19 @@ const AnxietyGad7: Page = () => {
             console.log('Severity count ', data)
             setProgressBarValue(data * multiplierFactor)
 
-            if(data  >  0 && data   <= 4){
+            if (data > 0 && data <= 4) {
                 setColorCode("green")
                 setSeverity("Low")
                 setThemeColor("lightgreen")
-            }else if(data  >  4 && data   <= 9){
+            } else if (data > 4 && data <= 9) {
                 setColorCode("yellow")
-                setSeverity("Moderate")
-                setThemeColor("yellow")
-            } else if(data >  9 && data  <= 14){
-                setColorCode("orange")
                 setSeverity("Mild")
+                setThemeColor("yellow")
+            } else if (data > 9 && data <= 14) {
+                setColorCode("orange")
+                setSeverity("Moderate")
                 setThemeColor("orange")
-            }else  if(data > 14 ){
+            } else if (data > 14) {
                 setColorCode("red")
                 setSeverity("Severe")
                 setThemeColor("red")
@@ -112,6 +117,8 @@ const AnxietyGad7: Page = () => {
             user_id: "",
             gad7_score: 0,
             severity: "",
+            timepoint: "",
+            comment: "",
             color: ""
         }
     });
@@ -119,11 +126,20 @@ const AnxietyGad7: Page = () => {
     const handleChange = () => {
 
     }
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({ timepoint: "", code: "" });
 
+    const dropdowntimepoint: InputValueReg[] = [
+        { timepoint: "Baseline", regcode: "B" },
+        { timepoint: "6 Months Follow Up", regcode: "6" },
+        { timepoint: "12 Months Follow Up", regcode: "12" },
+
+    ];
     const saveAnxietyGad7 = async (event: any) => {
         event.preventDefault();
 
         formState.formValues.user_id = selectedUserId
+        formState.formValues.timepoint = dropdowntimepointValue.timepoint
+        formState.formValues.comment = comment
         console.log(formState.formValues);
         formState.formValues.gad7_score = Math.ceil((progressBarValue / multiplierFactor))
         formState.formValues.severity = severity
@@ -159,15 +175,40 @@ const AnxietyGad7: Page = () => {
         setSelectedUserId(_id)
     })
 
+    const onchangeComment = (event: any) => {
+        const commentValue = event.target.value;
+
+        setComment(commentValue)
+
+    }
+
+
     return (
         <div>
             <Toast ref={toast} />
 
             <div className="card ">
                 <form onSubmit={saveAnxietyGad7} >
+
                     <h5>Anxiety Gad 7 scale </h5>
                     <h6>The next questions are about feelings and events that may have occurred in the past TWO WEEKS.
                         Over the last two weeks, how often have you been bothered by the following problems?</h6>
+
+                    <div className="card">
+                        <div className="flex flex-wrap gap-6">
+                            <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
+                            <Dropdown
+                                value={dropdowntimepointValue}
+                                onChange={(e) => setDropdowntimepointValue(e.value)}
+                                options={dropdowntimepoint}
+                                optionLabel="timepoint"
+                                placeholder="Select"
+                                required
+                            />
+                        </div>
+
+
+                    </div>
                     <div className="card">
                         <div className="flex flex-wrap gap-3">
                             <div className="flex align-items-center">
@@ -540,9 +581,21 @@ const AnxietyGad7: Page = () => {
 
 
                     </div>
+                    <div className="card">
+                        <div className="field col-12 md:col-12">
+                            <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                            <InputText
+                                name="comment"
+                                value={comment}
+                                onChange={onchangeComment}
+                                type="text"
+                                style={{ width: '100%', height: '3.5em' }}
+                            />
+                        </div>
 
+                    </div>
 
-                    <Button label="Save" icon="pi pi-save" type="submit" />
+                    <Button label="Save" icon="pi pi-save" type="submit" outlined/>
                 </form>
 
             </div>

@@ -62,11 +62,11 @@ const Dashboard = () => {
     const [lineOptions, setLineOptions] = useState<ChartOptions>({});
     const { layoutConfig } = useContext(LayoutContext);
 
-    const [phq9Dash, setPhq9Dash] = useState({ 'Low': 0, 'Moderate': 0, 'Mild': 0, 'Severe': 0 })
-    const [gad7Dash, setGadDash] = useState({ 'Low': 0, 'Moderate': 0, 'Mild': 0, 'Severe': 0 })
-    const [harvardDash, setHarvardDash] = useState({ 'Low': 0, 'Moderate': 0, 'Mild': 0, 'Severe': 0 })
-    const [suicidalDash, setSuicidalDash] = useState({ 'Low': 0, 'Moderate': 0, 'Mild': 0, 'Severe': 0 })
-    const [traumaDash, setTraumaDash] = useState({ 'Low': 0, 'Moderate': 0, 'Mild': 0, 'Severe': 0 })
+    const [phq9Dash, setPhq9Dash] = useState({ 'Low': 0, 'Mild': 0, 'Moderate': 0, 'Severe': 0 })
+    const [gad7Dash, setGadDash] = useState({ 'Low': 0, 'Mild': 0, 'Moderate': 0, 'Severe': 0 })
+    const [harvardDash, setHarvardDash] = useState({ 'Low': 0, 'Mild': 0, 'Moderate': 0, 'Severe': 0 })
+    const [suicidalDash, setSuicidalDash] = useState({ 'Low': 0, 'Mild': 0, 'Moderate': 0, 'Severe': 0 })
+    const [traumaDash, setTraumaDash] = useState({ 'Low': 0, 'Mild': 0, 'Moderate': 0, 'Severe': 0 })
     const [userSeverity, setUserSeverity] = useState([])
 
     const applyLightTheme = () => {
@@ -179,9 +179,9 @@ const Dashboard = () => {
                 <div className="card mb-0" style={{ backgroundColor: 'lightgreen' }}>
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Low</span>
+                            <span className="block text-500 font-medium mb-3">None Count</span>
                             <div className="text-900 font-medium text-xl">
-                                {phq9Dash.Moderate + gad7Dash.Moderate + harvardDash.Moderate + traumaDash.Moderate + suicidalDash.Moderate}
+                                {phq9Dash.Low + gad7Dash.Low + harvardDash.Low + traumaDash.Low + suicidalDash.Low}
                             </div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-cyan-100 border-round"
@@ -197,10 +197,10 @@ const Dashboard = () => {
 
 
             <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0" style={{ backgroundColor: 'orange' }}>
+                <div className="card mb-0" style={{ backgroundColor: 'yellow' }}>
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Moderate Count</span>
+                            <span className="block text-500 font-medium mb-3">Mild Count</span>
                             <div className="text-900 font-medium text-xl">
                                 {phq9Dash.Mild + gad7Dash.Mild + harvardDash.Mild + traumaDash.Mild + suicidalDash.Mild}
                             </div>
@@ -216,11 +216,12 @@ const Dashboard = () => {
                 </div>
             </div>
 
+
             <div className="col-12 lg:col-6 xl:col-3">
-                <div className="card mb-0" style={{ backgroundColor: 'yellow' }}>
+                <div className="card mb-0" style={{ backgroundColor: 'orange' }}>
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Mild Count</span>
+                            <span className="block text-500 font-medium mb-3">Moderate Count</span>
                             <div className="text-900 font-medium text-xl">
                                 {phq9Dash.Mild + gad7Dash.Mild + harvardDash.Mild + traumaDash.Mild + suicidalDash.Mild}
                             </div>
@@ -273,7 +274,7 @@ const Dashboard = () => {
                             />
                         </div>
                     </div>
-                    <ul className="list-none p-0 m-0">
+                    <ul className="list-Low p-0 m-0">
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0" style={{ width: '20%' }}>Depression PHQ9</span>
@@ -286,27 +287,27 @@ const Dashboard = () => {
                             <div>
 
                                 <Link href="#" onClick={() => obSeverityClicked(['mentalhealthPhq9', 'Low'])}>
-                                    <span className="text-green-500 font-medium mr-2 mb-1 md:mb-0">Low</span>
-                                    <span className="mt-1 text-600" >
-                                        {phq9Dash.Mild}
+                                    <span className="text-green-500 font-medium mr-2 mb-1 md:mb-0">None</span>
+                                    <span className="mt-1 text-green-500" >
+                                        {phq9Dash.Low}
                                     </span>
                                 </Link>
                             </div>
                             <div>
-                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthPhq9', 'Moderate'])}>
-                                    <span className="text-orange-500 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
-                                    <span className="mt-1 text-600" >
-                                        {phq9Dash.Moderate}
-                                    </span>
-                                </Link>
-                            </div>
-
-                            <div>
-
                                 <Link href="#" onClick={() => obSeverityClicked(['mentalhealthPhq9', 'Mild'])}>
-                                    <span className="text-yellow-500 font-medium mr-2 mb-1 md:mb-0">Mild </span>
-                                    <span className="mt-1 text-600" >
+                                    <span className="text-yellow-500 font-medium mr-2 mb-1 md:mb-0">Mild</span>
+                                    <span className="mt-1 text-yellow-500" >
                                         {phq9Dash.Mild}
+                                    </span>
+                                </Link>
+                            </div>
+
+                            <div>
+
+                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthPhq9', 'Moderate'])}>
+                                    <span className="text-orange-500 font-medium mr-2 mb-1 md:mb-0">Moderate </span>
+                                    <span className="mt-1 text-orange-500" >
+                                        {phq9Dash.Moderate}
                                     </span>
                                 </Link>
                             </div>
@@ -347,24 +348,24 @@ const Dashboard = () => {
 
                             <div>
                                 <Link href="#" onClick={() => obSeverityClicked(['mentalhealthGad7Scale', 'Low'])}>
-                                    <span className="text-green-500 font-medium mr-2 mb-1 md:mb-0">Low</span>
+                                    <span className="text-green-500 font-medium mr-2 mb-1 md:mb-0">None</span>
                                     <span className="mt-1 text-green-500">{gad7Dash.Low}</span>
                                 </Link>
 
                             </div>
 
                             <div>
-                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthGad7Scale', 'Moderate'])}>
-                                    <span className="text-orange-500 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
-                                    <span className="mt-1 text-orange-500">{gad7Dash.Moderate}</span>
+                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthGad7Scale', 'Mild'])}>
+                                    <span className="text-yellow-500 font-medium mr-2 mb-1 md:mb-0">Mild</span>
+                                    <span className="mt-1 text-yellow-500">{gad7Dash.Mild}</span>
                                 </Link>
 
                             </div>
                             <div>
-                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthGad7Scale', 'Mild'])}>
+                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthGad7Scale', 'Moderate'])}>
 
-                                    <span className="text-yellow-500 font-medium mr-2 mb-1 md:mb-0">Mild</span>
-                                    <span className="mt-1 text-yellow-500">{gad7Dash.Mild}</span>
+                                    <span className="text-orange-500 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
+                                    <span className="mt-1 text-orange-500">{gad7Dash.Moderate}</span>
                                 </Link>
                             </div>
 
@@ -392,20 +393,20 @@ const Dashboard = () => {
                             </div>
                             <div>
                                 <Link href="#" onClick={() => obSeverityClicked(['mentalhealthTraumaScale', 'Low'])}>
-                                    <span className="text-green-500 font-medium mr-2 mb-1 md:mb-0">Low</span>
+                                    <span className="text-green-500 font-medium mr-2 mb-1 md:mb-0">None</span>
                                     <span className="mt-1 text-green-500">{traumaDash.Low}</span>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthTraumaScale', 'Mild'])}>
+                                    <span className="text-yellow-500 font-medium mr-2 mb-1 md:mb-0">Mild</span>
+                                    <span className="mt-1 text-yellow-500">{traumaDash.Mild}</span>
                                 </Link>
                             </div>
                             <div>
                                 <Link href="#" onClick={() => obSeverityClicked(['mentalhealthTraumaScale', 'Moderate'])}>
                                     <span className="text-orange-500 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
                                     <span className="mt-1 text-orange-500">{traumaDash.Moderate}</span>
-                                </Link>
-                            </div>
-                            <div>
-                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthTraumaScale', 'Moderate'])}>
-                                    <span className="text-yellow-500 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
-                                    <span className="mt-1 text-yellow-500">{traumaDash.Moderate}</span>
                                 </Link>
                             </div>
                             <div>
@@ -434,15 +435,15 @@ const Dashboard = () => {
                             </div>
 
                             <div>
-                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthHarvardTrauma', 'Moderate'])}>
-                                    <span className="text-green-400 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
-                                    <span className="mt-1 text-green-500">{traumaDash.Moderate}</span>
+                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthHarvardTrauma', 'Mild'])}>
+                                    <span className="text-yellow-400 font-medium mr-2 mb-1 md:mb-0">Mild</span>
+                                    <span className="mt-1 text-yellow-500">{traumaDash.Mild}</span>
                                 </Link>
                             </div>
                             <div>
-                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthHarvardTrauma', 'Mild'])}>
-                                    <span className="text-yellow-500 font-medium mr-2 mb-1 md:mb-0">Mild</span>
-                                    <span className="mt-1 text-yellow-500"> {traumaDash.Mild}</span>
+                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthHarvardTrauma', 'Moderate'])}>
+                                    <span className="text-orange-500 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
+                                    <span className="mt-1 text-orange-500"> {traumaDash.Moderate}</span>
                                 </Link>
                             </div>
                             <div>
@@ -465,20 +466,20 @@ const Dashboard = () => {
                             </div>
                             <div>
                                 <Link href="#" onClick={() => obSeverityClicked(['mentalhealthSuicidal', 'Low'])}>
-                                    <span className="text-green-500 font-medium mr-2 mb-1 md:mb-0">Low</span>
+                                    <span className="text-green-500 font-medium mr-2 mb-1 md:mb-0">None</span>
                                     <span className="mt-1 text-green-500">{suicidalDash.Low}</span>
-                                </Link>
-                            </div>
-                            <div>
-                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthSuicidal', 'Moderate'])}>
-                                    <span className="text-orange-500 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
-                                    <span className="mt-1 text-orange-500">{suicidalDash.Moderate}</span>
                                 </Link>
                             </div>
                             <div>
                                 <Link href="#" onClick={() => obSeverityClicked(['mentalhealthSuicidal', 'Mild'])}>
                                     <span className="text-yellow-500 font-medium mr-2 mb-1 md:mb-0">Mild</span>
                                     <span className="mt-1 text-yellow-500">{suicidalDash.Mild}</span>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link href="#" onClick={() => obSeverityClicked(['mentalhealthSuicidal', 'Moderate'])}>
+                                    <span className="text-orange-500 font-medium mr-2 mb-1 md:mb-0">Moderate</span>
+                                    <span className="mt-1 text-orange-500">{suicidalDash.Moderate}</span>
                                 </Link>
                             </div>
                             <div>
