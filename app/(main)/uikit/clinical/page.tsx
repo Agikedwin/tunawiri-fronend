@@ -70,6 +70,10 @@ const clinicalModel = {
     missed_visits_count: '',
     comment: '',
 }
+interface InputValueReg {
+    timepoint: string,
+    regcode: string
+}
 
 
 const ClinicalDetails: Page = () => {
