@@ -373,7 +373,7 @@ const TraumaExposure: Page = () => {
                                 <div className="flex flex-wrap gap-3">
                                     <div className="flex align-items-center">
                                         <h6><i>
-                                            6. I witnessed the murder of a stranger or someone I knew?
+                                            6. I witnessed the torture of a stranger or someone I knew?
                                         </i> </h6>
                                     </div>
                                     <div className="flex align-items-center">

@@ -153,7 +153,7 @@ const Antenatal: Page = () => {
 
                         <div className="card">
                             <div className="p-field">
-                                <label htmlFor="monthsIntoPregnancy">6. How many months were you into the pregnancy when you first went to the clinic for antenatal care?</label>
+                                <label htmlFor="monthsIntoPregnancy">2. How many ANC visits have you attended during this pregnancy ?</label>
                                 <br />
                                 <p></p>
                                 <InputText

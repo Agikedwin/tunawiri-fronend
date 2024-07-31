@@ -180,8 +180,6 @@ const SocialSupport: Page = () => {
                 
                     <p>I am now going to ask you about some situations that are true for many women. Thinking about
                         your current or most recent husband/partner, how many times in the past six months has he
-                        I am now going to ask you about some situations that are true for many women. Thinking about
-                        your current or most recent husband/partner, how many times in the past six months has he
 </p>
                     <h5>Intimate Partner Violence WHO Instrument</h5>
                     <div className="card">

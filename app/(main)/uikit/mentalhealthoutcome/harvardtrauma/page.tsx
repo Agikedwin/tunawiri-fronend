@@ -723,7 +723,7 @@ const HarvardTrauma: Page = () => {
                         <div className="flex flex-wrap gap-3">
                             <div className="flex align-items-center">
                                 <h6><i>
-                                    9. Trouble sleeping?
+                                    9. Feeling on guard ?
                                 </i> </h6>
                             </div>
                             <div className="flex align-items-center">
@@ -962,7 +962,7 @@ const HarvardTrauma: Page = () => {
                         <div className="flex flex-wrap gap-3">
                             <div className="flex align-items-center">
                                 <h6><i>
-                                    13. Inability to remember parts of the most traumatic or hurtful events?
+                                    13. Feeling less interest in daily activities or events?
                                 </i> </h6>
                             </div>
                             <div className="flex align-items-center">
