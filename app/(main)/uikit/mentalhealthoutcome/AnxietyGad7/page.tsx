@@ -574,13 +574,7 @@ const AnxietyGad7: Page = () => {
 
                     </div>
 
-                    <div >
-                        <span id="label_status">{severity}</span>
-                        <ProgressBar color={colorCode} value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
-                        <br></br>
-
-
-                    </div>
+                    
                     <div className="card">
                         <div className="field col-12 md:col-12">
                             <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
@@ -592,6 +586,13 @@ const AnxietyGad7: Page = () => {
                                 style={{ width: '100%', height: '3.5em' }}
                             />
                         </div>
+
+                    </div>
+                    <div >
+                        <span id="label_status">{severity}</span>
+                        <ProgressBar color={colorCode} mode="indeterminate" value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
+                        <br></br>
+
 
                     </div>
 

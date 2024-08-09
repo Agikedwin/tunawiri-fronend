@@ -62,7 +62,7 @@ const LoginPage = () => {
                         <div className="text-center mb-5">
                             <img src="/demo/images/login/avatar.png" alt="Image" height="50" className="mb-3" />
                             <div className="text-900 text-3xl font-medium mb-3">Welcome To Tunawiri</div>
-                            <div className="text-450 text-2xl font-medium mb-2">Decision Support - Health Electronic Record </div>
+                            <div className="text-450 text-2xl font-medium mb-2">Decision Support - Electronic Health Record</div>
                             <span className="text-600 font-medium">Sign in to continue</span>
                         </div>
                         <form >
@@ -71,14 +71,14 @@ const LoginPage = () => {
                             <label htmlFor="email" className="block text-900 text-xl font-medium mb-2">
                                 Username
                             </label>
-                            <InputText id="email" type="text"  value={username} onChange={(e) => setusername(e.target.value)} placeholder="Email address" className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} />
+                            <InputText id="email" type="text"  value={username} onChange={(e) => setusername(e.target.value)} placeholder="Email address" className="w-full md:w-35rem mb-5" style={{ padding: '1rem' }} />
 
                             <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
                                 Password
                             </label>
-                            <Password inputId="password1" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" toggleMask className="w-full mb-5" inputClassName="w-full p-3 md:w-30rem"></Password>
+                            <Password inputId="password1" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" toggleMask className="w-full mb-5" inputClassName="w-full p-3 md:w-35rem"></Password>
 
-                            <div className="flex align-items-center justify-content-between mb-5 gap-5">
+                            {/* <div className="flex align-items-center justify-content-between mb-5 gap-5">
                                 <div className="flex align-items-center">
                                     <Checkbox inputId="rememberme1" checked={checked} onChange={(e) => setChecked(e.checked ?? false)} className="mr-2"></Checkbox>
                                     <label htmlFor="rememberme1">Remember me</label>
@@ -86,8 +86,8 @@ const LoginPage = () => {
                                 <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }}>
                                     Forgot password?
                                 </a>
-                            </div>
-                            <Button label="Sign In" className="w-full p-3 text-xl"  onClick={loginUser}></Button>
+                            </div> */}
+                            <Button label="Sign In" className="w-full p-3 text-xl"  onClick={loginUser} outlined></Button>
                         </div>
                         </form>
                     </div>

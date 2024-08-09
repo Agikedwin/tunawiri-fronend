@@ -77,6 +77,17 @@ const RegisterUser1 = () =>{
 
     };
 
+    const showFailed = (mch: any, ccc:any) => {
+        toast.current?.show({
+            severity: 'error',
+            summary: 'Success Message',
+            detail: `MCH Number : ${mch} or CCN Number ${ccc} Already in Use `,
+            life: 10000
+        });
+
+
+    };
+
 
 
     const onchaneUserDetails =(event:any) => {
@@ -108,18 +119,21 @@ const RegisterUser1 = () =>{
             console.log('try ---')
             console.log(useDetails)
             await api.addEntry('user',useDetails,3).then(user =>{
+                console.log("the data is not here :: ", user)
+                if (user.data.fieldExists){
+                    showFailed(user.data.mch_number, user.data.ccc_number)
+
+                } else {
+
                 showSuccess()
                 setTimeout(() => {
 
-                    console.log("saving data ---")
+                   router.push('/uikit/users/view')
+              }, 4000);
 
-                    router.push('/uikit/users/view')
-              }, 3000);
+                }
+                
 
-
-
-
-                console.log(user)
             })
 
         } catch (error) {

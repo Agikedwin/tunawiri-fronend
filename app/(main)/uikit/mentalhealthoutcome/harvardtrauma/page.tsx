@@ -1743,7 +1743,7 @@ const HarvardTrauma: Page = () => {
                     <br></br>
                     <div >
                         <span id="label_status">{severity}</span>
-                        <ProgressBar color={colorCode} value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
+                        <ProgressBar color={colorCode} mode="indeterminate" value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
                         <br></br>
 
 

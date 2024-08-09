@@ -758,7 +758,7 @@ const DepressionPhq9: Page = () => {
 
                     <div >
                         <span id="label_status">{severity}</span>
-                        <ProgressBar color={colorCode} value={Math.floor(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
+                        <ProgressBar color={colorCode} mode="indeterminate"  value={Math.floor(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
                         <br></br>
 
 

@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 interface userValues {
     id: object
     mch_number: String
+    ccc_number: String
     first_name: String
     other_names: String
     dob: String
@@ -47,8 +48,8 @@ const ViewUsers = () => {
     const fetchUsers = async () => {
         try {
             await api.getEntries("user", "3").then((data:any) => {
-                setUsers(data)
-                console.log(data)
+                setUsers(data.filter((user: any) => user?.registration_level === "Participant"))
+                //setUsers(data)
             })
         } catch (error) {
             console.log(error)
@@ -111,6 +112,15 @@ const ViewUsers = () => {
             </React.Fragment>
         );
     };
+
+    const cccBodyTemplate = (rowData: userValues) => {
+        return (
+            <React.Fragment>
+                {/* <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.facility_id}`} width={30} /> */}
+                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.ccc_number}</span>
+            </React.Fragment>
+        );
+    };
     const filterClearTemplate = (options: ColumnFilterClearTemplateOptions) => {
         return <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} severity="secondary"></Button>;
     };
@@ -136,11 +146,14 @@ const ViewUsers = () => {
                         responsiveLayout="scroll"
                         paginator rows={15}
                         //onRowSelect={onUserSelect}
-
-
                         tableStyle={{ maxWidth: '110rem' }} >
+
                         <Column header="MCH Number" filterField="mch_number" style={{ minWidth: '12rem' }}
                             body={mchBodyTemplate} filter filterPlaceholder="Search by MCH No"
+                            filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
+                        
+                        <Column header="CCC Number" filterField="ccc_number" style={{ minWidth: '12rem' }}
+                            body={cccBodyTemplate} filter filterPlaceholder="Search by CCC No"
                             filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
 
 

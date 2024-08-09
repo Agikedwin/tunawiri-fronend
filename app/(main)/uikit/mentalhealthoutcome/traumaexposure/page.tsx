@@ -533,13 +533,7 @@ const TraumaExposure: Page = () => {
 
                                 </div>
                             </div>
-                            <div >
-                                <span id="label_status">{severity}</span>
-                                <ProgressBar color={colorCode} value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
-                                <br></br>
-
-
-                            </div>
+                           
                             <div className="card">
                             <div className="field col-12 md:col-12">
                                     <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
@@ -554,7 +548,14 @@ const TraumaExposure: Page = () => {
     
                             </div>
                             <br></br>
-                            <Button label="Save" icon="pi pi-save" type="submit" />
+                            <div >
+                                <span id="label_status">{severity}</span>
+                                <ProgressBar color={colorCode} mode="indeterminate" value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
+                                <br></br>
+
+
+                            </div>
+                            <Button label="Save" icon="pi pi-save" type="submit" outlined />
 
                     </div>
                 </form>

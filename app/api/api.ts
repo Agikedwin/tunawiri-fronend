@@ -201,23 +201,12 @@ export default {
             if (factor[value]){
                 console.log(value , " **************factor[value]**************", factor[value])
                 multiplier = (countOccurrence[value] * factor[value])
-                console.log("Value ::: of factor", multiplier)
 
             }else {
                 multiplier =  factor[value]
             }
-
-
-
             sum += multiplier
-            console.log("Value ::SUM: of factor", sum)
-            console.log("Value ::MUL: of factor", multiplier)
         }
-
-       
-
-        
-
         return sum
 
 

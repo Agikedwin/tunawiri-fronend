@@ -21,7 +21,8 @@ const MentalHealthOutcomeView = () => {
 
     const [phq9view, setPhq9view] = useState([{
         interest_pleasure: "",
-        feeling_depressed: "",
+        feeling_depressed: "",        
+        timepoint: "",
         trouble_sleeping: "",
         feeling_tired: "",
         poor_appetite: "",
@@ -38,6 +39,7 @@ const MentalHealthOutcomeView = () => {
     const [traumaExposure, setTraumaExposure] = useState([{
         witnessed_murder_of_family_or_friend: "",
         witnessed_murder_of_stranger_or_known_person: "",
+        timepoint: "",
         witnessed_armed_attack_on_someone: "",
         left_country_due_to_war_conflict_poverty: "",
         sexually_assaulted_or_raped: "",
@@ -55,6 +57,7 @@ const MentalHealthOutcomeView = () => {
     const [gad7View, setGad7View] = useState([{
         feeling_nervous_anxious: "",
         not_able_to_stop_worrying: "",
+        timepoint: "",
         worrying_too_much: "",
         trouble_relaxing: "",
         restless_difficulty_sitting_still: "",
@@ -70,6 +73,7 @@ const MentalHealthOutcomeView = () => {
         thoughts_memories: "",
         feeling_as_though_event_happening_again: "",
         recurrent_nightmares: "",
+        timepoint: "",
         feeling_detached_withdrawn: "",
         unable_to_feel_emotions: "",
         feeling_jumpy_easily_startled: "",
@@ -99,6 +103,7 @@ const MentalHealthOutcomeView = () => {
     const [suicidal, setSuicidal] = useState([{
         wished_dead_or_to_sleep: "",
         thoughts_about_killing_yourself: "",
+        timepoint: "",
         thinking_about_how_to_kill_Yourself: "",
         thoughtsWithIntentionOfActing: "",
         worked_out_details_of_killing_yourself: "",
@@ -242,6 +247,7 @@ const MentalHealthOutcomeView = () => {
                                 <span className="text-teal-500">|{data.created_at.slice(0, -16)}</span>
                                 <span>| {data.severity}</span>
                                 <Badge style={{ backgroundColor: data.color }}  value={data.phq9_score} className="ml-auto" />
+                                <span className="text-teal-500" >| {data.timepoint}</span>
                             </span>
                         }
                     >
@@ -358,6 +364,7 @@ const MentalHealthOutcomeView = () => {
                                 <span>| {data.severity}</span>
                                 {/*<Badge severity={data.color} value={data.gad7_score} className="ml-auto" />*/}
                                 <Badge style={{ backgroundColor: data.color }} value={data.gad7_score} className="ml-auto" />
+                                <span className="text-teal-500" >| {data.timepoint}</span>
                             </span>
                         }
                     >
@@ -452,6 +459,7 @@ const MentalHealthOutcomeView = () => {
                                 <span>| {data.severity}</span>
                                {/* <Badge severity={data.color} value={data.trauma_score} className="ml-auto" />*/}
                                 <Badge style={{ backgroundColor: data.color }} value={data.trauma_score} className="ml-auto" />
+                                <span className="text-teal-500" >| {data.timepoint}</span>
                             </span>
                         }
                     >
@@ -571,6 +579,7 @@ const MentalHealthOutcomeView = () => {
                         <span className="text-teal-500">| {data.created_at.slice(0, -16)}</span>
                                 <span>| {data.severity}</span>
                                 <Badge style={{ backgroundColor: data.color }} value={data.trauma_score} className="ml-auto" />
+                                <span className="text-teal-500" >| {data.timepoint}</span>
                     </span>
                 }
             >
@@ -852,6 +861,7 @@ const MentalHealthOutcomeView = () => {
                         <span className="text-teal-500">| {data.created_at.slice(0, -16)}</span>
                                 <span>| {data.severity}</span>
                                 <Badge style={{ backgroundColor: data.color }} value={data.trauma_score} className="ml-auto" />
+                                <span className="text-teal-500" >| {data.timepoint}</span>
                     </span>
                                     }
                                 >
@@ -921,15 +931,6 @@ const MentalHealthOutcomeView = () => {
                                 </AccordionTab>
 
                 ))}
-
-
-
-
-
-
-
-
-
             </Accordion>
 
         </>
