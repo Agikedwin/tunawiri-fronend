@@ -5,6 +5,7 @@ import { Dropdown } from "primereact/dropdown";
 import { SetStateAction, useEffect, useRef, useState } from 'react';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
+import GloabalUserProfile from '../../users/globalprofile/page';
 
 
 import type { Demo, Page } from '@/types';
@@ -179,6 +180,7 @@ const Mentalhealthtreatment: Page = () => {
             <div className="card ">
                 <Toast ref={toast} />
                 <Toast ref={toast} />
+                <GloabalUserProfile />
                 <form onSubmit={saveMentalHealthTreatment}>
                 
                     <h5>Mental Health Treatment</h5>

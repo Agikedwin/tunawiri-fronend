@@ -3,6 +3,7 @@ import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
 import { useEffect, useState } from "react";
 import { Button } from "primereact/button";
+import GloabalUserProfile from '../../users/globalprofile/page';
 
 
 

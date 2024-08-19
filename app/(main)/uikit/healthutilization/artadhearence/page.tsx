@@ -8,6 +8,7 @@ import { Toast } from "primereact/toast";
 
 import api from "@/app/api/api";
 import { useRouter } from 'next/navigation';
+import GloabalUserProfile from '../../users/globalprofile/page';
 
 
 
@@ -117,7 +118,8 @@ return (
 
     <div>
          <div className="card ">
-             <Toast ref={toast} />
+            <Toast ref={toast} />
+            <GloabalUserProfile />
              <h5>ART Adhearence </h5>
                  <form onSubmit={saveARTadhearence}>
 

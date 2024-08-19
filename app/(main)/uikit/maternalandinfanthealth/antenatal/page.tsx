@@ -3,6 +3,7 @@ import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
 import { Checkbox } from "primereact/checkbox";
 import api from "@/app/api/api";
 import { Toast } from "primereact/toast";
@@ -60,6 +61,7 @@ const Antenatal: Page = () => {
             user_id: "",
             months_pregnancy_antenatal_care: "",
             comment_antenatal: "",
+            timepoint:"",
             comment: ""
 
         }
@@ -78,6 +80,7 @@ const Antenatal: Page = () => {
     const saveAntenatal = async (event: any) => {
         event.preventDefault();
         formState.formValues.user_id = selectedUserId
+        formState.formValues.timepoint = dropdowntimepointValue.timepoint
         formState.formValues.comment = comment
         console.log(formState.formValues);
 
@@ -105,7 +108,13 @@ const Antenatal: Page = () => {
         let { _id } = localData
         setSelectedUserId(_id)
     })
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({ timepoint: "", code: "" });
+    const dropdowntimepoint: InputValueReg[] = [
+            { timepoint: "Baseline", regcode: "B" },
+            { timepoint: "6 Months Follow Up", regcode: "6" },
+            { timepoint: "12 Months Follow Up", regcode: "12" },
 
+        ];
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         setSelectedUser(localData)
@@ -130,7 +139,21 @@ const Antenatal: Page = () => {
                 <div className="card">
                     <form onSubmit={saveAntenatal}>
                         <h5>Antenatal</h5>
+
                         <p>The next few questions about your experience in antenatal care.</p>
+                        <div className="card">
+                                                    <div className="flex flex-wrap gap-6">
+                                                        <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
+                                                        <Dropdown
+                                                            value={dropdowntimepointValue}
+                                                            onChange={(e) => setDropdowntimepointValue(e.value)}
+                                                            options={dropdowntimepoint}
+                                                            optionLabel="timepoint"
+                                                            placeholder="Select"
+                                                            required
+                                                        />
+                                                    </div>
+                                                    </div>
                         {/* Question 1 */}
                         <div className="card">
                             <div className="p-field">
@@ -170,7 +193,7 @@ const Antenatal: Page = () => {
                         <div className="field col-12 md:col-12">
                                     <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
                                     <InputText
-                                        name="comment"                                
+                                        name="comment"
                                         value={comment}
                                         onChange= {onchangeComment}
                                         type="text"

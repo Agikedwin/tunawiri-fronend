@@ -12,17 +12,16 @@ import { useEffect, useRef, useState } from "react";
 
 interface userValues {
     id: object
-    mch_number: String
-    ccc_number: String
-    ptid_number: String
+    //mch_number: String
+    //ccc_number: String
     first_name: String
     other_names: String
     dob: String
     marital_status: String
     education_level: String
-    reading_ability: String
+    //reading_ability: String
     religion: String
-    home_language: String
+    //home_language: String//
     study_id: String
 }
 
@@ -48,8 +47,8 @@ const ViewUsers = () => {
 
     const fetchUsers = async () => {
         try {
-            await api.getEntries("user", "3").then((data:any) => {
-                setUsers(data.filter((user: any) => user?.registration_level === "Participant"))
+            await api.getEntries("user", "8").then((data:any) => {
+                setUsers(data.filter((user: any) => user?.registration_level === "Staff"))
                 //setUsers(data)
             })
         } catch (error) {
@@ -69,10 +68,10 @@ const ViewUsers = () => {
 
     const cardHeader = (
         <div className="flex align-items-center justify-content-between mb-0 p-3 pb-0">
-            <h5 className="m-0">Tunawiri Participants</h5>
+            <h5 className="m-0">Tunawiri Staff</h5>
             <Button icon="pi pi-plus" label="Enroll" text onClick={() => {
                 console.log('clicked')
-                router.push('/uikit/users/')
+                router.push('/uikit/users/staff/register/')
             }
             } />
 
@@ -87,7 +86,7 @@ const ViewUsers = () => {
 
 
         localStorage.setItem('selectedTunawiriUser', JSON.stringify(data));
-        router.push('/uikit/users/profile/')
+        router.push('/uikit/staffs/profile/')
 
         toast.current?.show({
             severity: 'info',
@@ -101,35 +100,11 @@ const ViewUsers = () => {
 
     const selectedUserColumn = (data:any) =>{
         localStorage.setItem('selectedTunawiriUser', JSON.stringify(data));
-        router.push('/uikit/users/viewentry/')
+        router.push('/uikit/staffs/viewentry/')
         console.log(data)
     }
 
-    const mchBodyTemplate = (rowData: userValues) => {
-        return (
-            <React.Fragment>
-                {/* <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.facility_id}`} width={30} /> */}
-                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.mch_number}</span>
-            </React.Fragment>
-        );
-    };
 
-    const cccBodyTemplate = (rowData: userValues) => {
-        return (
-            <React.Fragment>
-                {/* <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.facility_id}`} width={30} /> */}
-                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.ccc_number}</span>
-            </React.Fragment>
-        );
-    };
-    const ptidBodyTemplate = (rowData: userValues) => {
-            return (
-                <React.Fragment>
-                    {/* <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.facility_id}`} width={30} /> */}
-                    <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.ptid_number}</span>
-                </React.Fragment>
-            );
-        };
     const filterClearTemplate = (options: ColumnFilterClearTemplateOptions) => {
         return <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} severity="secondary"></Button>;
     };
@@ -157,17 +132,6 @@ const ViewUsers = () => {
                         //onRowSelect={onUserSelect}
                         tableStyle={{ maxWidth: '110rem' }} >
 
-                        <Column header="MCH Number" filterField="mch_number" style={{ minWidth: '12rem' }}
-                            body={mchBodyTemplate} filter filterPlaceholder="Search by MCH No"
-                            filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
-
-                        <Column header="CCC Number" filterField="ccc_number" style={{ minWidth: '12rem' }}
-                            body={cccBodyTemplate} filter filterPlaceholder="Search by CCC No"
-                            filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
-
-                        <Column header="PTID Number" filterField="ptid_number" style={{ minWidth: '12rem' }}
-                                                    body={ptidBodyTemplate} filter filterPlaceholder="Search by PTID No"
-                                                    filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
 
                         <Column field="first_name" header="First Name" sortable />
                         <Column field="other_names" header="Other Names" />
@@ -176,25 +140,8 @@ const ViewUsers = () => {
                         <Column field="education_level" header="Education Level" />
                         <Column field="reading_ability" header="Reading Ability" />
 
-                        <Column
-                            header="Entry"
-                            style={{ width: '5%' }}
-                            body={(rowData) => (
 
-                                    <Button icon="pi pi-pencil" text onClick={() => { onUserSelect(rowData)}} outlined/>
-                            )}
 
-                        />
-
-                        <Column
-                            header="View"
-                            style={{ width: '5%' }}
-                            body={(rowData) => (
-                                <>
-                                    <Button icon="pi pi-eye" text onClick={() => {selectedUserColumn(rowData)}}/>
-                                </>
-                            )}
-                        />
 
 
 

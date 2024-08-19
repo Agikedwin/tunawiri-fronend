@@ -186,7 +186,7 @@ const Postnatal: Page = () => {
                             {/* Question 1 */}
                             <div>
                                 <div className="p-field">
-                                    <label htmlFor="pregnancyEndDuration">1. How long ago did your pregnancy end?</label>
+                                    <label htmlFor="pregnancyEndDuration">1. When did the pregnancy end?</label>
                                     <p></p>
                                     <Calendar
                                         id="pregnancyEndDuration"
@@ -299,72 +299,75 @@ const Postnatal: Page = () => {
                             </div>
                         </div>
 
-                        <div className="card">
 
-                            <div className="p-field">
-                                <label>5. Is your infant still alive ?</label>
-                                <br />
-                                <p></p>
-                                <div>
-                                    <RadioButton
-                                        inputId="infantAliveYes"
-                                        name="infantAlive"
-                                        value="Yes"
-                                        onChange={(e) => setFormState(prevState => ({
-                                            ...prevState,
-                                            formValues: {
-                                                ...prevState.formValues,
-                                                infant_alive: e.target.value
-                                            }
-                                        }))}
-                                        checked={formState.formValues.infant_alive === "Yes"}
-                                    />
-                                    <label htmlFor="infantAliveYes">Yes</label>
-                                </div>
-                                <div>
-                                    <RadioButton
-                                        inputId="infantAliveNo"
-                                        name="infantAlive"
-                                        value="No"
-                                        onChange={(e) => setFormState(prevState => ({
-                                            ...prevState,
-                                            formValues: {
-                                                ...prevState.formValues,
-                                                infant_alive: e.target.value
-                                            }
-                                        }))}
-                                        checked={formState.formValues.infant_alive === "No"}
-                                    />
-                                    <label htmlFor="infantAliveNo">No</label>
-                                </div>
-                            </div>
-                        </div>
                         <br></br>
-                        <div className="card">
-                            {/* Question 6 */}
-                            <div className="p-field">
-                                <label htmlFor="infantPassingAge">6. If no, how old was your infant when he/she passed ?</label>
-                                <p></p>
-                                <InputText
-                                    id="infantPassingAge"
-                                    name="infantPassingAge"
-                                    value={formState.formValues.infant_passing_age}
+                        <div className="p-field">
+                            <label>4. Is your infant still alive?</label>
+                            <br />
+                            <p></p>
+                            <div>
+                                <RadioButton
+                                    inputId="infantAliveYes"
+                                    name="infantAlive"
+                                    value="Yes"
                                     onChange={(e) => setFormState(prevState => ({
                                         ...prevState,
                                         formValues: {
                                             ...prevState.formValues,
-                                            infant_passing_age: e.target.value
+                                            infant_alive: e.target.value
                                         }
                                     }))}
+                                    checked={formState.formValues.infant_alive === "Yes"}
                                 />
+                                <label htmlFor="infantAliveYes">Yes</label>
+                            </div>
+                            <div>
+                                <RadioButton
+                                    inputId="infantAliveNo"
+                                    name="infantAlive"
+                                    value="No"
+                                    onChange={(e) => setFormState(prevState => ({
+                                        ...prevState,
+                                        formValues: {
+                                            ...prevState.formValues,
+                                            infant_alive: e.target.value
+                                        }
+                                    }))}
+                                    checked={formState.formValues.infant_alive === "No"}
+                                />
+                                <label htmlFor="infantAliveNo">No</label>
                             </div>
                         </div>
+                        <br />
+
+                        {/* Conditionally render Question 6 based on the selection in Question 5 */}
+                        {formState.formValues.infant_alive === "No" && (
+                            <div className="card">
+                                <div className="p-field">
+                                    <label htmlFor="infantPassingAge">5. If no, how old was your infant when he/she passed?</label>
+                                    <p></p>
+                                    <InputText
+                                        id="infantPassingAge"
+                                        name="infantPassingAge"
+                                        value={formState.formValues.infant_passing_age}
+                                        onChange={(e) => setFormState(prevState => ({
+                                            ...prevState,
+                                            formValues: {
+                                                ...prevState.formValues,
+                                                infant_passing_age: e.target.value
+                                            }
+                                        }))}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
                         <br></br>
                         <div className="card">
                         <div className="field col-12 md:col-12">
                                     <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
                                     <InputText
-                                        name="comment"                                
+                                        name="comment"
                                         value={comment}
                                         onChange= {onchangeComment}
                                         type="text"

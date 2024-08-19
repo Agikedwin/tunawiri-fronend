@@ -4,7 +4,7 @@ import { RadioButton } from "primereact/radiobutton";
 import { Dropdown } from "primereact/dropdown";
 import { SetStateAction, useEffect, useRef, useState } from 'react';
 import { Button } from "primereact/button";
-
+import GloabalUserProfile from '../../users/globalprofile/page';
 import api from "@/app/api/api";
 import { useRouter } from 'next/navigation';
 import { Toast } from 'primereact/toast';
@@ -136,6 +136,7 @@ const Tunawiriintervention: Page = () => {
         <div>
             <div className="card ">
                 <Toast ref={toast} />
+                <GloabalUserProfile />
                 <form onSubmit={saveTunawiriintervention} >
 
                     <h5>Tunawiri Intervention</h5>

@@ -61,13 +61,13 @@ const UserEntryForms = () => {
     useEffect(() => {
         let localData = JSON.parse(localStorage.getItem('selectedTunawiriUser')!)
         setSelectedUser(localData)
-        console.log(" The selected user :: ", localData.ccc_number)
+        console.log(" The selected user :: ", localData.ptid_number)
 
     }, []);
 
     const cardHeader = (
         <div className="flex align-items-center justify-content-between mb-0 p-3 pb-0">
-            <span className="text-teal-500 align-items-center" >{selectedUser.first_name +"   "+  selectedUser.other_names +" | "+ selectedUser.mch_number}</span>
+            <span className="text-teal-500 align-items-center" >{selectedUser.first_name +"   "+  selectedUser.other_names +" | "+ selectedUser.ptid_number}</span>
             <Button icon="pi pi-arrow-left" text onClick={() => {
                 console.log('clicked')
                 router.push('/uikit/users/view/')

@@ -5,6 +5,7 @@ import { Dropdown } from "primereact/dropdown";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import api from "@/app/api/api";
+import GloabalUserProfile from '../../users/globalprofile/page';
 
 
 import { Toast } from "primereact/toast";
@@ -186,7 +187,7 @@ const AnxietyGad7: Page = () => {
     return (
         <div>
             <Toast ref={toast} />
-
+            <GloabalUserProfile />
             <div className="card ">
                 <form onSubmit={saveAnxietyGad7} >
 

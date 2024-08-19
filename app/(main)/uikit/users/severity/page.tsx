@@ -102,6 +102,22 @@ const UserSeverity = (props: any) => {
             </React.Fragment>
         );
     };
+    const cccBodyTemplate = (rowData: userValues) => {
+        return (
+            <React.Fragment>
+                {/* <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.facility_id}`} width={30} /> */}
+                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.ccc_number}</span>
+            </React.Fragment>
+        );
+    };
+    const ptidBodyTemplate = (rowData: userValues) => {
+        return (
+            <React.Fragment>
+                {/* <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.facility_id}`} width={30} /> */}
+                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.ptid_number}</span>
+            </React.Fragment>
+        );
+    };
     const filterClearTemplate = (options: ColumnFilterClearTemplateOptions) => {
         return <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} severity="secondary"></Button>;
     };
@@ -132,9 +148,11 @@ const UserSeverity = (props: any) => {
 
                         tableStyle={{ maxWidth: '110rem' }} >
                         <Column header="ccc Number" filterField="ccc_number" style={{ minWidth: '12rem' }}
-                            body={mchBodyTemplate} filter filterPlaceholder="Search by MCH No"
+                            body={cccBodyTemplate} filter filterPlaceholder="Search by CCC No"
                             filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
-
+                        <Column header="ptid Number" filterField="ptid_number" style={{ minWidth: '12rem' }}
+                                                    body={ptidBodyTemplate} filter filterPlaceholder="Search by MCH No"
+                                                    filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
 
                         <Column field="first_name" header="First Name" sortable />
                         <Column field="other_names" header="Other Names" />

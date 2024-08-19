@@ -258,7 +258,7 @@ const ClinicalDetails: Page = () => {
         const commentValue = event.target.value;
 
        setComment(commentValue)
-    
+
     }
 
 
@@ -593,7 +593,7 @@ const ClinicalDetails: Page = () => {
                                 <div className="field col-12 md:col-12">
                                     <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
                                     <InputText
-                                        name="comment"                                
+                                        name="comment"
                                         value={comment}
                                         onChange= {onchangeComment}
                                         type="text"

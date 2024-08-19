@@ -20,6 +20,8 @@ const AppMenu = () => {
             items: [
                 { label: 'Participants', icon: 'pi pi-fw pi-user', to: '/uikit/users/view' },
 
+                //{ label: 'Staff', icon: 'pi pi-fw pi-person', to: '/uikit/users/staff/view' },
+
                /*  { label: 'Add New User', icon: 'pi pi-fw pi-check-square', to: '/uikit/users' },
                 { label: 'Profile', icon: 'pi pi-fw pi-check-square', to: '/uikit/users/profile' },
                 { label: 'Clinical', icon: 'pi pi-fw pi-check-square', to: '/uikit/clinical' },

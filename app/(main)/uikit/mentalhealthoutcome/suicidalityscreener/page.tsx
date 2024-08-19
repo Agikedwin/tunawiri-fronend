@@ -5,6 +5,7 @@ import { Dropdown } from "primereact/dropdown";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import api from "@/app/api/api";
+import GloabalUserProfile from '../../users/globalprofile/page';
 
 
 
@@ -172,17 +173,17 @@ const SuicidalityScreener: Page = () => {
         const commentValue = event.target.value;
 
        setComment(commentValue)
-    
+
     }
-    
+
 
     return (
         <div>
             <Toast ref={toast} />
-
+            <GloabalUserProfile />
             <div className="card ">
                 <form onSubmit={saveSuicidalityScreener} >
-                                    
+
                     <h5>Suicidality Screener (C-SSRS) </h5>
                     <p>Always ask question 1 and 2</p>
                     <div className="card">
@@ -233,135 +234,161 @@ const SuicidalityScreener: Page = () => {
                         </div>
                     </div>
                     <br></br>
-                    <div className="card">
-                    <div className="flex flex-wrap gap-3">
-                        <div className="flex align-items-center">
-                            <h6><i>
-                                2. Have you actually had any thoughts about killing yourself?
-                            </i> </h6>
-                        </div>
-                        <div className="flex align-items-center">
-                            <RadioButton inputId="thoughts_about_killing_yourself" name="thoughts_about_killing_yourself" value='Yes'
-                                checked={radioValue2 === 'Yes'}
-                                onChange={(e) => {
-                                    setRadioValue2(e.value)
-                                    formState.formValues.thoughts_about_killing_yourself = e.target.value
-                                    severityRanking(formState.formValues, scores)
-                                }
-                                } />
-                            <label htmlFor="ingredient1" className="ml-2">Yes</label>
-                        </div>
-                        <div className="flex align-items-center">
-                            <RadioButton inputId="thoughts_about_killing_yourself" name="thoughts_about_killing_yourself" value="No"
-                                onChange={(e) => {
-                                    setRadioValue2(e.value)
-                                    formState.formValues.thoughts_about_killing_yourself = e.target.value
-                                    severityRanking(formState.formValues, scores)
-                                }
-                                }
-                                checked={radioValue2 === 'No'} />
-                            <label htmlFor="thoughts_about_killing_yourself" className="ml-2">No</label>
-                        </div>
-                        </div>
-                    </div>
-                    <br></br>
-                    <div className="card">
-                    <div className="flex flex-wrap gap-3">
-                        <div className="flex align-items-center">
-                            <h6><i>
-                                3. Have you been thinking about how you might do this?
-                            </i> </h6>
-                        </div>
-                        <div className="flex align-items-center">
-                            <RadioButton inputId="thinking_about_how_to_kill_Yourself" name="thinking_about_how_to_kill_Yourself" value='Yes'
-                                checked={radioValue3 === 'Yes'}
-                                onChange={(e) => {
-                                    setRadioValue3(e.value)
-                                    formState.formValues.thinking_about_how_to_kill_Yourself = e.target.value
-                                    severityRanking(formState.formValues, scores)
-                                }
-                                } />
-                            <label htmlFor="ingredient1" className="ml-2">Yes</label>
-                        </div>
-                        <div className="flex align-items-center">
-                            <RadioButton inputId="thinking_about_how_to_kill_Yourself" name="thinking_about_how_to_kill_Yourself" value="No"
-                                onChange={(e) => {
-                                    setRadioValue3(e.value)
-                                    formState.formValues.thinking_about_how_to_kill_Yourself = e.target.value
-                                    severityRanking(formState.formValues, scores)
-                                }
-                                }
-                                checked={radioValue3 === 'No'} />
-                            <label htmlFor="thinking_about_how_to_kill_Yourself" className="ml-2">No</label>
-                        </div>
-                        </div>
-                    </div>
-                    <br></br>
-                    <div className="card">
-                    <div className="flex flex-wrap gap-3">
-                        <div className="flex align-items-center">
-                            <h6><i>
-                                4. Have you had these thoughts and had some intention of acting on them?
-                            </i> </h6>
-                        </div>
-                        <div className="flex align-items-center">
-                            <RadioButton inputId="thoughtsWithIntentionOfActing" name="thoughtsWithIntentionOfActing" value='Yes'
-                                checked={radioValue4 === 'Yes'}
-                                onChange={(e) => {
-                                    setRadioValue4(e.value)
-                                    formState.formValues.thoughtsWithIntentionOfActing = e.target.value
-                                    severityRanking(formState.formValues, scores)
-                                }
-                                } />
-                            <label htmlFor="ingredient1" className="ml-2">Yes</label>
-                        </div>
-                        <div className="flex align-items-center">
-                            <RadioButton inputId="thoughtsWithIntentionOfActing" name="thoughtsWithIntentionOfActing" value="No"
-                                onChange={(e) => {
-                                    setRadioValue4(e.value)
-                                    formState.formValues.thoughtsWithIntentionOfActing = e.target.value
-                                    severityRanking(formState.formValues, scores)
-                                }
-                                }
-                                checked={radioValue4 === 'No'} />
-                            <label htmlFor="thoughtsWithIntentionOfActing" className="ml-2">No</label>
-                        </div>
+                   <div className="card">
+                       <div className="flex flex-wrap gap-3">
+                           <div className="flex align-items-center">
+                               <h6><i>2. Have you actually had any thoughts about killing yourself?</i></h6>
+                           </div>
+                           <div className="flex align-items-center">
+                               <RadioButton
+                                   inputId="thoughts_about_killing_yourself"
+                                   name="thoughts_about_killing_yourself"
+                                   value='Yes'
+                                   checked={radioValue2 === 'Yes'}
+                                   onChange={(e) => {
+                                       setRadioValue2(e.value);
+                                       formState.formValues.thoughts_about_killing_yourself = e.target.value;
+                                       severityRanking(formState.formValues, scores);
+                                   }}
+                               />
+                               <label htmlFor="ingredient1" className="ml-2">Yes</label>
+                           </div>
+                           <div className="flex align-items-center">
+                               <RadioButton
+                                   inputId="thoughts_about_killing_yourself"
+                                   name="thoughts_about_killing_yourself"
+                                   value="No"
+                                   onChange={(e) => {
+                                       setRadioValue2(e.value);
+                                       formState.formValues.thoughts_about_killing_yourself = e.target.value;
+                                       severityRanking(formState.formValues, scores);
+                                   }}
+                                   checked={radioValue2 === 'No'}
+                               />
+                               <label htmlFor="thoughts_about_killing_yourself" className="ml-2">No</label>
+                           </div>
+                       </div>
+                   </div>
 
-                        </div>
-                    </div>
-                    <br></br>
-                    <div className="card">
-                    <div className="flex flex-wrap gap-3">
-                        <div className="flex align-items-center">
-                            <h6><i>
-                                5. Have you started to work out or worked out the details of how to kill yourself? Did you intend to carry out this plan?
-                            </i> </h6>
-                        </div>
-                        <div className="flex align-items-center">
-                            <RadioButton inputId="worked_out_details_of_killing_yourself" name="worked_out_details_of_killing_yourself" value='Yes'
-                                checked={radioValue5 === 'Yes'}
-                                onChange={(e) => {
-                                    setRadioValue5(e.value)
-                                    formState.formValues.worked_out_details_of_killing_yourself = e.target.value
-                                    severityRanking(formState.formValues, scores)
-                                }
-                                } />
-                            <label htmlFor="ingredient1" className="ml-2">Yes</label>
-                        </div>
-                        <div className="flex align-items-center">
-                            <RadioButton inputId="worked_out_details_of_killing_yourself" name="worked_out_details_of_killing_yourself" value="No"
-                                onChange={(e) => {
-                                    setRadioValue5(e.value)
-                                    formState.formValues.worked_out_details_of_killing_yourself = e.target.value
-                                    severityRanking(formState.formValues, scores)
-                                }
-                                }
-                                checked={radioValue5 === 'No'} />
-                            <label htmlFor="worked_out_details_of_killing_yourself" className="ml-2">No</label>
-                        </div>
+                   <br />
 
-                        </div>
-                    </div>
+                   {/* Conditionally render Questions 3, 4, and 5 based on the selection in Question 2 */}
+                   {radioValue2 === 'Yes' && (
+                       <>
+                           <div className="card">
+                               <div className="flex flex-wrap gap-3">
+                                   <div className="flex align-items-center">
+                                       <h6><i>3. Have you been thinking about how you might do this?</i></h6>
+                                   </div>
+                                   <div className="flex align-items-center">
+                                       <RadioButton
+                                           inputId="thinking_about_how_to_kill_Yourself"
+                                           name="thinking_about_how_to_kill_Yourself"
+                                           value='Yes'
+                                           checked={radioValue3 === 'Yes'}
+                                           onChange={(e) => {
+                                               setRadioValue3(e.value);
+                                               formState.formValues.thinking_about_how_to_kill_Yourself = e.target.value;
+                                               severityRanking(formState.formValues, scores);
+                                           }}
+                                       />
+                                       <label htmlFor="ingredient1" className="ml-2">Yes</label>
+                                   </div>
+                                   <div className="flex align-items-center">
+                                       <RadioButton
+                                           inputId="thinking_about_how_to_kill_Yourself"
+                                           name="thinking_about_how_to_kill_Yourself"
+                                           value="No"
+                                           onChange={(e) => {
+                                               setRadioValue3(e.value);
+                                               formState.formValues.thinking_about_how_to_kill_Yourself = e.target.value;
+                                               severityRanking(formState.formValues, scores);
+                                           }}
+                                           checked={radioValue3 === 'No'}
+                                       />
+                                       <label htmlFor="thinking_about_how_to_kill_Yourself" className="ml-2">No</label>
+                                   </div>
+                               </div>
+                           </div>
+
+                           <br />
+
+                           <div className="card">
+                               <div className="flex flex-wrap gap-3">
+                                   <div className="flex align-items-center">
+                                       <h6><i>4. Have you had these thoughts and had some intention of acting on them?</i></h6>
+                                   </div>
+                                   <div className="flex align-items-center">
+                                       <RadioButton
+                                           inputId="thoughtsWithIntentionOfActing"
+                                           name="thoughtsWithIntentionOfActing"
+                                           value='Yes'
+                                           checked={radioValue4 === 'Yes'}
+                                           onChange={(e) => {
+                                               setRadioValue4(e.value);
+                                               formState.formValues.thoughtsWithIntentionOfActing = e.target.value;
+                                               severityRanking(formState.formValues, scores);
+                                           }}
+                                       />
+                                       <label htmlFor="ingredient1" className="ml-2">Yes</label>
+                                   </div>
+                                   <div className="flex align-items-center">
+                                       <RadioButton
+                                           inputId="thoughtsWithIntentionOfActing"
+                                           name="thoughtsWithIntentionOfActing"
+                                           value="No"
+                                           onChange={(e) => {
+                                               setRadioValue4(e.value);
+                                               formState.formValues.thoughtsWithIntentionOfActing = e.target.value;
+                                               severityRanking(formState.formValues, scores);
+                                           }}
+                                           checked={radioValue4 === 'No'}
+                                       />
+                                       <label htmlFor="thoughtsWithIntentionOfActing" className="ml-2">No</label>
+                                   </div>
+                               </div>
+                           </div>
+
+                           <br />
+
+                           <div className="card">
+                               <div className="flex flex-wrap gap-3">
+                                   <div className="flex align-items-center">
+                                       <h6><i>5. Have you started to work out or worked out the details of how to kill yourself? Did you intend to carry out this plan?</i></h6>
+                                   </div>
+                                   <div className="flex align-items-center">
+                                       <RadioButton
+                                           inputId="worked_out_details_of_killing_yourself"
+                                           name="worked_out_details_of_killing_yourself"
+                                           value='Yes'
+                                           checked={radioValue5 === 'Yes'}
+                                           onChange={(e) => {
+                                               setRadioValue5(e.value);
+                                               formState.formValues.worked_out_details_of_killing_yourself = e.target.value;
+                                               severityRanking(formState.formValues, scores);
+                                           }}
+                                       />
+                                       <label htmlFor="ingredient1" className="ml-2">Yes</label>
+                                   </div>
+                                   <div className="flex align-items-center">
+                                       <RadioButton
+                                           inputId="worked_out_details_of_killing_yourself"
+                                           name="worked_out_details_of_killing_yourself"
+                                           value="No"
+                                           onChange={(e) => {
+                                               setRadioValue5(e.value);
+                                               formState.formValues.worked_out_details_of_killing_yourself = e.target.value;
+                                               severityRanking(formState.formValues, scores);
+                                           }}
+                                           checked={radioValue5 === 'No'}
+                                       />
+                                       <label htmlFor="worked_out_details_of_killing_yourself" className="ml-2">No</label>
+                                   </div>
+                               </div>
+                           </div>
+                       </>
+                   )}
+
                     <br></br>
                     <div className="card">
                     <div className="flex flex-wrap gap-3">
@@ -431,7 +458,7 @@ const SuicidalityScreener: Page = () => {
                     <div className="field col-12 md:col-12">
                                     <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
                                     <InputText
-                                        name="comment"                                
+                                        name="comment"
                                         value={comment}
                                         onChange= {onchangeComment}
                                         type="text"
@@ -445,7 +472,7 @@ const SuicidalityScreener: Page = () => {
 
 
                     </div>
-                   
+
                     <br></br>
                     <Button label="Save" icon="pi pi-save" type="submit" outlined/>
                     </form>
