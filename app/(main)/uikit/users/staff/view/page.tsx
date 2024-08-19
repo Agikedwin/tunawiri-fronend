@@ -12,17 +12,19 @@ import { useEffect, useRef, useState } from "react";
 
 interface userValues {
     id: object
-    //mch_number: String
-    //ccc_number: String
+    job_title: String
+    department: String
+    phone_number: String
     first_name: String
     other_names: String
-    dob: String
-    marital_status: String
-    education_level: String
-    //reading_ability: String
-    religion: String
-    //home_language: String//
-    study_id: String
+    date_of_reg: String
+    registration_level: String
+    staff_number: String
+    permissions: object
+    username: String
+    user_role: String
+    password: String
+    field_exists: String
 }
 
 const ViewUsers = () => {
@@ -47,9 +49,10 @@ const ViewUsers = () => {
 
     const fetchUsers = async () => {
         try {
-            await api.getEntries("user", "8").then((data:any) => {
-                setUsers(data.filter((user: any) => user?.registration_level === "Staff"))
-                //setUsers(data)
+            await api.getEntries("user/user/staff", "8").then((data:any) => {
+                console.log(data)
+                //setUsers(data.filter((user: any) => user?.registration_level === "Staff"))
+                setUsers(data)
             })
         } catch (error) {
             console.log(error)
@@ -135,10 +138,11 @@ const ViewUsers = () => {
 
                         <Column field="first_name" header="First Name" sortable />
                         <Column field="other_names" header="Other Names" />
-                        <Column field="dob" header="Age" />
-                        <Column field="religion" header="Religion" />
-                        <Column field="education_level" header="Education Level" />
-                        <Column field="reading_ability" header="Reading Ability" />
+                        <Column field="date_of_reg" header="Date Registered " />
+                        <Column field="staff_number" header="Staff Number" />
+                        <Column field="phone_number" header="Phone Number" />
+                        <Column field="facility_level" header="Facility" />
+                        
 
 
 

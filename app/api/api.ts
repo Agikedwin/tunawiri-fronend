@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const urlAuth ='http://41.89.200.201:8050/';
-//const urlAuth = 'http://0.0.0.0:8050/';
+//const urlAuth ='http://41.89.200.201:8050/';
+const urlAuth = 'http://0.0.0.0:8050/';
 //const urlSms = 'http://localhost:8050/';
 
 
