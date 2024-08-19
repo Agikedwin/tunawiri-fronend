@@ -65,18 +65,7 @@ const UserEntryForms = () => {
 
     }, []);
 
-    const cardHeader = (
-        <div className="flex align-items-center justify-content-between mb-0 p-3 pb-0">
-            <span className="text-teal-500 align-items-center" >{selectedUser.first_name +"   "+  selectedUser.other_names +" | "+ selectedUser.ptid_number}</span>
-            <Button icon="pi pi-arrow-left" text onClick={() => {
-                console.log('clicked')
-                router.push('/uikit/users/view/')
-            }
-            } />
-
-        </div>
-    );
-
+    
 
 
 
