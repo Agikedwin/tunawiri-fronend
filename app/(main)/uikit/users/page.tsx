@@ -272,7 +272,7 @@ const userModel = {
                                     <label htmlFor="dob">Date of Birth</label>
                                     <Calendar
                                         name="dob"
-                                        value={useDetails.dob}
+                                        //value={useDetails.dob}
                                         onChange={onchaneUserDetails}
                                         showIcon
                                         maxDate={new Date()}  // Prevent selecting future dates
