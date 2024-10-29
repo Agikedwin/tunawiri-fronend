@@ -35,7 +35,7 @@ const Mentalhealthtreatment: Page = () => {
     const [selectedUserId, setSelectedUserId] = useState("")
     const [comment, setComment] = useState("")
 
-    const handleMedicineChange = (e) => {
+    const handleMedicineChange = (e:any) => {
         const selectedMedicine = e.value;
         if (medicine.includes(selectedMedicine)) {
             // Remove the medicine if already selected
