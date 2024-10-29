@@ -459,17 +459,8 @@ const ClinicalDetails: Page = () => {
                                             TDF+3TC +DTG
                                         </label>
                                         <br />
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                name="current_art_regimen"
-                                                value="TDF +3TC +EFV"
-                                                checked={formState.formValues.current_art_regimen === "TDF +3TC +EFV"}
-                                                onChange={handleChange}
-                                            />
-                                            TDF +3TC +EFV
-                                        </label>
-                                        <br />
+
+                                        -
                                         <label>
                                             <input
                                                 type="radio"
@@ -546,7 +537,9 @@ const ClinicalDetails: Page = () => {
                                 </div>
                                 <div className="field col-12 md:col-6">
 
-                                    <label htmlFor="otherNames">Has the woman missed any clinic visit in the past 14 days</label>
+
+                                    
+                                    <label htmlFor="otherNames">Have you missed any scheduled visit?</label>
                                     <br></br>
                                     <RadioButton
                                         inputId="missed_visits_yes"
@@ -574,11 +567,13 @@ const ClinicalDetails: Page = () => {
                                     <label htmlFor="missed_visits_no">No</label>
                                 </div>
 
-
+                                {radioValue === "Yes" && (
                                 <div className="field col-12 md:col-6">
-                                    <label htmlFor="missed_visits_count">If yes, approximately how many missed visits in the past 14 days</label>
+                                    <label htmlFor="missed_visits_count">How many days have elapsed since your scheduled visit ?</label>
                                     <InputText name="missed_visits_count" value={formState.formValues.missed_visits_count || ''} onChange={handleChange} type="text" />
                                 </div>
+                                )}
+
                                 <div className="field col-12 md:col-6">
                                     <label htmlFor="registration_type">Participant Timepoint ?</label>
                                     <Dropdown

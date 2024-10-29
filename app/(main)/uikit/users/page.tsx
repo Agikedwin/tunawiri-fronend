@@ -167,6 +167,8 @@ const userModel = {
             { education_level: "Secondary", code: "s" },
             { education_level: "College", code: "P" },
             { education_level: "University", code: "P" },
+            { education_level: "None", code: "n" },
+
 
 
         ];
@@ -249,7 +251,7 @@ const userModel = {
 
                                 <div className="field col-12 md:col-6">
                                     <label htmlFor="mch_number">MCH Number</label>
-                                    <InputText name="mch_number" value={useDetails.mch_number} onChange={onchaneUserDetails} type="text" required />
+                                    <InputText name="mch_number" value={useDetails.mch_number} onChange={onchaneUserDetails} type="text" required placeholder="e.g., 00000-YYYY-0000" />
                                 </div>
                                 <div className="field col-12 md:col-6">
                                     <label htmlFor="ccc_number">CCC Number</label>
@@ -330,7 +332,7 @@ const userModel = {
                                 </div>
                                 <div className="field col-12 md:col-6">
                                     <label htmlFor="other_religion">Specify Other religion?</label>
-                                    <InputText name="other_religion" value={useDetails.other_religion} onChange={onchaneUserDetails} type="text"  />
+                                    <InputText name="other_religion" value={useDetails.other_religion} onChange={onchaneUserDetails} type="text" placeholder=" If Other or Christian Selected Specify " />
 
                                 </div>
                                 <div className="field col-12 md:col-6">

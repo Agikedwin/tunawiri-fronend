@@ -179,7 +179,7 @@ const SocialSupport: Page = () => {
                         <h5>Social Support </h5>
                 
                     <p>I am now going to ask you about some situations that are true for many women. Thinking about
-                        your current or most recent husband/partner, how many times in the past six months has he
+                            your current or most recent husband/partner, how many times Since the last visit, have you experienced any violence from your partner ?
 </p>
                     <h5>Intimate Partner Violence WHO Instrument</h5>
                     <div className="card">

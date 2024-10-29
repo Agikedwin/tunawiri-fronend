@@ -4,13 +4,13 @@
     "\\app",
     "\\app\\(main)",
     "\\app\\(main)\\uikit",
-    "\\app\\(main)\\uikit\\mentalhealthoutcome",
+    "\\app\\(main)\\uikit\\healthutilization",
+    "\\app\\(main)\\uikit\\healthutilization\\mentalhealthtreatment",
+    "\\app\\(main)\\uikit\\maternalandinfanthealth",
     "\\app\\(main)\\uikit\\mentalhealthoutcome\\AnxietyGad7",
     "\\app\\(main)\\uikit\\mentalhealthoutcome\\harvardtrauma",
-    "\\app\\(main)\\uikit\\mentalhealthoutcome\\phq9",
-    "\\app\\(main)\\uikit\\mentalhealthoutcome\\suicidalityscreener",
-    "\\app\\(main)\\uikit\\mentalhealthoutcome\\traumaexposure"
+    "\\app\\(main)\\uikit\\mentalhealthoutcome\\phq9"
   ],
-  "SelectedNode": "\\app\\(main)\\uikit\\mentalhealthoutcome\\suicidalityscreener\\page.tsx",
+  "SelectedNode": "\\app\\(main)\\uikit\\healthutilization\\mentalhealthtreatment\\page.tsx",
   "PreviewInSolutionExplorer": false
 }

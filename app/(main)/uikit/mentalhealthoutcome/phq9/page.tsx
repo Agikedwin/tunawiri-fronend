@@ -116,7 +116,8 @@ const DepressionPhq9: Page = () => {
     const severityRanking = async (data: any, scores: any) => {
         await api.countOccurrences(formState.formValues, scores).then((data: any) => {
             console.log('Severity count ', data)
-            setProgressBarValue(data * multiplierFactor)
+            //setProgressBarValue(data * multiplierFactor)
+            setProgressBarValue(data)
 
             if (data > 0 && data <= 4) {
                 setColorCode("green")
@@ -759,11 +760,19 @@ const DepressionPhq9: Page = () => {
 
                     <div >
                         <span id="label_status">{severity}</span>
-                        <ProgressBar color={colorCode} mode="indeterminate"  value={Math.floor(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
+                        <ProgressBar color={colorCode}  value={Math.floor(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
                         <br></br>
 
 
                     </div>
+                    <div className="score-display">
+                        <h5>Total PHQ9 Score</h5>
+                        <div className="score-box">
+                            {/* Display the total score */}
+                            <span>{Math.floor(progressBarValue)}</span>
+                        </div>
+                    </div>
+                    <br></br>
                    
                     <div className="grid">
                         <Button label="Save" icon="pi pi-save" type="submit" outlined />

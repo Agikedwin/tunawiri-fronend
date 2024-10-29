@@ -14,13 +14,17 @@ const AppMenu = () => {
          {
             label: 'Home',
             items: [{ label: 'Dashboard ', icon: 'pi pi-fw pi-home', to: '/uikit/dashboard' }]
+        },
+        {
+            label: 'Tunawiri Admin',
+            items: [{ label: 'Staff ', icon: 'pi pi-fw pi-user', to: '/uikit/users/staff/view' }]
         }, 
         {
             label: 'Tunawiri Study',
             items: [
-                { label: 'Participants', icon: 'pi pi-fw pi-user', to: '/uikit/users/view' },
+                { label: 'Participants', icon: 'pi pi-fw pi-users', to: '/uikit/users/view' },
 
-                { label: 'Staff', icon: 'pi pi-fw pi-person', to: '/uikit/users/staff/view' },
+                
 
                /*  { label: 'Add New User', icon: 'pi pi-fw pi-check-square', to: '/uikit/users' },
                 { label: 'Profile', icon: 'pi pi-fw pi-check-square', to: '/uikit/users/profile' },

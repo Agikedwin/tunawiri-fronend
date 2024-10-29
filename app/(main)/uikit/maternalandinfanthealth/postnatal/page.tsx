@@ -205,7 +205,7 @@ const Postnatal: Page = () => {
                         <div className="card">
                             {/* Question 2 */}
                             <div className="p-field">
-                                <label>2. How did the pregnancy end ?</label>
+                                <label>2. Pregnancy outcome ?</label>
                                 <br />
                                 <p></p>
                                 {["Live birth", "Miscarriage", "Abortion", "Stillbirth"].map((method, index) => (

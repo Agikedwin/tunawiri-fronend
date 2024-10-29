@@ -31,8 +31,20 @@ const Mentalhealthtreatment: Page = () => {
     const [ingredients, setIngredients] = useState<String[]>([]);
     const [otherTreatments, setOtherTreatments] = useState<String[]>([]);
     const [medicine, setMedicine] = useState<String[]>([]);
-    const  [selectedUserId, setSelectedUserId] = useState("")
+    const [otherMedicine, setOtherMedicine] = useState("");
+    const [selectedUserId, setSelectedUserId] = useState("")
     const [comment, setComment] = useState("")
+
+    const handleMedicineChange = (e) => {
+        const selectedMedicine = e.value;
+        if (medicine.includes(selectedMedicine)) {
+            // Remove the medicine if already selected
+            setMedicine(medicine.filter((med) => med !== selectedMedicine));
+        } else {
+            // Add the medicine if not already selected
+            setMedicine([...medicine, selectedMedicine]);
+        }
+    };
 
 
     const showSuccess = () => {
@@ -58,9 +70,10 @@ const Mentalhealthtreatment: Page = () => {
             treatment: '',
             other_treatments: '',
             medicine: '',
+            otherMedicine:'',
             taking_as_prescribed: '',
-            timepoint:"",
-            comment:'',
+            timepoint: "",
+            comment: '',
             user_id: ''
         }
     });
@@ -109,14 +122,14 @@ const Mentalhealthtreatment: Page = () => {
         formState.formValues.medicine = _medicine.join(', ');
 
     };
-    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({timepoint:"",code:""});
+    const [dropdowntimepointValue, setDropdowntimepointValue] = useState({ timepoint: "", code: "" });
 
-            const dropdowntimepoint: InputValueReg[] = [
-                        { timepoint: "Baseline", regcode: "B" },
-                        { timepoint: "6 Months Follow Up", regcode: "6" },
-                        { timepoint: "12 Months Follow Up", regcode: "12" },
+    const dropdowntimepoint: InputValueReg[] = [
+        { timepoint: "Baseline", regcode: "B" },
+        { timepoint: "6 Months Follow Up", regcode: "6" },
+        { timepoint: "12 Months Follow Up", regcode: "12" },
 
-            ];
+    ];
     const handleChange = () => {
 
     };
@@ -128,8 +141,8 @@ const Mentalhealthtreatment: Page = () => {
         formState.formValues.comment = comment
 
         try {
-            await  api.addEntry('mental', formState.formValues,3).then((data: any) => {
-                console.log(" saved data : ",data)
+            await api.addEntry('mental', formState.formValues, 3).then((data: any) => {
+                console.log(" saved data : ", data)
                 showSuccess();
                 setTimeout(() => {
 
@@ -143,7 +156,7 @@ const Mentalhealthtreatment: Page = () => {
 
             })
 
-        }catch (e){
+        } catch (e) {
             console.log(e)
         }
 
@@ -167,11 +180,11 @@ const Mentalhealthtreatment: Page = () => {
     function setPsychosocialSessions(value: string): void {
         throw new Error('Function not implemented.');
     }
-    const onchangeComment = (event:any) =>{
+    const onchangeComment = (event: any) => {
         const commentValue = event.target.value;
 
-       setComment(commentValue)
-    
+        setComment(commentValue)
+
     }
 
     // @ts-ignore
@@ -182,12 +195,12 @@ const Mentalhealthtreatment: Page = () => {
                 <Toast ref={toast} />
                 <GloabalUserProfile />
                 <form onSubmit={saveMentalHealthTreatment}>
-                
+
                     <h5>Mental Health Treatment</h5>
                     <p>In this section, Im going to ask you a few more questions about the care you have received over
                         the past THREE months</p>
 
-                        <div className="card">
+                    <div className="card">
                         <div className="flex flex-wrap gap-6">
                             <label htmlFor="registration_type"><h6><i>Participant Timepoint ? </i></h6></label>
                             <Dropdown
@@ -212,26 +225,26 @@ const Mentalhealthtreatment: Page = () => {
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="mental_health_disorder" name="mental_health_disorder" value="No"
-                                             checked={radioValue1 === 'No'}
-                                             onChange={(e) => {
-                                                 setRadioValue1(e.value);
-                                                 formState.formValues.mental_health_disorder = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             } />
+                                    checked={radioValue1 === 'No'}
+                                    onChange={(e) => {
+                                        setRadioValue1(e.value);
+                                        formState.formValues.mental_health_disorder = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    } />
 
                                 <label htmlFor="mental_health_disorder" className="ml-2">No</label>
                             </div>
                             <br></br>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="mental_health_disorder" name="mental_health_disorder" value="Yes"
-                                             onChange={(e) => {
-                                                 setRadioValue1(e.value);
-                                                 formState.formValues.mental_health_disorder = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             }
-                                             checked={radioValue1 === 'Yes'} />
+                                    onChange={(e) => {
+                                        setRadioValue1(e.value);
+                                        formState.formValues.mental_health_disorder = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    }
+                                    checked={radioValue1 === 'Yes'} />
                                 <label htmlFor="mental_health_disorder" className="ml-2">Yes</label>
                             </div>
                         </div>
@@ -247,81 +260,81 @@ const Mentalhealthtreatment: Page = () => {
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="community_care" name="community_care" value="not_seeked"
-                                             checked={radioValue2 === 'not_seeked'}
-                                             onChange={(e) => {
-                                                 setRadioValue2(e.value);
-                                                 formState.formValues.community_care = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             } />
+                                    checked={radioValue2 === 'not_seeked'}
+                                    onChange={(e) => {
+                                        setRadioValue2(e.value);
+                                        formState.formValues.community_care = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    } />
                                 <label htmlFor="community_care" className="ml-2">I did not seek care in my
                                     community</label>
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="community_care" name="community_care" value="friend_family"
-                                             onChange={(e) => {
-                                                 setRadioValue2(e.value);
-                                                 formState.formValues.community_care = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             }
-                                             checked={radioValue2 === 'friend_family'} />
+                                    onChange={(e) => {
+                                        setRadioValue2(e.value);
+                                        formState.formValues.community_care = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    }
+                                    checked={radioValue2 === 'friend_family'} />
                                 <label htmlFor="community_care" className="ml-2">Speaking to a friend or family</label>
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="community_care" name="community_care" value="traditional_healer"
-                                             checked={radioValue2 === 'traditional_healer'}
-                                             onChange={(e) => {
-                                                 setRadioValue2(e.value);
-                                                 formState.formValues.community_care = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             } />
+                                    checked={radioValue2 === 'traditional_healer'}
+                                    onChange={(e) => {
+                                        setRadioValue2(e.value);
+                                        formState.formValues.community_care = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    } />
                                 <label htmlFor="community_care" className="ml-2">Visiting traditional healer</label>
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="community_care" name="community_care" value="spiritual_leader"
-                                             onChange={(e) => {
-                                                 setRadioValue2(e.value);
-                                                 formState.formValues.community_care = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             }
-                                             checked={radioValue2 === 'spiritual_leader'} />
+                                    onChange={(e) => {
+                                        setRadioValue2(e.value);
+                                        formState.formValues.community_care = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    }
+                                    checked={radioValue2 === 'spiritual_leader'} />
                                 <label htmlFor="community_care" className="ml-2">Spiritual/religious leader</label>
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="community_care" name="community_care"
-                                             value="community_health_worker"
-                                             onChange={(e) => {
-                                                 setRadioValue2(e.value);
-                                                 formState.formValues.community_care = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             }
-                                             checked={radioValue2 === 'community_health_worker'} />
+                                    value="community_health_worker"
+                                    onChange={(e) => {
+                                        setRadioValue2(e.value);
+                                        formState.formValues.community_care = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    }
+                                    checked={radioValue2 === 'community_health_worker'} />
                                 <label htmlFor="community_care" className="ml-2">Other community health worker</label>
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="community_care" name="community_care" value="support_group"
-                                             onChange={(e) => {
-                                                 setRadioValue2(e.value);
-                                                 formState.formValues.community_care = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             }
-                                             checked={radioValue2 === 'support_group'} />
+                                    onChange={(e) => {
+                                        setRadioValue2(e.value);
+                                        formState.formValues.community_care = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    }
+                                    checked={radioValue2 === 'support_group'} />
                                 <label htmlFor="community_care" className="ml-2">Support group</label>
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="community_care" name="community_care" value="other_community_care"
-                                             onChange={(e) => {
-                                                 setRadioValue2(e.value);
-                                                 formState.formValues.community_care = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             }
-                                             checked={radioValue2 === 'other_community_care'} />
+                                    onChange={(e) => {
+                                        setRadioValue2(e.value);
+                                        formState.formValues.community_care = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    }
+                                    checked={radioValue2 === 'other_community_care'} />
                                 <label htmlFor="community_care" className="ml-2">Other</label>
                             </div>
                         </div>
@@ -337,29 +350,29 @@ const Mentalhealthtreatment: Page = () => {
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="visit_hospital_clinic" name="visit_hospital_clinic" value="No"
-                                             checked={radioValue3 === 'No'}
-                                             onChange={(e) => {
-                                                 setRadioValue3(e.value);
-                                                 formState.formValues.visit_hospital_clinic = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             } />
+                                    checked={radioValue3 === 'No'}
+                                    onChange={(e) => {
+                                        setRadioValue3(e.value);
+                                        formState.formValues.visit_hospital_clinic = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    } />
                                 <label htmlFor="visit_hospital_clinic" className="ml-2">No</label>
                             </div>
                             <div className="flex align-items-center">
                                 <RadioButton inputId="visit_hospital_clinic" name="visit_hospital_clinic" value="Yes"
-                                             onChange={(e) => {
-                                                 setRadioValue3(e.value);
-                                                 formState.formValues.visit_hospital_clinic = e.target.value;
-                                                 console.log(formState);
-                                             }
-                                             }
-                                             checked={radioValue3 === 'Yes'} />
+                                    onChange={(e) => {
+                                        setRadioValue3(e.value);
+                                        formState.formValues.visit_hospital_clinic = e.target.value;
+                                        console.log(formState);
+                                    }
+                                    }
+                                    checked={radioValue3 === 'Yes'} />
                                 <label htmlFor="visit_hospital_clinic" className="ml-2">Yes</label>
                             </div>
                         </div>
                     </div>
-
+                    {radioValue3 === "Yes" && (
                     <div className="card">
                         <div className="flex flex-wrap gap-3">
                             <div className="flex align-items-center">
@@ -371,35 +384,35 @@ const Mentalhealthtreatment: Page = () => {
                             <div className="flex flex-wrap justify-content-center gap-3">
                                 <div className="flex align-items-center">
                                     <Checkbox inputId="ingredient1" name="treatment_psychosocial_clinic"
-                                              value="Medicine" onChange={onTreatmentChange}
-                                              checked={ingredients.includes('Medicine')} />
+                                        value="Medicine" onChange={onTreatmentChange}
+                                        checked={ingredients.includes('Medicine')} />
                                     <label htmlFor="ingredient1" className="ml-2">Medicine</label>
                                 </div>
                                 <div className="flex align-items-center">
                                     <Checkbox inputId="ingredient2" name="treatment_psychosocial_clinic"
-                                              value="Psychosocial support from someone at the clinic"
-                                              onChange={onTreatmentChange}
-                                              checked={ingredients.includes('Psychosocial support from someone at the clinic')} />
+                                        value="Psychosocial support from someone at the clinic"
+                                        onChange={onTreatmentChange}
+                                        checked={ingredients.includes('Psychosocial support from someone at the clinic')} />
                                     <label htmlFor="ingredient2" className="ml-2">Psychosocial support from someone at
                                         the clinic</label>
                                 </div>
                                 <div className="flex align-items-center">
                                     <Checkbox inputId="ingredient3" name="treatment_psychosocial_clinic"
-                                              value="Psychosocial support during home visits"
-                                              onChange={onTreatmentChange}
-                                              checked={ingredients.includes('Psychosocial support during home visits')} />
+                                        value="Psychosocial support during home visits"
+                                        onChange={onTreatmentChange}
+                                        checked={ingredients.includes('Psychosocial support during home visits')} />
                                     <label htmlFor="ingredient3" className="ml-2">Psychosocial support during home
                                         visits</label>
                                 </div>
                                 <div className="flex align-items-center">
                                     <Checkbox inputId="ingredient4" name="treatment_psychosocial_clinic" value="Other"
-                                              onChange={onTreatmentChange} checked={ingredients.includes('Other')} />
+                                        onChange={onTreatmentChange} checked={ingredients.includes('Other')} />
                                     <label htmlFor="ingredient4" className="ml-2">Other</label>
                                 </div>
 
                                 <div className="flex align-items-center">
                                     <Checkbox inputId="ingredient4" name="treatment_psychosocial_clinic" value="None"
-                                              onChange={onTreatmentChange} checked={ingredients.includes('None')} />
+                                        onChange={onTreatmentChange} checked={ingredients.includes('None')} />
                                     <label htmlFor="ingredient4" className="ml-2">None</label>
                                 </div>
                             </div>
@@ -407,187 +420,203 @@ const Mentalhealthtreatment: Page = () => {
 
 
                     </div>
+                    )}
                     <br></br>
+                    {radioValue3 === "Yes" && (
+                        <div className="card">
+                            <div className="flex flex-wrap gap-3">
+                                <div className="flex align-items-center">
+                                    <h6><i>
+                                        5. What other treatments did you receive for this common health disorder?
+                                    </i></h6>
+                                </div>
 
+                                <div className="flex flex-wrap justify-content-center gap-3">
+                                    <div className="flex align-items-center">
+                                        <Checkbox inputId="other_treatments1" name="other_treatments"
+                                            value="Traditional healer" onChange={onOtherTreatmentChange}
+                                            checked={otherTreatments.includes('Traditional healer')} />
+                                        <label htmlFor="other_treatments1" className="ml-2">Traditional healer</label>
+                                    </div>
+                                    <div className="flex align-items-center">
+                                        <Checkbox inputId="other_treatments2" name="other_treatments"
+                                            value="Spiritual/religious leader"
+                                            onChange={onOtherTreatmentChange}
+                                            checked={otherTreatments.includes('Spiritual/religious leader')} />
+                                        <label htmlFor="other_treatments2" className="ml-2">Spiritual/religious
+                                            leader</label>
+                                    </div>
+                                    <div className="flex align-items-center">
+                                        <Checkbox inputId="other_treatments3" name="other_treatments"
+                                            value="Other community health worker"
+                                            onChange={onOtherTreatmentChange}
+                                            checked={otherTreatments.includes('Other community health worker')} />
+                                        <label htmlFor="other_treatments3" className="ml-2">Other community health worker
+                                        </label>
+                                    </div>
+                                    <div className="flex align-items-center">
+                                        <Checkbox inputId="other_treatments4" name="other_treatments" value="Support group"
+                                            onChange={onOtherTreatmentChange}
+                                            checked={otherTreatments.includes('Support group')} />
+                                        <label htmlFor="other_treatments4" className="ml-2">Support group</label>
+                                    </div>
 
-                    <div className="card">
-                        <div className="flex flex-wrap gap-3">
-                            <div className="flex align-items-center">
-                                <h6><i>
-                                    5. What other treatments did you receive for this common health disorder?
-                                </i></h6>
+                                    <div className="flex align-items-center">
+                                        <Checkbox inputId="other_treatments5" name="other_treatments" value="None"
+                                            onChange={onOtherTreatmentChange}
+                                            checked={otherTreatments.includes('None')} />
+                                        <label htmlFor="None5" className="ml-2">None</label>
+                                    </div>
+                                </div>
+
                             </div>
-
-                            <div className="flex flex-wrap justify-content-center gap-3">
-                                <div className="flex align-items-center">
-                                    <Checkbox inputId="other_treatments1" name="other_treatments"
-                                              value="Traditional healer" onChange={onOtherTreatmentChange}
-                                              checked={otherTreatments.includes('Traditional healer')} />
-                                    <label htmlFor="other_treatments1" className="ml-2">Traditional healer</label>
-                                </div>
-                                <div className="flex align-items-center">
-                                    <Checkbox inputId="other_treatments2" name="other_treatments"
-                                              value="Spiritual/religious leader"
-                                              onChange={onOtherTreatmentChange}
-                                              checked={otherTreatments.includes('Spiritual/religious leader')} />
-                                    <label htmlFor="other_treatments2" className="ml-2">Spiritual/religious
-                                        leader</label>
-                                </div>
-                                <div className="flex align-items-center">
-                                    <Checkbox inputId="other_treatments3" name="other_treatments"
-                                              value="Other community health worker"
-                                              onChange={onOtherTreatmentChange}
-                                              checked={otherTreatments.includes('Other community health worker')} />
-                                    <label htmlFor="other_treatments3" className="ml-2">Other community health worker
-                                    </label>
-                                </div>
-                                <div className="flex align-items-center">
-                                    <Checkbox inputId="other_treatments4" name="other_treatments" value="Support group"
-                                              onChange={onOtherTreatmentChange}
-                                              checked={otherTreatments.includes('Support group')} />
-                                    <label htmlFor="other_treatments4" className="ml-2">Support group</label>
-                                </div>
-
-                                <div className="flex align-items-center">
-                                    <Checkbox inputId="other_treatments5" name="other_treatments" value="None"
-                                              onChange={onOtherTreatmentChange}
-                                              checked={otherTreatments.includes('None')} />
-                                    <label htmlFor="None5" className="ml-2">None</label>
-                                </div>
-                            </div>
-
-
                         </div>
-                    </div>
+                    )}
                     <br></br>
 
+                    {radioValue3 == "Yes" && (
                     <div className="card">
                         <div className="flex flex-wrap gap-3">
                             <div className="flex align-items-center">
-                                <h6><i>
-                                    6. What medicine did you take?
-                                </i></h6>
+                                <h6><i>6. What medicine did you take?</i></h6>
                             </div>
 
                             <div className="flex flex-wrap justify-content-center gap-3">
                                 <div className="flex align-items-center">
                                     <Checkbox inputId="medicine1" name="medicine"
-                                              value="Carbamazepine" onChange={onMedicineChange}
-                                              checked={medicine.includes('Carbamazepine')} />
+                                        value="Carbamazepine"
+                                        onChange={onMedicineChange}
+                                        checked={medicine.includes('Carbamazepine')} />
                                     <label htmlFor="medicine1" className="ml-2">Carbamazepine</label>
                                 </div>
                                 <div className="flex align-items-center">
                                     <Checkbox inputId="medicine2" name="medicine"
-                                              value="Diazepam"
-                                              onChange={onMedicineChange}
-                                              checked={medicine.includes('Diazepam')} />
-                                    <label htmlFor="medicine2" className="ml-2">Diazepam
-                                        leader</label>
+                                        value="Diazepam"
+                                        onChange={onMedicineChange}
+                                        checked={medicine.includes('Diazepam')} />
+                                    <label htmlFor="medicine2" className="ml-2">Diazepam</label>
                                 </div>
                                 <div className="flex align-items-center">
                                     <Checkbox inputId="medicine3" name="medicine"
-                                              value="Sodium valproate"
-                                              onChange={onMedicineChange}
-                                              checked={medicine.includes('Sodium valproate')} />
-                                    <label htmlFor="medicine3" className="ml-2">Sodium valproate
-                                    </label>
+                                        value="Sodium valproate"
+                                        onChange={onMedicineChange}
+                                        checked={medicine.includes('Sodium valproate')} />
+                                    <label htmlFor="medicine3" className="ml-2">Sodium valproate</label>
                                 </div>
                                 <div className="flex align-items-center">
-                                    <Checkbox inputId="medicine4" name="medicine" value="Other"
-                                              onChange={onMedicineChange}
-                                              checked={medicine.includes('Other')} />
+                                    <Checkbox inputId="medicine4" name="medicine"
+                                        value="Other"
+                                        onChange={onMedicineChange}
+                                        checked={medicine.includes('Other')} />
                                     <label htmlFor="medicine4" className="ml-2">Other</label>
                                 </div>
-
-
                             </div>
-                        </div>
-                    </div>
-                    <br></br>
-                    <div className="card">
-                        <div className="flex flex-wrap gap-3">
-                            <div className="flex align-items-center">
-                                <h6><i>
-                                    7. In the past ONE MONTH, have you been taking the drug as prescribed?
-                                </i></h6>
-                            </div>
-                            <div className="flex align-items-center">
-                                <RadioButton inputId="taking_as_prescribed_all_time" name="taking_as_prescribed"
-                                             value="All the time"
-                                             checked={radioValue15 === 'All the time'}
-                                             onChange={(e) => {
-                                                 setRadioValue15(e.target.value);
-                                                 formState.formValues.taking_as_prescribed = e.target.value;
-                                                 console.log(formState);
-                                             }}
-                                />
-                                <label htmlFor="taking_as_prescribed_all_time" className="ml-2">All the time</label>
-                            </div>
-                            <div className="flex align-items-center">
-                                <RadioButton inputId="taking_as_prescribed_most_time" name="taking_as_prescribed"
-                                             value="Most of the time (>3 of the last 4 weeks)"
-                                             checked={radioValue15 === 'Most of the time (>3 of the last 4 weeks)'}
-                                             onChange={(e) => {
-                                                 setRadioValue15(e.target.value);
-                                                 formState.formValues.taking_as_prescribed = e.target.value;
-                                                 console.log(formState);
-                                             }}
-                                />
-                                <label htmlFor="taking_as_prescribed_most_time" className="ml-2">Most of the time (3 of
-                                    the last 4 weeks)</label>
-                            </div>
-                            <div className="flex align-items-center">
-                                <RadioButton inputId="taking_as_prescribed_some_time" name="taking_as_prescribed"
-                                             value="Sometimes (at least 2-3/4 weeks)"
-                                             checked={radioValue15 === 'Sometimes (at least 2-3/4 weeks)'}
-                                             onChange={(e) => {
-                                                 setRadioValue15(e.target.value);
-                                                 formState.formValues.taking_as_prescribed = e.target.value;
-                                                 console.log(formState);
-                                             }}
-                                />
-                                <label htmlFor="taking_as_prescribed_some_time" className="ml-2">Sometimes (at least
-                                    2-3/4 weeks)</label>
-                            </div>
-                            <div className="flex align-items-center">
-                                <RadioButton inputId="taking_as_prescribed_occasionally" name="taking_as_prescribed"
-                                             value="Took the medicine occasionally (<2 of the last 4 weeks)"
-                                             checked={radioValue15 === 'Took the medicine occasionally (<2 of the last 4 weeks)'}
-                                             onChange={(e) => {
-                                                 setRadioValue15(e.target.value);
-                                                 formState.formValues.taking_as_prescribed = e.target.value;
-                                                 console.log(formState);
-                                             }}
-                                />
-                                <label htmlFor="taking_as_prescribed_occasionally" className="ml-2">Took the medicine
-                                    occasionally (Less than 2 of the last 4 weeks)</label>
-                            </div>
-                            <div className="flex align-items-center">
-                                <RadioButton inputId="taking_as_prescribed_none" name="taking_as_prescribed"
-                                             value="Did not take any medicine at all"
-                                             checked={radioValue15 === 'Did not take any medicine at all'}
-                                             onChange={(e) => {
-                                                 setRadioValue15(e.target.value);
-                                                 formState.formValues.taking_as_prescribed = e.target.value;
-                                                 console.log(formState);
-                                             }}
-                                />
-                                <label htmlFor="taking_as_prescribed_none" className="ml-2">Did not take any medicine at
-                                    all</label>
-                            </div>
-                        </div>
-                    </div>
-                    <br></br>
-                    <div className="field col-12 md:col-12">
-                                    <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                            
+                            {/* Conditionally render the 'Other' text input if 'Other' is selected */}
+                            {medicine.includes('Other') && (
+                                <div className="field col-12 md:col-6">
+                                    <label htmlFor="otherMedicine">Please specify other medicine:</label>
                                     <InputText
-                                        name="comment"                                
-                                        value={comment}
-                                        onChange= {onchangeComment}
+                                        name="otherMedicine"
+                                        value={otherMedicine}
+                                        onChange={(e) => setOtherMedicine(e.target.value)}
                                         type="text"
-                                        style={{ width: '100%', height: '3.5em' }}
                                     />
                                 </div>
+                            )}
+                    </div>
+                        
+                    </div>
+                    )}
+          
+                    
+                    <br></br>
+                    {radioValue3 === "Yes" && (
+                        <div className="card">
+                            <div className="flex flex-wrap gap-3">
+                                <div className="flex align-items-center">
+                                    <h6><i>
+                                        7. In the past ONE MONTH, have you been taking the drug as prescribed?
+                                    </i></h6>
+                                </div>
+                                <div className="flex align-items-center">
+                                    <RadioButton inputId="taking_as_prescribed_all_time" name="taking_as_prescribed"
+                                        value="All the time"
+                                        checked={radioValue15 === 'All the time'}
+                                        onChange={(e) => {
+                                            setRadioValue15(e.target.value);
+                                            formState.formValues.taking_as_prescribed = e.target.value;
+                                            console.log(formState);
+                                        }}
+                                    />
+                                    <label htmlFor="taking_as_prescribed_all_time" className="ml-2">All the time</label>
+                                </div>
+                                <div className="flex align-items-center">
+                                    <RadioButton inputId="taking_as_prescribed_most_time" name="taking_as_prescribed"
+                                        value="Most of the time (>3 of the last 4 weeks)"
+                                        checked={radioValue15 === 'Most of the time (>3 of the last 4 weeks)'}
+                                        onChange={(e) => {
+                                            setRadioValue15(e.target.value);
+                                            formState.formValues.taking_as_prescribed = e.target.value;
+                                            console.log(formState);
+                                        }}
+                                    />
+                                    <label htmlFor="taking_as_prescribed_most_time" className="ml-2">Most of the time (3 of
+                                        the last 4 weeks)</label>
+                                </div>
+                                <div className="flex align-items-center">
+                                    <RadioButton inputId="taking_as_prescribed_some_time" name="taking_as_prescribed"
+                                        value="Sometimes (at least 2-3/4 weeks)"
+                                        checked={radioValue15 === 'Sometimes (at least 2-3/4 weeks)'}
+                                        onChange={(e) => {
+                                            setRadioValue15(e.target.value);
+                                            formState.formValues.taking_as_prescribed = e.target.value;
+                                            console.log(formState);
+                                        }}
+                                    />
+                                    <label htmlFor="taking_as_prescribed_some_time" className="ml-2">Sometimes (at least
+                                        2-3/4 weeks)</label>
+                                </div>
+                                <div className="flex align-items-center">
+                                    <RadioButton inputId="taking_as_prescribed_occasionally" name="taking_as_prescribed"
+                                        value="Took the medicine occasionally (<2 of the last 4 weeks)"
+                                        checked={radioValue15 === 'Took the medicine occasionally (<2 of the last 4 weeks)'}
+                                        onChange={(e) => {
+                                            setRadioValue15(e.target.value);
+                                            formState.formValues.taking_as_prescribed = e.target.value;
+                                            console.log(formState);
+                                        }}
+                                    />
+                                    <label htmlFor="taking_as_prescribed_occasionally" className="ml-2">Took the medicine
+                                        occasionally (Less than 2 of the last 4 weeks)</label>
+                                </div>
+                                <div className="flex align-items-center">
+                                    <RadioButton inputId="taking_as_prescribed_none" name="taking_as_prescribed"
+                                        value="Did not take any medicine at all"
+                                        checked={radioValue15 === 'Did not take any medicine at all'}
+                                        onChange={(e) => {
+                                            setRadioValue15(e.target.value);
+                                            formState.formValues.taking_as_prescribed = e.target.value;
+                                            console.log(formState);
+                                        }}
+                                    />
+                                    <label htmlFor="taking_as_prescribed_none" className="ml-2">Did not take any medicine at
+                                        all</label>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    <br></br>
+                    <div className="field col-12 md:col-12">
+                        <label htmlFor="comment" style={{ width: '100%' }}>Comment</label>
+                        <InputText
+                            name="comment"
+                            value={comment}
+                            onChange={onchangeComment}
+                            type="text"
+                            style={{ width: '100%', height: '3.5em' }}
+                        />
+                    </div>
                     <div className="field col-12 md:col-6">
                         <Button label="Save" icon="pi pi-save" type="submit" outlined />
 

@@ -72,7 +72,7 @@ const AnxietyGad7: Page = () => {
     const severityRanking = async (data: any, scores: any) => {
         await api.countOccurrences(formState.formValues, scores).then((data: any) => {
             console.log('Severity count ', data)
-            setProgressBarValue(data * multiplierFactor)
+            setProgressBarValue(data)
 
             if (data > 0 && data <= 4) {
                 setColorCode("green")
@@ -142,7 +142,7 @@ const AnxietyGad7: Page = () => {
         formState.formValues.timepoint = dropdowntimepointValue.timepoint
         formState.formValues.comment = comment
         console.log(formState.formValues);
-        formState.formValues.gad7_score = Math.ceil((progressBarValue / multiplierFactor))
+        formState.formValues.gad7_score = Math.ceil((progressBarValue))
         formState.formValues.severity = severity
         formState.formValues.color = themeColor
 
@@ -591,11 +591,19 @@ const AnxietyGad7: Page = () => {
                     </div>
                     <div >
                         <span id="label_status">{severity}</span>
-                        <ProgressBar color={colorCode} mode="indeterminate" value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
+                        <ProgressBar color={colorCode} value={Math.ceil(progressBarValue)} style={{ height: '15px' }}></ProgressBar>
                         <br></br>
 
 
                     </div>
+                    <div className="score-display">
+                        <h5>Total GAD 7 Score</h5>
+                        <div className="score-box">
+                            {/* Display the total score */}
+                            <span>{Math.ceil(progressBarValue)}</span>
+                        </div>
+                    </div>
+                    <br></br>
 
                     <Button label="Save" icon="pi pi-save" type="submit" outlined/>
                 </form>
